@@ -1,28 +1,28 @@
-	.section	__TEXT,__text,regular,pure_instructions
-	.macosx_version_min 10, 10
-	.globl	_PrintChar
-	.align	4, 0x90
-_PrintChar:                             ## @PrintChar
+	.file	"Char.c"
+	.section	.text.unlikely,"ax",@progbits
+.LCOLDB0:
+	.text
+.LHOTB0:
+	.p2align 4,,15
+	.globl	PrintChar
+	.type	PrintChar, @function
+PrintChar:
+.LFB23:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp0:
-	.cfi_def_cfa_offset 16
-Ltmp1:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp2:
-	.cfi_def_cfa_register %rbp
-	cmpl	$127, %edi
-	jg	LBB0_1
-## BB#2:
+	cmpw	$127, %di
+	jle	.L4
+	rep ret
+	.p2align 4,,10
+	.p2align 3
+.L4:
 	movsbl	%dil, %edi
-	popq	%rbp
-	jmp	_putchar                ## TAILCALL
-LBB0_1:
-	popq	%rbp
-	retq
+	jmp	putchar
 	.cfi_endproc
-
-
-.subsections_via_symbols
+.LFE23:
+	.size	PrintChar, .-PrintChar
+	.section	.text.unlikely
+.LCOLDE0:
+	.text
+.LHOTE0:
+	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.2) 5.4.0 20160609"
+	.section	.note.GNU-stack,"",@progbits

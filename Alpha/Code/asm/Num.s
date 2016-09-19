@@ -1,469 +1,480 @@
-	.section	__TEXT,__text,regular,pure_instructions
-	.macosx_version_min 10, 10
-	.globl	_IncrementNum
-	.align	4, 0x90
-_IncrementNum:                          ## @IncrementNum
+	.file	"Num.c"
+	.section	.text.unlikely,"ax",@progbits
+.LCOLDB0:
+	.text
+.LHOTB0:
+	.p2align 4,,15
+	.globl	IncrementNum
+	.type	IncrementNum, @function
+IncrementNum:
+.LFB0:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp0:
-	.cfi_def_cfa_offset 16
-Ltmp1:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp2:
-	.cfi_def_cfa_register %rbp
-                                        ## kill: EDI<def> EDI<kill> RDI<def>
 	leal	1(%rdi), %eax
-	popq	%rbp
-	retq
+	ret
 	.cfi_endproc
-
-	.globl	_DecrementNum
-	.align	4, 0x90
-_DecrementNum:                          ## @DecrementNum
+.LFE0:
+	.size	IncrementNum, .-IncrementNum
+	.section	.text.unlikely
+.LCOLDE0:
+	.text
+.LHOTE0:
+	.section	.text.unlikely
+.LCOLDB1:
+	.text
+.LHOTB1:
+	.p2align 4,,15
+	.globl	DecrementNum
+	.type	DecrementNum, @function
+DecrementNum:
+.LFB1:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp3:
-	.cfi_def_cfa_offset 16
-Ltmp4:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp5:
-	.cfi_def_cfa_register %rbp
-                                        ## kill: EDI<def> EDI<kill> RDI<def>
 	leal	-1(%rdi), %eax
-	popq	%rbp
-	retq
+	ret
 	.cfi_endproc
-
-	.globl	_AddNum
-	.align	4, 0x90
-_AddNum:                                ## @AddNum
+.LFE1:
+	.size	DecrementNum, .-DecrementNum
+	.section	.text.unlikely
+.LCOLDE1:
+	.text
+.LHOTE1:
+	.section	.text.unlikely
+.LCOLDB2:
+	.text
+.LHOTB2:
+	.p2align 4,,15
+	.globl	AddNum
+	.type	AddNum, @function
+AddNum:
+.LFB2:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp6:
-	.cfi_def_cfa_offset 16
-Ltmp7:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp8:
-	.cfi_def_cfa_register %rbp
-	addl	%esi, %edi
+	leal	(%rdi,%rsi), %eax
+	ret
+	.cfi_endproc
+.LFE2:
+	.size	AddNum, .-AddNum
+	.section	.text.unlikely
+.LCOLDE2:
+	.text
+.LHOTE2:
+	.section	.text.unlikely
+.LCOLDB3:
+	.text
+.LHOTB3:
+	.p2align 4,,15
+	.globl	SubtractNum
+	.type	SubtractNum, @function
+SubtractNum:
+.LFB3:
+	.cfi_startproc
 	movl	%edi, %eax
-	popq	%rbp
-	retq
+	subl	%esi, %eax
+	ret
 	.cfi_endproc
-
-	.globl	_SubtractNum
-	.align	4, 0x90
-_SubtractNum:                           ## @SubtractNum
+.LFE3:
+	.size	SubtractNum, .-SubtractNum
+	.section	.text.unlikely
+.LCOLDE3:
+	.text
+.LHOTE3:
+	.section	.text.unlikely
+.LCOLDB4:
+	.text
+.LHOTB4:
+	.p2align 4,,15
+	.globl	MultiplyNum
+	.type	MultiplyNum, @function
+MultiplyNum:
+.LFB4:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp9:
-	.cfi_def_cfa_offset 16
-Ltmp10:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp11:
-	.cfi_def_cfa_register %rbp
-	subl	%esi, %edi
 	movl	%edi, %eax
-	popq	%rbp
-	retq
+	imull	%esi, %eax
+	ret
 	.cfi_endproc
-
-	.globl	_MultiplyNum
-	.align	4, 0x90
-_MultiplyNum:                           ## @MultiplyNum
+.LFE4:
+	.size	MultiplyNum, .-MultiplyNum
+	.section	.text.unlikely
+.LCOLDE4:
+	.text
+.LHOTE4:
+	.section	.text.unlikely
+.LCOLDB5:
+	.text
+.LHOTB5:
+	.p2align 4,,15
+	.globl	DivideNum
+	.type	DivideNum, @function
+DivideNum:
+.LFB5:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp12:
-	.cfi_def_cfa_offset 16
-Ltmp13:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp14:
-	.cfi_def_cfa_register %rbp
-	imull	%esi, %edi
-	movl	%edi, %eax
-	popq	%rbp
-	retq
-	.cfi_endproc
-
-	.globl	_DivideNum
-	.align	4, 0x90
-_DivideNum:                             ## @DivideNum
-	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp15:
-	.cfi_def_cfa_offset 16
-Ltmp16:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp17:
-	.cfi_def_cfa_register %rbp
 	movl	%edi, %eax
 	cltd
 	idivl	%esi
-	popq	%rbp
-	retq
+	ret
 	.cfi_endproc
-
-	.globl	_AndNum
-	.align	4, 0x90
-_AndNum:                                ## @AndNum
+.LFE5:
+	.size	DivideNum, .-DivideNum
+	.section	.text.unlikely
+.LCOLDE5:
+	.text
+.LHOTE5:
+	.section	.text.unlikely
+.LCOLDB6:
+	.text
+.LHOTB6:
+	.p2align 4,,15
+	.globl	AndNum
+	.type	AndNum, @function
+AndNum:
+.LFB6:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp18:
-	.cfi_def_cfa_offset 16
-Ltmp19:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp20:
-	.cfi_def_cfa_register %rbp
-	andl	%esi, %edi
 	movl	%edi, %eax
-	popq	%rbp
-	retq
+	andl	%esi, %eax
+	ret
 	.cfi_endproc
-
-	.globl	_OrNum
-	.align	4, 0x90
-_OrNum:                                 ## @OrNum
+.LFE6:
+	.size	AndNum, .-AndNum
+	.section	.text.unlikely
+.LCOLDE6:
+	.text
+.LHOTE6:
+	.section	.text.unlikely
+.LCOLDB7:
+	.text
+.LHOTB7:
+	.p2align 4,,15
+	.globl	OrNum
+	.type	OrNum, @function
+OrNum:
+.LFB7:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp21:
-	.cfi_def_cfa_offset 16
-Ltmp22:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp23:
-	.cfi_def_cfa_register %rbp
-	orl	%esi, %edi
 	movl	%edi, %eax
-	popq	%rbp
-	retq
+	orl	%esi, %eax
+	ret
 	.cfi_endproc
-
-	.globl	_XorNum
-	.align	4, 0x90
-_XorNum:                                ## @XorNum
+.LFE7:
+	.size	OrNum, .-OrNum
+	.section	.text.unlikely
+.LCOLDE7:
+	.text
+.LHOTE7:
+	.section	.text.unlikely
+.LCOLDB8:
+	.text
+.LHOTB8:
+	.p2align 4,,15
+	.globl	XorNum
+	.type	XorNum, @function
+XorNum:
+.LFB8:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp24:
-	.cfi_def_cfa_offset 16
-Ltmp25:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp26:
-	.cfi_def_cfa_register %rbp
-	xorl	%esi, %edi
 	movl	%edi, %eax
-	popq	%rbp
-	retq
+	xorl	%esi, %eax
+	ret
 	.cfi_endproc
-
-	.globl	_NegativeNum
-	.align	4, 0x90
-_NegativeNum:                           ## @NegativeNum
+.LFE8:
+	.size	XorNum, .-XorNum
+	.section	.text.unlikely
+.LCOLDE8:
+	.text
+.LHOTE8:
+	.section	.text.unlikely
+.LCOLDB9:
+	.text
+.LHOTB9:
+	.p2align 4,,15
+	.globl	NegativeNum
+	.type	NegativeNum, @function
+NegativeNum:
+.LFB9:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp27:
-	.cfi_def_cfa_offset 16
-Ltmp28:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp29:
-	.cfi_def_cfa_register %rbp
-	negl	%edi
 	movl	%edi, %eax
-	popq	%rbp
-	retq
+	negl	%eax
+	ret
 	.cfi_endproc
-
-	.globl	_NotNum
-	.align	4, 0x90
-_NotNum:                                ## @NotNum
+.LFE9:
+	.size	NegativeNum, .-NegativeNum
+	.section	.text.unlikely
+.LCOLDE9:
+	.text
+.LHOTE9:
+	.section	.text.unlikely
+.LCOLDB10:
+	.text
+.LHOTB10:
+	.p2align 4,,15
+	.globl	NotNum
+	.type	NotNum, @function
+NotNum:
+.LFB10:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp30:
-	.cfi_def_cfa_offset 16
-Ltmp31:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp32:
-	.cfi_def_cfa_register %rbp
-	notl	%edi
 	movl	%edi, %eax
-	popq	%rbp
-	retq
+	notl	%eax
+	ret
 	.cfi_endproc
-
-	.globl	_LogicalNotNum
-	.align	4, 0x90
-_LogicalNotNum:                         ## @LogicalNotNum
+.LFE10:
+	.size	NotNum, .-NotNum
+	.section	.text.unlikely
+.LCOLDE10:
+	.text
+.LHOTE10:
+	.section	.text.unlikely
+.LCOLDB11:
+	.text
+.LHOTB11:
+	.p2align 4,,15
+	.globl	LogicalNotNum
+	.type	LogicalNotNum, @function
+LogicalNotNum:
+.LFB11:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp33:
-	.cfi_def_cfa_offset 16
-Ltmp34:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp35:
-	.cfi_def_cfa_register %rbp
+	xorl	%eax, %eax
 	testl	%edi, %edi
 	sete	%al
-	movzbl	%al, %eax
-	popq	%rbp
-	retq
+	ret
 	.cfi_endproc
-
-	.globl	_LeftShiftNum
-	.align	4, 0x90
-_LeftShiftNum:                          ## @LeftShiftNum
+.LFE11:
+	.size	LogicalNotNum, .-LogicalNotNum
+	.section	.text.unlikely
+.LCOLDE11:
+	.text
+.LHOTE11:
+	.section	.text.unlikely
+.LCOLDB12:
+	.text
+.LHOTB12:
+	.p2align 4,,15
+	.globl	LeftShiftNum
+	.type	LeftShiftNum, @function
+LeftShiftNum:
+.LFB12:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp36:
-	.cfi_def_cfa_offset 16
-Ltmp37:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp38:
-	.cfi_def_cfa_register %rbp
-	movb	%sil, %cl
-	shll	%cl, %edi
 	movl	%edi, %eax
-	popq	%rbp
-	retq
-	.cfi_endproc
-
-	.globl	_RightShiftNum
-	.align	4, 0x90
-_RightShiftNum:                         ## @RightShiftNum
-	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp39:
-	.cfi_def_cfa_offset 16
-Ltmp40:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp41:
-	.cfi_def_cfa_register %rbp
-	movb	%sil, %cl
-	sarl	%cl, %edi
-	movl	%edi, %eax
-	popq	%rbp
-	retq
-	.cfi_endproc
-
-	.globl	_LogicalRightShiftNum
-	.align	4, 0x90
-_LogicalRightShiftNum:                  ## @LogicalRightShiftNum
-	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp42:
-	.cfi_def_cfa_offset 16
-Ltmp43:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp44:
-	.cfi_def_cfa_register %rbp
 	movl	%esi, %ecx
-	sarl	%cl, %edi
-	movl	$-2147483648, %eax      ## imm = 0xFFFFFFFF80000000
-                                        ## kill: CL<def> CL<kill> ECX<kill>
+	sall	%cl, %eax
+	ret
+	.cfi_endproc
+.LFE12:
+	.size	LeftShiftNum, .-LeftShiftNum
+	.section	.text.unlikely
+.LCOLDE12:
+	.text
+.LHOTE12:
+	.section	.text.unlikely
+.LCOLDB13:
+	.text
+.LHOTB13:
+	.p2align 4,,15
+	.globl	RightShiftNum
+	.type	RightShiftNum, @function
+RightShiftNum:
+.LFB13:
+	.cfi_startproc
+	movl	%edi, %eax
+	movl	%esi, %ecx
 	sarl	%cl, %eax
-	addl	%eax, %eax
-	notl	%eax
+	ret
+	.cfi_endproc
+.LFE13:
+	.size	RightShiftNum, .-RightShiftNum
+	.section	.text.unlikely
+.LCOLDE13:
+	.text
+.LHOTE13:
+	.section	.text.unlikely
+.LCOLDB14:
+	.text
+.LHOTB14:
+	.p2align 4,,15
+	.globl	LogicalRightShiftNum
+	.type	LogicalRightShiftNum, @function
+LogicalRightShiftNum:
+.LFB14:
+	.cfi_startproc
+	movl	%esi, %ecx
+	movl	$-2147483648, %r8d
+	sarl	%cl, %r8d
+	sarl	%cl, %edi
+	leal	(%r8,%r8), %edx
+	notl	%edx
+	movl	%edx, %eax
 	andl	%edi, %eax
-	popq	%rbp
-	retq
+	ret
 	.cfi_endproc
-
-	.globl	_LeftRotateNum
-	.align	4, 0x90
-_LeftRotateNum:                         ## @LeftRotateNum
+.LFE14:
+	.size	LogicalRightShiftNum, .-LogicalRightShiftNum
+	.section	.text.unlikely
+.LCOLDE14:
+	.text
+.LHOTE14:
+	.section	.text.unlikely
+.LCOLDB15:
+	.text
+.LHOTB15:
+	.p2align 4,,15
+	.globl	LeftRotateNum
+	.type	LeftRotateNum, @function
+LeftRotateNum:
+.LFB15:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp45:
-	.cfi_def_cfa_offset 16
-Ltmp46:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp47:
-	.cfi_def_cfa_register %rbp
 	movl	%esi, %ecx
 	movl	%edi, %eax
-	shll	%cl, %eax
 	negl	%ecx
-                                        ## kill: CL<def> CL<kill> ECX<kill>
-	sarl	%cl, %edi
-	orl	%eax, %edi
-	movl	%edi, %eax
-	popq	%rbp
-	retq
-	.cfi_endproc
-
-	.globl	_RightRotateNum
-	.align	4, 0x90
-_RightRotateNum:                        ## @RightRotateNum
-	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp48:
-	.cfi_def_cfa_offset 16
-Ltmp49:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp50:
-	.cfi_def_cfa_register %rbp
-	movl	%esi, %ecx
-	movl	%edi, %eax
 	sarl	%cl, %eax
-	negl	%ecx
-                                        ## kill: CL<def> CL<kill> ECX<kill>
-	shll	%cl, %edi
-	orl	%eax, %edi
-	movl	%edi, %eax
-	popq	%rbp
-	retq
+	movl	%esi, %ecx
+	sall	%cl, %edi
+	orl	%edi, %eax
+	ret
 	.cfi_endproc
-
-	.globl	_IsEqual
-	.align	4, 0x90
-_IsEqual:                               ## @IsEqual
+.LFE15:
+	.size	LeftRotateNum, .-LeftRotateNum
+	.section	.text.unlikely
+.LCOLDE15:
+	.text
+.LHOTE15:
+	.section	.text.unlikely
+.LCOLDB16:
+	.text
+.LHOTB16:
+	.p2align 4,,15
+	.globl	RightRotateNum
+	.type	RightRotateNum, @function
+RightRotateNum:
+.LFB16:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp51:
-	.cfi_def_cfa_offset 16
-Ltmp52:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp53:
-	.cfi_def_cfa_register %rbp
+	movl	%esi, %ecx
+	movl	%edi, %eax
+	negl	%ecx
+	sall	%cl, %eax
+	movl	%esi, %ecx
+	sarl	%cl, %edi
+	orl	%edi, %eax
+	ret
+	.cfi_endproc
+.LFE16:
+	.size	RightRotateNum, .-RightRotateNum
+	.section	.text.unlikely
+.LCOLDE16:
+	.text
+.LHOTE16:
+	.section	.text.unlikely
+.LCOLDB17:
+	.text
+.LHOTB17:
+	.p2align 4,,15
+	.globl	IsEqual
+	.type	IsEqual, @function
+IsEqual:
+.LFB17:
+	.cfi_startproc
 	cmpl	%esi, %edi
 	sete	%al
-	movzbl	%al, %eax
-	popq	%rbp
-	retq
+	ret
 	.cfi_endproc
-
-	.globl	_IsNotEqual
-	.align	4, 0x90
-_IsNotEqual:                            ## @IsNotEqual
+.LFE17:
+	.size	IsEqual, .-IsEqual
+	.section	.text.unlikely
+.LCOLDE17:
+	.text
+.LHOTE17:
+	.section	.text.unlikely
+.LCOLDB18:
+	.text
+.LHOTB18:
+	.p2align 4,,15
+	.globl	IsNotEqual
+	.type	IsNotEqual, @function
+IsNotEqual:
+.LFB18:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp54:
-	.cfi_def_cfa_offset 16
-Ltmp55:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp56:
-	.cfi_def_cfa_register %rbp
 	cmpl	%esi, %edi
 	setne	%al
-	movzbl	%al, %eax
-	popq	%rbp
-	retq
+	ret
 	.cfi_endproc
-
-	.globl	_IsGreater
-	.align	4, 0x90
-_IsGreater:                             ## @IsGreater
+.LFE18:
+	.size	IsNotEqual, .-IsNotEqual
+	.section	.text.unlikely
+.LCOLDE18:
+	.text
+.LHOTE18:
+	.section	.text.unlikely
+.LCOLDB19:
+	.text
+.LHOTB19:
+	.p2align 4,,15
+	.globl	IsGreater
+	.type	IsGreater, @function
+IsGreater:
+.LFB19:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp57:
-	.cfi_def_cfa_offset 16
-Ltmp58:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp59:
-	.cfi_def_cfa_register %rbp
 	cmpl	%esi, %edi
 	setg	%al
-	movzbl	%al, %eax
-	popq	%rbp
-	retq
+	ret
 	.cfi_endproc
-
-	.globl	_IsNotGreater
-	.align	4, 0x90
-_IsNotGreater:                          ## @IsNotGreater
+.LFE19:
+	.size	IsGreater, .-IsGreater
+	.section	.text.unlikely
+.LCOLDE19:
+	.text
+.LHOTE19:
+	.section	.text.unlikely
+.LCOLDB20:
+	.text
+.LHOTB20:
+	.p2align 4,,15
+	.globl	IsNotGreater
+	.type	IsNotGreater, @function
+IsNotGreater:
+.LFB20:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp60:
-	.cfi_def_cfa_offset 16
-Ltmp61:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp62:
-	.cfi_def_cfa_register %rbp
 	cmpl	%esi, %edi
 	setle	%al
-	movzbl	%al, %eax
-	popq	%rbp
-	retq
+	ret
 	.cfi_endproc
-
-	.globl	_IsLess
-	.align	4, 0x90
-_IsLess:                                ## @IsLess
+.LFE20:
+	.size	IsNotGreater, .-IsNotGreater
+	.section	.text.unlikely
+.LCOLDE20:
+	.text
+.LHOTE20:
+	.section	.text.unlikely
+.LCOLDB21:
+	.text
+.LHOTB21:
+	.p2align 4,,15
+	.globl	IsLess
+	.type	IsLess, @function
+IsLess:
+.LFB21:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp63:
-	.cfi_def_cfa_offset 16
-Ltmp64:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp65:
-	.cfi_def_cfa_register %rbp
 	cmpl	%esi, %edi
 	setl	%al
-	movzbl	%al, %eax
-	popq	%rbp
-	retq
+	ret
 	.cfi_endproc
-
-	.globl	_IsNotLess
-	.align	4, 0x90
-_IsNotLess:                             ## @IsNotLess
+.LFE21:
+	.size	IsLess, .-IsLess
+	.section	.text.unlikely
+.LCOLDE21:
+	.text
+.LHOTE21:
+	.section	.text.unlikely
+.LCOLDB22:
+	.text
+.LHOTB22:
+	.p2align 4,,15
+	.globl	IsNotLess
+	.type	IsNotLess, @function
+IsNotLess:
+.LFB22:
 	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp66:
-	.cfi_def_cfa_offset 16
-Ltmp67:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp68:
-	.cfi_def_cfa_register %rbp
 	cmpl	%esi, %edi
 	setge	%al
-	movzbl	%al, %eax
-	popq	%rbp
-	retq
+	ret
 	.cfi_endproc
-
-
-.subsections_via_symbols
+.LFE22:
+	.size	IsNotLess, .-IsNotLess
+	.section	.text.unlikely
+.LCOLDE22:
+	.text
+.LHOTE22:
+	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.2) 5.4.0 20160609"
+	.section	.note.GNU-stack,"",@progbits
