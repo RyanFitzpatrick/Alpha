@@ -1,28 +1,25 @@
 	.file	"Char.c"
-	.section	.text.unlikely,"ax",@progbits
+	.section	.text.unlikely,"x"
 .LCOLDB0:
 	.text
 .LHOTB0:
 	.p2align 4,,15
 	.globl	PrintChar
-	.type	PrintChar, @function
+	.def	PrintChar;	.scl	2;	.type	32;	.endef
+	.seh_proc	PrintChar
 PrintChar:
-.LFB23:
-	.cfi_startproc
-	cmpw	$127, %di
+	.seh_endprologue
+	cmpw	$127, %cx
 	jle	.L4
 	rep ret
 	.p2align 4,,10
-	.p2align 3
 .L4:
-	movsbl	%dil, %edi
+	movsbl	%cl, %ecx
 	jmp	putchar
-	.cfi_endproc
-.LFE23:
-	.size	PrintChar, .-PrintChar
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE0:
 	.text
 .LHOTE0:
-	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.2) 5.4.0 20160609"
-	.section	.note.GNU-stack,"",@progbits
+	.ident	"GCC: (GNU) 5.4.0"
+	.def	putchar;	.scl	2;	.type	32;	.endef

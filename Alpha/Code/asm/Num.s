@@ -1,480 +1,436 @@
 	.file	"Num.c"
-	.section	.text.unlikely,"ax",@progbits
+	.section	.text.unlikely,"x"
 .LCOLDB0:
 	.text
 .LHOTB0:
 	.p2align 4,,15
 	.globl	IncrementNum
-	.type	IncrementNum, @function
+	.def	IncrementNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	IncrementNum
 IncrementNum:
-.LFB0:
-	.cfi_startproc
-	leal	1(%rdi), %eax
+	.seh_endprologue
+	leal	1(%rcx), %eax
 	ret
-	.cfi_endproc
-.LFE0:
-	.size	IncrementNum, .-IncrementNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE0:
 	.text
 .LHOTE0:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB1:
 	.text
 .LHOTB1:
 	.p2align 4,,15
 	.globl	DecrementNum
-	.type	DecrementNum, @function
+	.def	DecrementNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	DecrementNum
 DecrementNum:
-.LFB1:
-	.cfi_startproc
-	leal	-1(%rdi), %eax
+	.seh_endprologue
+	leal	-1(%rcx), %eax
 	ret
-	.cfi_endproc
-.LFE1:
-	.size	DecrementNum, .-DecrementNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE1:
 	.text
 .LHOTE1:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB2:
 	.text
 .LHOTB2:
 	.p2align 4,,15
 	.globl	AddNum
-	.type	AddNum, @function
+	.def	AddNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	AddNum
 AddNum:
-.LFB2:
-	.cfi_startproc
-	leal	(%rdi,%rsi), %eax
+	.seh_endprologue
+	leal	(%rcx,%rdx), %eax
 	ret
-	.cfi_endproc
-.LFE2:
-	.size	AddNum, .-AddNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE2:
 	.text
 .LHOTE2:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB3:
 	.text
 .LHOTB3:
 	.p2align 4,,15
 	.globl	SubtractNum
-	.type	SubtractNum, @function
+	.def	SubtractNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	SubtractNum
 SubtractNum:
-.LFB3:
-	.cfi_startproc
-	movl	%edi, %eax
-	subl	%esi, %eax
+	.seh_endprologue
+	movl	%ecx, %eax
+	subl	%edx, %eax
 	ret
-	.cfi_endproc
-.LFE3:
-	.size	SubtractNum, .-SubtractNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE3:
 	.text
 .LHOTE3:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB4:
 	.text
 .LHOTB4:
 	.p2align 4,,15
 	.globl	MultiplyNum
-	.type	MultiplyNum, @function
+	.def	MultiplyNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	MultiplyNum
 MultiplyNum:
-.LFB4:
-	.cfi_startproc
-	movl	%edi, %eax
-	imull	%esi, %eax
+	.seh_endprologue
+	movl	%ecx, %eax
+	imull	%edx, %eax
 	ret
-	.cfi_endproc
-.LFE4:
-	.size	MultiplyNum, .-MultiplyNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE4:
 	.text
 .LHOTE4:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB5:
 	.text
 .LHOTB5:
 	.p2align 4,,15
 	.globl	DivideNum
-	.type	DivideNum, @function
+	.def	DivideNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	DivideNum
 DivideNum:
-.LFB5:
-	.cfi_startproc
-	movl	%edi, %eax
+	.seh_endprologue
+	movl	%ecx, %eax
+	movl	%edx, %r8d
 	cltd
-	idivl	%esi
+	idivl	%r8d
 	ret
-	.cfi_endproc
-.LFE5:
-	.size	DivideNum, .-DivideNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE5:
 	.text
 .LHOTE5:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB6:
 	.text
 .LHOTB6:
 	.p2align 4,,15
 	.globl	AndNum
-	.type	AndNum, @function
+	.def	AndNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	AndNum
 AndNum:
-.LFB6:
-	.cfi_startproc
-	movl	%edi, %eax
-	andl	%esi, %eax
+	.seh_endprologue
+	movl	%ecx, %eax
+	andl	%edx, %eax
 	ret
-	.cfi_endproc
-.LFE6:
-	.size	AndNum, .-AndNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE6:
 	.text
 .LHOTE6:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB7:
 	.text
 .LHOTB7:
 	.p2align 4,,15
 	.globl	OrNum
-	.type	OrNum, @function
+	.def	OrNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	OrNum
 OrNum:
-.LFB7:
-	.cfi_startproc
-	movl	%edi, %eax
-	orl	%esi, %eax
+	.seh_endprologue
+	movl	%ecx, %eax
+	orl	%edx, %eax
 	ret
-	.cfi_endproc
-.LFE7:
-	.size	OrNum, .-OrNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE7:
 	.text
 .LHOTE7:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB8:
 	.text
 .LHOTB8:
 	.p2align 4,,15
 	.globl	XorNum
-	.type	XorNum, @function
+	.def	XorNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	XorNum
 XorNum:
-.LFB8:
-	.cfi_startproc
-	movl	%edi, %eax
-	xorl	%esi, %eax
+	.seh_endprologue
+	movl	%ecx, %eax
+	xorl	%edx, %eax
 	ret
-	.cfi_endproc
-.LFE8:
-	.size	XorNum, .-XorNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE8:
 	.text
 .LHOTE8:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB9:
 	.text
 .LHOTB9:
 	.p2align 4,,15
 	.globl	NegativeNum
-	.type	NegativeNum, @function
+	.def	NegativeNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	NegativeNum
 NegativeNum:
-.LFB9:
-	.cfi_startproc
-	movl	%edi, %eax
+	.seh_endprologue
+	movl	%ecx, %eax
 	negl	%eax
 	ret
-	.cfi_endproc
-.LFE9:
-	.size	NegativeNum, .-NegativeNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE9:
 	.text
 .LHOTE9:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB10:
 	.text
 .LHOTB10:
 	.p2align 4,,15
 	.globl	NotNum
-	.type	NotNum, @function
+	.def	NotNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	NotNum
 NotNum:
-.LFB10:
-	.cfi_startproc
-	movl	%edi, %eax
+	.seh_endprologue
+	movl	%ecx, %eax
 	notl	%eax
 	ret
-	.cfi_endproc
-.LFE10:
-	.size	NotNum, .-NotNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE10:
 	.text
 .LHOTE10:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB11:
 	.text
 .LHOTB11:
 	.p2align 4,,15
 	.globl	LogicalNotNum
-	.type	LogicalNotNum, @function
+	.def	LogicalNotNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	LogicalNotNum
 LogicalNotNum:
-.LFB11:
-	.cfi_startproc
+	.seh_endprologue
 	xorl	%eax, %eax
-	testl	%edi, %edi
+	testl	%ecx, %ecx
 	sete	%al
 	ret
-	.cfi_endproc
-.LFE11:
-	.size	LogicalNotNum, .-LogicalNotNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE11:
 	.text
 .LHOTE11:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB12:
 	.text
 .LHOTB12:
 	.p2align 4,,15
 	.globl	LeftShiftNum
-	.type	LeftShiftNum, @function
+	.def	LeftShiftNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	LeftShiftNum
 LeftShiftNum:
-.LFB12:
-	.cfi_startproc
-	movl	%edi, %eax
-	movl	%esi, %ecx
+	.seh_endprologue
+	movl	%ecx, %eax
+	movl	%edx, %ecx
 	sall	%cl, %eax
 	ret
-	.cfi_endproc
-.LFE12:
-	.size	LeftShiftNum, .-LeftShiftNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE12:
 	.text
 .LHOTE12:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB13:
 	.text
 .LHOTB13:
 	.p2align 4,,15
 	.globl	RightShiftNum
-	.type	RightShiftNum, @function
+	.def	RightShiftNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	RightShiftNum
 RightShiftNum:
-.LFB13:
-	.cfi_startproc
-	movl	%edi, %eax
-	movl	%esi, %ecx
+	.seh_endprologue
+	movl	%ecx, %eax
+	movl	%edx, %ecx
 	sarl	%cl, %eax
 	ret
-	.cfi_endproc
-.LFE13:
-	.size	RightShiftNum, .-RightShiftNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE13:
 	.text
 .LHOTE13:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB14:
 	.text
 .LHOTB14:
 	.p2align 4,,15
 	.globl	LogicalRightShiftNum
-	.type	LogicalRightShiftNum, @function
+	.def	LogicalRightShiftNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	LogicalRightShiftNum
 LogicalRightShiftNum:
-.LFB14:
-	.cfi_startproc
-	movl	%esi, %ecx
-	movl	$-2147483648, %r8d
-	sarl	%cl, %r8d
-	sarl	%cl, %edi
-	leal	(%r8,%r8), %edx
-	notl	%edx
-	movl	%edx, %eax
-	andl	%edi, %eax
+	.seh_endprologue
+	movl	$-2147483648, %r9d
+	movl	%ecx, %eax
+	movl	%edx, %ecx
+	sarl	%cl, %r9d
+	sarl	%cl, %eax
+	leal	(%r9,%r9), %r8d
+	notl	%r8d
+	andl	%r8d, %eax
 	ret
-	.cfi_endproc
-.LFE14:
-	.size	LogicalRightShiftNum, .-LogicalRightShiftNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE14:
 	.text
 .LHOTE14:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB15:
 	.text
 .LHOTB15:
 	.p2align 4,,15
 	.globl	LeftRotateNum
-	.type	LeftRotateNum, @function
+	.def	LeftRotateNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	LeftRotateNum
 LeftRotateNum:
-.LFB15:
-	.cfi_startproc
-	movl	%esi, %ecx
-	movl	%edi, %eax
+	.seh_endprologue
+	movl	%ecx, %r8d
+	movl	%edx, %ecx
 	negl	%ecx
+	movl	%r8d, %eax
 	sarl	%cl, %eax
-	movl	%esi, %ecx
-	sall	%cl, %edi
-	orl	%edi, %eax
+	movl	%edx, %ecx
+	sall	%cl, %r8d
+	orl	%r8d, %eax
 	ret
-	.cfi_endproc
-.LFE15:
-	.size	LeftRotateNum, .-LeftRotateNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE15:
 	.text
 .LHOTE15:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB16:
 	.text
 .LHOTB16:
 	.p2align 4,,15
 	.globl	RightRotateNum
-	.type	RightRotateNum, @function
+	.def	RightRotateNum;	.scl	2;	.type	32;	.endef
+	.seh_proc	RightRotateNum
 RightRotateNum:
-.LFB16:
-	.cfi_startproc
-	movl	%esi, %ecx
-	movl	%edi, %eax
+	.seh_endprologue
+	movl	%ecx, %r8d
+	movl	%edx, %ecx
 	negl	%ecx
+	movl	%r8d, %eax
 	sall	%cl, %eax
-	movl	%esi, %ecx
-	sarl	%cl, %edi
-	orl	%edi, %eax
+	movl	%edx, %ecx
+	sarl	%cl, %r8d
+	orl	%r8d, %eax
 	ret
-	.cfi_endproc
-.LFE16:
-	.size	RightRotateNum, .-RightRotateNum
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE16:
 	.text
 .LHOTE16:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB17:
 	.text
 .LHOTB17:
 	.p2align 4,,15
 	.globl	IsEqual
-	.type	IsEqual, @function
+	.def	IsEqual;	.scl	2;	.type	32;	.endef
+	.seh_proc	IsEqual
 IsEqual:
-.LFB17:
-	.cfi_startproc
-	cmpl	%esi, %edi
+	.seh_endprologue
+	cmpl	%edx, %ecx
 	sete	%al
 	ret
-	.cfi_endproc
-.LFE17:
-	.size	IsEqual, .-IsEqual
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE17:
 	.text
 .LHOTE17:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB18:
 	.text
 .LHOTB18:
 	.p2align 4,,15
 	.globl	IsNotEqual
-	.type	IsNotEqual, @function
+	.def	IsNotEqual;	.scl	2;	.type	32;	.endef
+	.seh_proc	IsNotEqual
 IsNotEqual:
-.LFB18:
-	.cfi_startproc
-	cmpl	%esi, %edi
+	.seh_endprologue
+	cmpl	%edx, %ecx
 	setne	%al
 	ret
-	.cfi_endproc
-.LFE18:
-	.size	IsNotEqual, .-IsNotEqual
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE18:
 	.text
 .LHOTE18:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB19:
 	.text
 .LHOTB19:
 	.p2align 4,,15
 	.globl	IsGreater
-	.type	IsGreater, @function
+	.def	IsGreater;	.scl	2;	.type	32;	.endef
+	.seh_proc	IsGreater
 IsGreater:
-.LFB19:
-	.cfi_startproc
-	cmpl	%esi, %edi
+	.seh_endprologue
+	cmpl	%edx, %ecx
 	setg	%al
 	ret
-	.cfi_endproc
-.LFE19:
-	.size	IsGreater, .-IsGreater
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE19:
 	.text
 .LHOTE19:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB20:
 	.text
 .LHOTB20:
 	.p2align 4,,15
 	.globl	IsNotGreater
-	.type	IsNotGreater, @function
+	.def	IsNotGreater;	.scl	2;	.type	32;	.endef
+	.seh_proc	IsNotGreater
 IsNotGreater:
-.LFB20:
-	.cfi_startproc
-	cmpl	%esi, %edi
+	.seh_endprologue
+	cmpl	%edx, %ecx
 	setle	%al
 	ret
-	.cfi_endproc
-.LFE20:
-	.size	IsNotGreater, .-IsNotGreater
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE20:
 	.text
 .LHOTE20:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB21:
 	.text
 .LHOTB21:
 	.p2align 4,,15
 	.globl	IsLess
-	.type	IsLess, @function
+	.def	IsLess;	.scl	2;	.type	32;	.endef
+	.seh_proc	IsLess
 IsLess:
-.LFB21:
-	.cfi_startproc
-	cmpl	%esi, %edi
+	.seh_endprologue
+	cmpl	%edx, %ecx
 	setl	%al
 	ret
-	.cfi_endproc
-.LFE21:
-	.size	IsLess, .-IsLess
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE21:
 	.text
 .LHOTE21:
-	.section	.text.unlikely
+	.section	.text.unlikely,"x"
 .LCOLDB22:
 	.text
 .LHOTB22:
 	.p2align 4,,15
 	.globl	IsNotLess
-	.type	IsNotLess, @function
+	.def	IsNotLess;	.scl	2;	.type	32;	.endef
+	.seh_proc	IsNotLess
 IsNotLess:
-.LFB22:
-	.cfi_startproc
-	cmpl	%esi, %edi
+	.seh_endprologue
+	cmpl	%edx, %ecx
 	setge	%al
 	ret
-	.cfi_endproc
-.LFE22:
-	.size	IsNotLess, .-IsNotLess
-	.section	.text.unlikely
+	.seh_endproc
+	.section	.text.unlikely,"x"
 .LCOLDE22:
 	.text
 .LHOTE22:
-	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.2) 5.4.0 20160609"
-	.section	.note.GNU-stack,"",@progbits
+	.ident	"GCC: (GNU) 5.4.0"
