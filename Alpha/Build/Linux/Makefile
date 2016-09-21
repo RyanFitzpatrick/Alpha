@@ -16,6 +16,10 @@ List:
 	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/source/List.c -I../../Code/include -o ../../Code/out/Linux/List.o -O3
 	gcc -S ../../Code/source/List.c -I../../Code/include -o ../../Code/asm/Linux/List.s -O3
 
+Error:
+	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/source/Error.c -I../../Code/include -o ../../Code/out/Linux/Error.o -O3
+	gcc -S ../../Code/source/Error.c -I../../Code/include -o ../../Code/asm/Linux/Error.s -O3
+
 Clean:
 	rm -f ../../Code/out/Linux/*
 	rm -f ../../Code/asm/Linux/*

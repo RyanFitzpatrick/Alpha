@@ -32,11 +32,11 @@ List * AppendToList(List * head, void * data);
 
 List * AddToList(List * head, void * data, Num position);
 
-List * RemoveFirstFromList(List * head);
+List * RemoveFirstFromList(List * head, void (*Finalize)(void*));
 
-List * RemoveLastFromList(List * head);
+List * RemoveLastFromList(List * head, void (*Finalize)(void*));
 
-List * RemoveFromList(List * head, Num position);
+List * RemoveFromList(List * head, Num position, void (*Finalize)(void*));
 
 Num GetListLength(List * head);
 

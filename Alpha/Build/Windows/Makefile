@@ -1,4 +1,4 @@
-All: Num Char List Libs
+All: Num Char List Error Libs
 
 Libs:
 	gcc -shared ../../Code/out/Windows/*.o  -o ../../Code/lib/Windows/libAlpha.so
@@ -13,8 +13,12 @@ Char:
 	gcc -S ../../Code/source/Char.c -I../../Code/include -o ../../Code/asm/Windows/Char.s -O3
 
 List:
-	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/source/List.c -I../../Code/include -o ../../Code/out/Windows/List.o -O3
+	gcc -Wall -Werror -ansi -pedantic -c ../../Code/source/List.c -I../../Code/include -o ../../Code/out/Windows/List.o -O3
 	gcc -S ../../Code/source/List.c -I../../Code/include -o ../../Code/asm/Windows/List.s -O3
+
+Error:
+	gcc -Wall -Werror -ansi -pedantic -c ../../Code/source/Error.c -I../../Code/include -o ../../Code/out/Windows/Error.o -O3
+	gcc -S ../../Code/source/Error.c -I../../Code/include -o ../../Code/asm/Windows/Error.s -O3
 
 Clean:
 	rm -f ../../Code/out/Windows/*
