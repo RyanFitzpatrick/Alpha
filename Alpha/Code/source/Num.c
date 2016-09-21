@@ -9,7 +9,7 @@ This file creates several functions that can be used with Num variables (32 bit 
 
 /*Increments the value of a Num
 Param x: the number to be incremented
-Returns: 1 plus the current value of x*/
+Returns: The current value of x plus 1*/
 Num IncrementNum(Num x)
 {
     return ++x;
@@ -17,7 +17,7 @@ Num IncrementNum(Num x)
 
 /*Decrements the value of a Num
 Param x: the number to be decremented
-Returns: 1 minus the current value of x*/
+Returns: The current value of x minus 1*/
 Num DecrementNum(Num x)
 {
     return --x;
