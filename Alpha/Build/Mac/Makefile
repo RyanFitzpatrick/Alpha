@@ -1,4 +1,4 @@
-All: Num Char List Libs
+All: Num Char List Error Libs
 
 Libs:
 	gcc -shared ../../Code/out/Mac/*.o  -o ../../Code/lib/Mac/libAlpha.so
@@ -15,6 +15,10 @@ Char:
 List:
 	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/source/List.c -I../../Code/include -o ../../Code/out/Mac/List.o -O3
 	gcc -S ../../Code/source/List.c -I../../Code/include -o ../../Code/asm/Mac/List.s -O3
+
+Error:
+	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/source/Error.c -I../../Code/include -o ../../Code/out/Mac/Error.o -O3
+	gcc -S ../../Code/source/Error.c -I../../Code/include -o ../../Code/asm/Mac/Error.s -O3
 
 Clean:
 	rm -f ../../Code/out/Mac/*
