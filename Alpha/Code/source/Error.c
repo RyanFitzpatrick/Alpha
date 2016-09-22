@@ -3,6 +3,8 @@
 #define ERROR
 #endif
 
+static List * Errors = NULL;
+
 void ReportError(const char * message, Num code, ErrorType type)
 {
     Error * error = malloc(sizeof(Error));

@@ -1,7 +1,7 @@
 All: Num Char List Libs
 
 Libs:
-	gcc -shared ../../Code/out/*.o  -o ../../Code/lib/Linux/libAlpha.so
+	gcc -shared ../../Code/out/Linux/*.o  -o ../../Code/lib/Linux/libAlpha.so
 	ar crv ../../Code/lib/Linux/libAlpha.a ../../Code/out/Linux/*.o
 
 Num:

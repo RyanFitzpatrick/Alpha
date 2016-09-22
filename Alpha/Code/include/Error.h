@@ -29,6 +29,4 @@ struct Error
 
 typedef struct Error Error;
 
-static List * Errors = NULL;
-
 void ReportError(const char * message, Num code, ErrorType type);
