@@ -1,4 +1,4 @@
-All: Num Char List Libs
+All: Num Char List System Error Libs
 
 Libs:
 	gcc -shared ../../Code/out/Linux/*.o  -o ../../Code/lib/Linux/libAlpha.so
@@ -15,6 +15,10 @@ Char:
 List:
 	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/source/List.c -I../../Code/include -o ../../Code/out/Linux/List.o -O3
 	gcc -S ../../Code/source/List.c -I../../Code/include -o ../../Code/asm/Linux/List.s -O3
+
+System:
+	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/source/System.c -I../../Code/include -o ../../Code/out/Linux/System.o -O3
+	gcc -S ../../Code/source/System.c -I../../Code/include -o ../../Code/asm/Linux/System.s -O3
 
 Error:
 	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/source/Error.c -I../../Code/include -o ../../Code/out/Linux/Error.o -O3

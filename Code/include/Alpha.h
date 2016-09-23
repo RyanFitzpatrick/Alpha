@@ -20,6 +20,12 @@ This file includes all required files from the standard library, external librar
 #ifndef LIST
 #include "List.h"
 #define LIST
+#endif
+
+#ifndef SYSTEM
+#include "System.h"
+#define SYSTEM
+#endif
 
 #ifndef ERROR
 #include "Error.h"

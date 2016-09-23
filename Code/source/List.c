@@ -7,15 +7,16 @@ This file creates several functions that can be used with List variables*/
 #define LIST
 #endif
 
+/*This file includes System.h for the Nop function*/
+#ifndef SYSTEM
+#include "System.h"
+#define SYSTEM
+#endif
+
 /*This file includes Error.h for the error type and error functions*/
 #ifndef ERROR
 #include "Error.h"
 #define ERROR
-#endif
-
-#ifndef SYSTEM
-#include "System.h"
-#define SYSTEM
 #endif
 
 /*Creates an empty (NULL) List
