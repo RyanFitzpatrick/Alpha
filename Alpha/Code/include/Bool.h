@@ -8,11 +8,18 @@ This header also defines macro constants for TRUE (1) and FALSE (0)*/
 #define STDINT
 #endif
 
+/*Define TRUE as 1*/
 #undef TRUE
 #define TRUE 1
 
+/*Define FALSE as 0*/
 #undef FALSE
 #define FALSE 0
+
+/*Define macro constants for the boolean operators*/
+#define AND &&
+#define OR ||
+#define XOR ^^
 
 /*Define Bool as an int8_t type*/
 typedef int8_t Bool;
