@@ -13,6 +13,11 @@ This file creates several functions that can be used with List variables*/
 #define ERROR
 #endif
 
+#ifndef SYSTEM
+#include "System.h"
+#define SYSTEM
+#endif
+
 /*Creates an empty (NULL) List
 Returns: An empty List (NULL)*/
 List * CreateList()
@@ -22,7 +27,7 @@ List * CreateList()
 
 /*Frees all memory associated with a List
 Param head: A List pointer to the start of a List
-Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL*/
+Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced with a nop*/
 void FinalizeList(List * head, void (*Finalize)(void*))
 {
     List * list = head;
@@ -31,11 +36,10 @@ void FinalizeList(List * head, void (*Finalize)(void*))
     Num size = GetListLength(list);
     Num i;
 
-    /*Report an error and return if the finalize function is NULL*/
     if(Finalize == NULL)
     {
-        ReportError("Attempting to free list elements with NULL finalizing function, please specify a Finalize function for the data in the list. The list will not be freed", 1, SEG_FAULT);
-        return;
+        /*Replace NULL finalize functions with a nop*/
+        Finalize = &Nop;
     }
 
     /*For each element in the list, free the data, and free the element itself*/
@@ -169,7 +173,7 @@ List * AddToList(List * head, void * data, Num position)
 
 /*Frees the first element in the List
 Param head: A List pointer to the start of a List
-Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL
+Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced by a nop
 Returns: A pointer to the start of the updated List*/
 List * RemoveFirstFromList(List * head, void (*Finalize)(void*))
 {
@@ -183,11 +187,10 @@ List * RemoveFirstFromList(List * head, void (*Finalize)(void*))
         return head;
     }
 
-    /*Report an error and return if the finalize function is NULL*/
     if(Finalize == NULL)
     {
-        ReportError("Attempting to finalize list element with NULL finalizing function, please specify a Finalize function for the data in the list. The list element will not be freed", 1, SEG_FAULT);
-        return head;
+        /*Replace NULL finalize functions with a nop*/
+        Finalize = &Nop;
     }
 
     /*Remove the first element*/
@@ -207,7 +210,7 @@ List * RemoveFirstFromList(List * head, void (*Finalize)(void*))
 
 /*Frees the last element in the List
 Param head: A List pointer to the start of a List
-Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL
+Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced by a nop
 Returns: A pointer to the start of the updated List*/
 List * RemoveLastFromList(List * head, void (*Finalize)(void*))
 {
@@ -222,11 +225,10 @@ List * RemoveLastFromList(List * head, void (*Finalize)(void*))
         return head;
     }
 
-    /*Report an error and return if the finalize function is NULL*/
     if(Finalize == NULL)
     {
-        ReportError("Attempting to finalize list element with NULL finalizing function, please specify a Finalize function for the data in the list. The list element will not be freed", 1, SEG_FAULT);
-        return head;
+        /*Replace NULL finalize functions with a nop*/
+        Finalize = &Nop;
     }
 
     if(size == 1)
@@ -259,7 +261,7 @@ List * RemoveLastFromList(List * head, void (*Finalize)(void*))
 /*Frees an element in the List at a specific index
 Param head: A List pointer to the start of a List
 Param position: The 0-based index of the data to be removed
-Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL
+Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced by a nop
 Returns: A pointer to the start of the updated List*/
 List * RemoveFromList(List * head, Num position, void (*Finalize)(void*))
 {
@@ -275,11 +277,10 @@ List * RemoveFromList(List * head, Num position, void (*Finalize)(void*))
         return head;
     }
 
-    /*Report an error and return if the finalize function is NULL*/
     if(Finalize == NULL)
     {
-        ReportError("Attempting to finalize list element with NULL finalizing function, please specify a Finalize function for the data in the list. The list element will not be freed", 1, SEG_FAULT);
-        return head;
+        /*Replace NULL finalize functions with a nop*/
+        Finalize = &Nop;
     }
 
     /*Report an error and return without freeing if the specified remove position is less than zero or greather than the size of the list*/
