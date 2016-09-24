@@ -1,8 +1,8 @@
 All: Num Char List System Error Libs
 
 Libs:
-	gcc -shared ../../Code/out/Windows/*.o  -o ../../Code/lib/Windows/libAlpha.so
-	ar crv ../../Code/lib/Windows/libAlpha.a ../../Code/out/Windows/*.o
+	gcc -shared ../../Code/out/Windows/*.o  -o ../../Code/lib/Windows/libAlpha.dll
+	ar crv ../../Code/lib/Windows/libAlpha.lib ../../Code/out/Windows/*.o
 
 Num:
 	gcc -Wall -Werror -ansi -pedantic -c ../../Code/source/Num.c -I../../Code/include -o ../../Code/out/Windows/Num.o -O3
@@ -17,7 +17,7 @@ List:
 	gcc -S ../../Code/source/List.c -I../../Code/include -o ../../Code/asm/Windows/List.s -O3
 
 System:
-	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/source/System.c -I../../Code/include -o ../../Code/out/Windows/System.o -O3
+	gcc -Wall -Werror -ansi -pedantic -c ../../Code/source/System.c -I../../Code/include -o ../../Code/out/Windows/System.o -O3
 	gcc -S ../../Code/source/System.c -I../../Code/include -o ../../Code/asm/Windows/System.s -O3
 
 Error:
