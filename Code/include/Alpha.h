@@ -27,6 +27,11 @@ This file includes all required files from the standard library, external librar
 #define SYSTEM
 #endif
 
+#ifndef FUNCTION
+#include "Function.h"
+#define FUNCTION
+#endif
+
 #ifndef ERROR
 #include "Error.h"
 #define ERROR

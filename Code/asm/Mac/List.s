@@ -46,25 +46,26 @@ Ltmp9:
 	movq	%rsi, %r14
 	movq	%rdi, %rbx
 	testq	%rbx, %rbx
-	je	LBB1_3
+	je	LBB1_4
 ## BB#1:                                ## %GetListLength.exit
 	movl	16(%rbx), %r15d
+	testl	%r15d, %r15d
+	jle	LBB1_4
+## BB#2:                                ## %.lr.ph
 	testq	%r14, %r14
 	cmoveq	_Nop@GOTPCREL(%rip), %r14
-	testl	%r15d, %r15d
-	jle	LBB1_3
 	.align	4, 0x90
-LBB1_2:                                 ## %.lr.ph
-                                        ## =>This Inner Loop Header: Depth=1
+LBB1_3:                                 ## =>This Inner Loop Header: Depth=1
 	movq	(%rbx), %rdi
+	xorl	%eax, %eax
 	callq	*%r14
 	movq	8(%rbx), %r12
 	movq	%rbx, %rdi
 	callq	_free
 	decl	%r15d
 	movq	%r12, %rbx
-	jne	LBB1_2
-LBB1_3:                                 ## %._crit_edge
+	jne	LBB1_3
+LBB1_4:                                 ## %._crit_edge
 	popq	%rbx
 	popq	%r12
 	popq	%r14
@@ -405,43 +406,47 @@ Ltmp31:
 	.cfi_def_cfa_register %rbp
 	pushq	%r15
 	pushq	%r14
+	pushq	%r12
 	pushq	%rbx
-	pushq	%rax
 Ltmp32:
-	.cfi_offset %rbx, -40
+	.cfi_offset %rbx, -48
 Ltmp33:
-	.cfi_offset %r14, -32
+	.cfi_offset %r12, -40
 Ltmp34:
+	.cfi_offset %r14, -32
+Ltmp35:
 	.cfi_offset %r15, -24
 	movq	%rdi, %rbx
 	testq	%rbx, %rbx
 	je	LBB6_1
 ## BB#2:
 	testq	%rsi, %rsi
-	cmoveq	_Nop@GOTPCREL(%rip), %rsi
 	movq	(%rbx), %rdi
-	movq	8(%rbx), %r14
-	movl	16(%rbx), %r15d
+	movq	8(%rbx), %r15
+	movl	16(%rbx), %r12d
+	cmoveq	_Nop@GOTPCREL(%rip), %rsi
+	xorl	%r14d, %r14d
+	xorl	%eax, %eax
 	callq	*%rsi
 	movq	%rbx, %rdi
 	callq	_free
-	xorl	%eax, %eax
-	testq	%r14, %r14
+	testq	%r15, %r15
 	je	LBB6_4
 ## BB#3:
-	decl	%r15d
-	movl	%r15d, 16(%r14)
-	movq	%r14, %rax
+	decl	%r12d
+	movl	%r12d, 16(%r15)
+	movq	%r15, %r14
 	jmp	LBB6_4
 LBB6_1:
 	leaq	L_.str2(%rip), %rdi
 	movl	$1, %esi
 	movl	$1, %edx
 	callq	_ReportError
-	xorl	%eax, %eax
+	xorl	%r14d, %r14d
 LBB6_4:
-	addq	$8, %rsp
+	movq	%r14, %rax
 	popq	%rbx
+	popq	%r12
 	popq	%r14
 	popq	%r15
 	popq	%rbp
@@ -454,18 +459,18 @@ _RemoveLastFromList:                    ## @RemoveLastFromList
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp35:
-	.cfi_def_cfa_offset 16
 Ltmp36:
+	.cfi_def_cfa_offset 16
+Ltmp37:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp37:
+Ltmp38:
 	.cfi_def_cfa_register %rbp
 	pushq	%r14
 	pushq	%rbx
-Ltmp38:
-	.cfi_offset %rbx, -32
 Ltmp39:
+	.cfi_offset %rbx, -32
+Ltmp40:
 	.cfi_offset %r14, -24
 	movq	%rdi, %r14
 	testq	%r14, %r14
@@ -478,6 +483,7 @@ Ltmp39:
 	jne	LBB7_3
 ## BB#16:
 	movq	(%r14), %rdi
+	xorl	%eax, %eax
 	callq	*%rsi
 	movq	%r14, %rdi
 	callq	_free
@@ -546,6 +552,7 @@ LBB7_12:                                ## %.preheader
 	movq	%rdi, %r9
 LBB7_14:
 	movq	(%r9), %rdi
+	xorl	%eax, %eax
 	callq	*%rsi
 	movq	(%rbx), %rdi
 	callq	_free
@@ -565,22 +572,22 @@ _RemoveFromList:                        ## @RemoveFromList
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp40:
-	.cfi_def_cfa_offset 16
 Ltmp41:
+	.cfi_def_cfa_offset 16
+Ltmp42:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp42:
+Ltmp43:
 	.cfi_def_cfa_register %rbp
 	pushq	%r15
 	pushq	%r14
 	pushq	%rbx
 	pushq	%rax
-Ltmp43:
-	.cfi_offset %rbx, -40
 Ltmp44:
-	.cfi_offset %r14, -32
+	.cfi_offset %rbx, -40
 Ltmp45:
+	.cfi_offset %r14, -32
+Ltmp46:
 	.cfi_offset %r15, -24
 	movq	%rdi, %r14
 	testq	%r14, %r14
@@ -652,6 +659,7 @@ LBB8_15:                                ## %.preheader
 	movq	%rsi, %rdi
 LBB8_17:
 	movq	8(%rdi), %r15
+	xorl	%eax, %eax
 	callq	*%rdx
 	movq	(%rbx), %rdi
 	callq	_free
@@ -674,11 +682,12 @@ LBB8_4:
 LBB8_18:
 	movq	(%r14), %rdi
 	movq	8(%r14), %rbx
+	xorl	%eax, %eax
 	callq	*%rdx
 	movq	%r14, %rdi
 	callq	_free
-	xorl	%r14d, %r14d
 	testq	%rbx, %rbx
+	movl	$0, %r14d
 	je	LBB8_20
 ## BB#19:
 	decl	%r15d
@@ -700,12 +709,12 @@ _ListHasElements:                       ## @ListHasElements
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp46:
-	.cfi_def_cfa_offset 16
 Ltmp47:
+	.cfi_def_cfa_offset 16
+Ltmp48:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp48:
+Ltmp49:
 	.cfi_def_cfa_register %rbp
 	testq	%rdi, %rdi
 	setne	%al

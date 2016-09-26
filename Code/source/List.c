@@ -29,7 +29,7 @@ List * CreateList()
 /*Frees all memory associated with a List
 Param head: A List pointer to the start of a List
 Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced with a nop*/
-void FinalizeList(List * head, void (*Finalize)(void*))
+void FinalizeList(List * head, VoidFunction Finalize)
 {
     List * list = head;
     List * next;
@@ -176,7 +176,7 @@ List * AddToList(List * head, void * data, Num position)
 Param head: A List pointer to the start of a List
 Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced by a nop
 Returns: A pointer to the start of the updated List*/
-List * RemoveFirstFromList(List * head, void (*Finalize)(void*))
+List * RemoveFirstFromList(List * head, VoidFunction Finalize)
 {
     List * list;
     Num size;
@@ -213,7 +213,7 @@ List * RemoveFirstFromList(List * head, void (*Finalize)(void*))
 Param head: A List pointer to the start of a List
 Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced by a nop
 Returns: A pointer to the start of the updated List*/
-List * RemoveLastFromList(List * head, void (*Finalize)(void*))
+List * RemoveLastFromList(List * head, VoidFunction Finalize)
 {
     List * list;
     Num size = GetListLength(head);
@@ -264,7 +264,7 @@ Param head: A List pointer to the start of a List
 Param position: The 0-based index of the data to be removed
 Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced by a nop
 Returns: A pointer to the start of the updated List*/
-List * RemoveFromList(List * head, Num position, void (*Finalize)(void*))
+List * RemoveFromList(List * head, Num position, VoidFunction Finalize)
 {
     List * list;
     List * next;

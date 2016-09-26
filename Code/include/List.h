@@ -13,6 +13,12 @@ This file type defines the List structure type, and defines several functions th
 #define BOOL
 #endif
 
+/*This file includes Function.h for the alpha VoidFunction type*/
+#ifndef FUNCTION
+#include "Function.h"
+#define FUNCTION
+#endif
+
 /*This file includes stdlib.h for memory allocation and deallocation functions*/
 #ifndef STDLIB
 #include <stdlib.h>
@@ -40,7 +46,7 @@ List * CreateList();
 /*Frees all memory associated with a List
 Param head: A List pointer to the start of a List
 Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL*/
-void FinalizeList(List * head, void (*Finalize)(void*));
+void FinalizeList(List * head, VoidFunction Finalize);
 
 /*Adds an element to the start of a list
 Param head: A List pointer to the start of a List
@@ -65,20 +71,20 @@ List * AddToList(List * head, void * data, Num position);
 Param head: A List pointer to the start of a List
 Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL
 Returns: A pointer to the start of the updated List*/
-List * RemoveFirstFromList(List * head, void (*Finalize)(void*));
+List * RemoveFirstFromList(List * head, VoidFunction Finalize);
 
 /*Frees the last element in the List
 Param head: A List pointer to the start of a List
 Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL
 Returns: A pointer to the start of the updated List*/
-List * RemoveLastFromList(List * head, void (*Finalize)(void*));
+List * RemoveLastFromList(List * head, VoidFunction Finalize);
 
 /*Frees an element in the List at a specific index
 Param head: A List pointer to the start of a List
 Param position: The 0-based index of the data to be removed
 Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL
 Returns: A pointer to the start of the updated List*/
-List * RemoveFromList(List * head, Num position, void (*Finalize)(void*));
+List * RemoveFromList(List * head, Num position, VoidFunction Finalize);
 
 /*Returns The number of elements in the list
 Param head: A List pointer to the start of the List
