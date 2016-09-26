@@ -39,9 +39,11 @@ struct List
 /*Type define struct List as just List*/
 typedef struct List List;
 
-/*Creates an empty (NULL) List
-Returns: An empty List (NULL)*/
-List * CreateList();
+/*Creates a List from one item
+Param list: The list to be created, reallocs this pointer
+Param data: The data to be added to the list
+Returns: A newly allocated list containing the specified data*/
+List * CreateList(List * list, void * data);
 
 /*Frees all memory associated with a List
 Param head: A List pointer to the start of a List
@@ -58,14 +60,14 @@ List * PrependToList(List * head, void * data);
 Param head: A List pointer to the start of a List
 Param data: The data to add to the list
 Returns: A pointer to the start of the updated List*/
-List * AppendToList(List * head, void * data);
+void AppendToList(List * head, void * data);
 
 /*Adds an element to specific position of a list
 Param head: A List pointer to the start of a List
 Param data: The data to add to the list
 Param position: The 0-based index where the new data should be inserted
 Returns: A pointer to the start of the updated List*/
-List * AddToList(List * head, void * data, Num position);
+void AddToList(List * head, void * data, Num position);
 
 /*Frees the first element in the List
 Param head: A List pointer to the start of a List

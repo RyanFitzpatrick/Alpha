@@ -51,3 +51,8 @@ This file includes all required files from the standard library, external librar
 #include <stdint.h>
 #define STDINT
 #endif
+
+#ifndef STRING
+#include <string.h>
+#define STRING
+#endif

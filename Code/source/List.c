@@ -19,11 +19,19 @@ This file creates several functions that can be used with List variables*/
 #define ERROR
 #endif
 
-/*Creates an empty (NULL) List
-Returns: An empty List (NULL)*/
-List * CreateList()
+/*Creates a List from one item
+Param list: The list to be created, reallocs this pointer
+Param data: The data to be added to the list
+Returns: A newly allocated list containing the specified data*/
+List * CreateList(List * list, void * data)
 {
-    return NULL;
+    list = realloc(list, sizeof(List));
+
+    list->data = data;
+    list->size = 1;
+    list->next = NULL;
+
+    return list;
 }
 
 /*Frees all memory associated with a List
@@ -80,7 +88,7 @@ List * PrependToList(List * head, void * data)
 Param head: A List pointer to the start of a List
 Param data: The data to add to the list
 Returns: A pointer to the start of the updated List*/
-List * AppendToList(List * head, void * data)
+void AppendToList(List * head, void * data)
 {
     List * list = head;
     List * node = malloc(sizeof(List));
@@ -92,7 +100,6 @@ List * AppendToList(List * head, void * data)
     if(node == NULL)
     {
         ReportError("Could not allocate space for new list element, no element added", 0, ALLOCATION_FAIL);
-        return head;
     }
 
     node->data = data;
@@ -109,15 +116,13 @@ List * AppendToList(List * head, void * data)
         list->next = node;
         node->next = NULL;
         head->size++;
-
-        return head;
     }
     else
     {
         /*If the list is empty simply add the element and return*/
         node->next = list;
         node->size = 1;
-        return node;
+        head = node;
     }
 }
 
@@ -126,7 +131,7 @@ Param head: A List pointer to the start of a List
 Param data: The data to add to the list
 Param position: The 0-based index where the new data should be inserted
 Returns: A pointer to the start of the updated List*/
-List * AddToList(List * head, void * data, Num position)
+void AddToList(List * head, void * data, Num position)
 {
     List * list = head;
     List * node = malloc(sizeof(List));
@@ -138,14 +143,12 @@ List * AddToList(List * head, void * data, Num position)
     if(node == NULL)
     {
         ReportError("Could not allocate space for new list element, no element added", 0, ALLOCATION_FAIL);
-        return head;
     }
 
     /*Report an error and return without adding if the specified add position is less than zero or greather than the size of the list*/
     if(position > size || position < 0)
     {
         ReportError("The specified position to add the new element is outside the bounds of the list, no element added", 0, SEG_FAULT);
-        return head;
     }
 
     node->data = data;
@@ -155,7 +158,7 @@ List * AddToList(List * head, void * data, Num position)
         /*If position is zero add the element to the start and return*/
         node->next = head;
         node->size = size + 1;
-        return node;
+        head = node;
     }
     else
     {
@@ -168,7 +171,7 @@ List * AddToList(List * head, void * data, Num position)
         /*Add the element at the required index*/
         node->next = list->next;
         list->next = node;
-        return head;
+        head = list;
     }
 }
 

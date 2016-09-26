@@ -13,28 +13,87 @@ Ltmp1:
 	movq	%rsp, %rbp
 Ltmp2:
 	.cfi_def_cfa_register %rbp
-	subq	$16, %rsp
-	movl	$5, %esi
+	subq	$48, %rsp
+	movl	$80, %eax
+	movl	%eax, %edi
 	movl	$0, -4(%rbp)
-	movl	$5, -8(%rbp)
-	movl	-8(%rbp), %edi
-	callq	_AddNum
+	movq	$0, -16(%rbp)
+	movq	$0, -24(%rbp)
+	callq	_malloc
+	movq	%rax, -24(%rbp)
+	movl	$0, -28(%rbp)
+LBB0_1:                                 ## =>This Inner Loop Header: Depth=1
+	cmpl	$10, -28(%rbp)
+	jge	LBB0_4
+## BB#2:                                ##   in Loop: Header=BB0_1 Depth=1
+	movl	$4, %eax
+	movl	%eax, %edi
+	callq	_malloc
+	movslq	-28(%rbp), %rdi
+	movq	-24(%rbp), %rcx
+	movq	%rax, (%rcx,%rdi,8)
+	movl	-28(%rbp), %edx
+	movslq	-28(%rbp), %rax
+	movq	-24(%rbp), %rcx
+	movq	(%rcx,%rax,8), %rax
+	movl	%edx, (%rax)
+## BB#3:                                ##   in Loop: Header=BB0_1 Depth=1
+	movl	-28(%rbp), %eax
+	addl	$1, %eax
+	movl	%eax, -28(%rbp)
+	jmp	LBB0_1
+LBB0_4:
 	leaq	L_.str(%rip), %rdi
-	movl	%eax, -8(%rbp)
-	movl	-8(%rbp), %esi
 	movb	$0, %al
 	callq	_printf
-	xorl	%esi, %esi
-	movl	%eax, -12(%rbp)         ## 4-byte Spill
-	movl	%esi, %eax
-	addq	$16, %rsp
+	movq	-16(%rbp), %rdi
+	movq	-24(%rbp), %rcx
+	movq	(%rcx), %rcx
+	movq	%rcx, %rsi
+	movl	%eax, -32(%rbp)         ## 4-byte Spill
+	callq	_CreateList
+	movq	%rax, -16(%rbp)
+	movl	$1, -28(%rbp)
+LBB0_5:                                 ## =>This Inner Loop Header: Depth=1
+	cmpl	$10, -28(%rbp)
+	jge	LBB0_8
+## BB#6:                                ##   in Loop: Header=BB0_5 Depth=1
+	movq	-16(%rbp), %rdi
+	movslq	-28(%rbp), %rax
+	movq	-24(%rbp), %rcx
+	movq	(%rcx,%rax,8), %rax
+	movq	%rax, %rsi
+	callq	_PrependToList
+	movq	%rax, -16(%rbp)
+## BB#7:                                ##   in Loop: Header=BB0_5 Depth=1
+	movl	-28(%rbp), %eax
+	addl	$1, %eax
+	movl	%eax, -28(%rbp)
+	jmp	LBB0_5
+LBB0_8:
+	movq	_free@GOTPCREL(%rip), %rax
+	movq	-16(%rbp), %rdi
+	movq	%rax, %rsi
+	callq	_FinalizeList
+	leaq	L_.str1(%rip), %rdi
+	movb	$0, %al
+	callq	_printf
+	movq	-24(%rbp), %rsi
+	movq	%rsi, %rdi
+	movl	%eax, -36(%rbp)         ## 4-byte Spill
+	callq	_free
+	xorl	%eax, %eax
+	addq	$48, %rsp
 	popq	%rbp
 	retq
 	.cfi_endproc
 
 	.section	__TEXT,__cstring,cstring_literals
 L_.str:                                 ## @.str
-	.asciz	"%d\n"
+	.asciz	"START OF TESTS\n"
+
+L_.str1:                                ## @.str1
+	.asciz	"END OF TESTS\n"
 
 
 .subsections_via_symbols
