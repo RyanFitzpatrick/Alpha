@@ -1,7 +1,7 @@
 All: Num Char List System Error Libs
 
 Libs:
-	gcc -shared ../../Code/out/Mac/*.o  -o ../../Code/lib/Mac/libAlpha.so
+	gcc -dynamiclib ../../Code/out/Mac/*.o  -o ../../Code/lib/Mac/libAlpha.dylib
 	ar crv ../../Code/lib/Mac/libAlpha.a ../../Code/out/Mac/*.o
 
 Num:
@@ -23,6 +23,9 @@ System:
 Error:
 	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/source/Error.c -I../../Code/include -o ../../Code/out/Mac/Error.o -O3
 	gcc -S ../../Code/source/Error.c -I../../Code/include -o ../../Code/asm/Mac/Error.s -O3
+
+Test:
+	gcc -Wall -Werror -ansi -pedantic ../../Test/source/Test.c -I../../Test/include -I../../Code/include  -L../../Code/lib/Mac -lAlpha -o ../../Test/run/Mac/Test.exe
 
 Clean:
 	rm -f ../../Code/out/Mac/*
