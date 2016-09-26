@@ -25,7 +25,8 @@ Error:
 	gcc -S ../../Code/source/Error.c -I../../Code/include -o ../../Code/asm/Mac/Error.s -O3
 
 Test:
-	gcc -Wall -Werror -ansi -pedantic ../../Test/source/Test.c -I../../Test/include -I../../Code/include  -L../../Code/lib/Mac -lAlpha -o ../../Test/run/Mac/Test.exe
+	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Test/source/Test.c -I../../Test/include -I../../Code/include -o ../../Test/out/Mac/Test.o
+	gcc ../../Test/out/Mac/*.o -L../../Code/lib/Mac -lAlpha -o ../../Test/run/Mac/Test
 
 Clean:
 	rm -f ../../Code/out/Mac/*
