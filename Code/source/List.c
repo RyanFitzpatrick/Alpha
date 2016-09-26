@@ -46,7 +46,7 @@ void FinalizeList(List * head, VoidFunction Finalize)
     /*For each element in the list, free the data, and free the element itself*/
     for(i = 0; i < size; i++)
     {
-        (*Finalize)(list->data);
+        Finalize(list->data);
         next = list->next;
         free(list);
         list = next;
@@ -197,7 +197,7 @@ List * RemoveFirstFromList(List * head, VoidFunction Finalize)
     /*Remove the first element*/
     list = head->next;
     size = head->size;
-    (*Finalize)(head->data);
+    Finalize(head->data);
     free(head);
 
     /*Decrement the size of the list if it is not empty (NULL)*/
@@ -235,7 +235,7 @@ List * RemoveLastFromList(List * head, VoidFunction Finalize)
     if(size == 1)
     {
         /*If the list only has one element remove it and return an empty List (NULL)*/
-        (*Finalize)(head->data);
+        Finalize(head->data);
         free(head);
         return NULL;
     }
@@ -250,7 +250,7 @@ List * RemoveLastFromList(List * head, VoidFunction Finalize)
         }
 
         /*Remove the last element and decrement the size of the List*/
-        (*Finalize)(list->next->data);
+        Finalize(list->next->data);
         free(list->next);
         list->next = NULL;
         head->size--;
@@ -296,7 +296,7 @@ List * RemoveFromList(List * head, Num position, VoidFunction Finalize)
         /*If the start of the list is specified remove the first element*/
         list = head->next;
         size = head->size;
-        (*Finalize)(head->data);
+        Finalize(head->data);
         free(head);
 
         /*If the list is not empty (NULL) decrement the size*/
@@ -319,7 +319,7 @@ List * RemoveFromList(List * head, Num position, VoidFunction Finalize)
 
         /*Remove the element at the specified position and decrement the size of the List*/
         next = list->next->next;
-        (*Finalize)(list->next);
+        Finalize(list->next);
         free(list->next);
         list->next = next;
         head->size--;
