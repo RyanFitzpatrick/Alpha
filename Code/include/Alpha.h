@@ -31,3 +31,18 @@ This file includes all required files from the standard library, external librar
 #include "Error.h"
 #define ERROR
 #endif
+
+#ifndef STDLIB
+#include <stdlib.h>
+#define STDLIB
+#endif
+
+#ifndef STDIO
+#include <stdio.h>
+#define STDIO
+#endif
+
+#ifndef STDINT
+#include <stdint.h>
+#define STDINT
+#endif

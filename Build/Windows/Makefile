@@ -1,4 +1,6 @@
-All: Num Char List System Error Libs
+All: Code Test
+
+Code: Num Char List System Error Libs
 
 Libs:
 	gcc -shared ../../Code/out/Windows/*.o  -o ../../Code/lib/Windows/libAlpha.dll
@@ -24,6 +26,15 @@ Error:
 	gcc -Wall -Werror -ansi -pedantic -c ../../Code/source/Error.c -I../../Code/include -o ../../Code/out/Windows/Error.o -O3
 	gcc -S ../../Code/source/Error.c -I../../Code/include -o ../../Code/asm/Windows/Error.s -O3
 
+Test:
+	gcc -Wall -Werror -ansi -pedantic -c ../../Test/source/Test.c -I../../Test/include -I../../Code/include -o ../../Test/out/Windows/Test.o
+	gcc -S ../../Test/source/Test.c -I../../Test/include -I../../Code/include -o ../../Test/asm/Mac/Test.s
+	gcc ../../Test/out/Windows/*.o -L../../Code/lib/Windows -lAlpha -o ../../Test/run/Windows/Test
+
 Clean:
-	rm -f ../../Code/out/Windows/*
 	rm -f ../../Code/asm/Windows/*
+	rm -f ../../Code/lib/Windows/*
+	rm -f ../../Code/out/Windows/*
+	rm -f ../../Test/asm/Windows/*
+	rm -f ../../Test/out/Windows/*
+	rm -f ../../Test/run/Windows/*

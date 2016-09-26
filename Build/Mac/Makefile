@@ -1,4 +1,6 @@
-All: Num Char List System Error Libs
+All: Code Test
+
+Code: Num Char List System Error Libs
 
 Libs:
 	gcc -dynamiclib ../../Code/out/Mac/*.o  -o ../../Code/lib/Mac/libAlpha.dylib
@@ -26,8 +28,13 @@ Error:
 
 Test:
 	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Test/source/Test.c -I../../Test/include -I../../Code/include -o ../../Test/out/Mac/Test.o
+	gcc -S ../../Test/source/Test.c -I../../Test/include -I../../Code/include -o ../../Test/asm/Mac/Test.s
 	gcc ../../Test/out/Mac/*.o -L../../Code/lib/Mac -lAlpha -o ../../Test/run/Mac/Test
 
 Clean:
-	rm -f ../../Code/out/Mac/*
 	rm -f ../../Code/asm/Mac/*
+	rm -f ../../Code/lib/Mac/*
+	rm -f ../../Code/out/Mac/*
+	rm -f ../../Test/asm/Mac/*
+	rm -f ../../Test/out/Mac/*
+	rm -f ../../Test/run/Mac/*

@@ -1,4 +1,6 @@
-All: Num Char List System Error Libs
+All: Code Test
+
+Code: Num Char List System Error Libs
 
 Libs:
 	gcc -shared ../../Code/out/Linux/*.o  -o ../../Code/lib/Linux/libAlpha.so
@@ -24,6 +26,15 @@ Error:
 	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/source/Error.c -I../../Code/include -o ../../Code/out/Linux/Error.o -O3
 	gcc -S ../../Code/source/Error.c -I../../Code/include -o ../../Code/asm/Linux/Error.s -O3
 
+Test:
+	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Test/source/Test.c -I../../Test/include -I../../Code/include -o ../../Test/out/Linux/Test.o
+	gcc -S ../../Test/source/Test.c -I../../Test/include -I../../Code/include -o ../../Test/asm/Mac/Test.s
+	gcc ../../Test/out/Linux/*.o -L../../Code/lib/Linux -lAlpha -o ../../Test/run/Linux/Test
+
 Clean:
-	rm -f ../../Code/out/Linux/*
 	rm -f ../../Code/asm/Linux/*
+	rm -f ../../Code/lib/Linux/*
+	rm -f ../../Code/out/Linux/*
+	rm -f ../../Test/asm/Linux/*
+	rm -f ../../Test/out/Linux/*
+	rm -f ../../Test/run/Linux/*
