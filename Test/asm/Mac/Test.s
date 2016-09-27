@@ -1,95 +1,102 @@
 	.file	"Test.c"
-	.section	.rodata
+	.def	__main;	.scl	2;	.type	32;	.endef
+	.section .rdata,"dr"
 .LC0:
-	.string	"START OF TESTS"
+	.ascii "START OF TESTS\0"
 .LC1:
-	.string	"END OF TESTS"
+	.ascii "END OF TESTS\0"
 	.text
 	.globl	main
-	.type	main, @function
+	.def	main;	.scl	2;	.type	32;	.endef
+	.seh_proc	main
 main:
-.LFB2:
-	.cfi_startproc
 	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register 6
+	.seh_pushreg	%rbp
 	pushq	%rbx
-	subq	$40, %rsp
-	.cfi_offset 3, -24
-	movq	$0, -32(%rbp)
-	movq	$0, -24(%rbp)
-	movl	$80, %edi
+	.seh_pushreg	%rbx
+	subq	$72, %rsp
+	.seh_stackalloc	72
+	leaq	128(%rsp), %rbp
+	.seh_setframe	%rbp, 128
+	.seh_endprologue
+	call	__main
+	movq	$0, -72(%rbp)
+	movq	$0, -88(%rbp)
+	movl	$80, %ecx
 	call	malloc
-	movq	%rax, -24(%rbp)
-	movl	$0, -36(%rbp)
+	movq	%rax, -88(%rbp)
+	movl	$0, -76(%rbp)
 	jmp	.L2
 .L3:
-	movl	-36(%rbp), %eax
+	movl	-76(%rbp), %eax
 	cltq
 	leaq	0(,%rax,8), %rdx
-	movq	-24(%rbp), %rax
+	movq	-88(%rbp), %rax
 	leaq	(%rdx,%rax), %rbx
-	movl	$4, %edi
+	movl	$4, %ecx
 	call	malloc
 	movq	%rax, (%rbx)
-	movl	-36(%rbp), %eax
+	movl	-76(%rbp), %eax
 	cltq
 	leaq	0(,%rax,8), %rdx
-	movq	-24(%rbp), %rax
+	movq	-88(%rbp), %rax
 	addq	%rdx, %rax
 	movq	(%rax), %rax
-	movl	-36(%rbp), %edx
+	movl	-76(%rbp), %edx
 	movl	%edx, (%rax)
-	addl	$1, -36(%rbp)
+	addl	$1, -76(%rbp)
 .L2:
-	cmpl	$9, -36(%rbp)
+	cmpl	$9, -76(%rbp)
 	jle	.L3
-	movl	$.LC0, %edi
+	leaq	.LC0(%rip), %rcx
 	call	puts
-	movq	-24(%rbp), %rax
+	movq	-88(%rbp), %rax
 	movq	(%rax), %rdx
-	movq	-32(%rbp), %rax
-	movq	%rdx, %rsi
-	movq	%rax, %rdi
+	movq	-72(%rbp), %rax
+	movq	%rax, %rcx
 	call	CreateList
-	movq	%rax, -32(%rbp)
-	movl	$1, -36(%rbp)
+	movq	%rax, -72(%rbp)
+	movl	$1, -76(%rbp)
 	jmp	.L4
 .L5:
-	movl	-36(%rbp), %eax
+	movl	-76(%rbp), %eax
 	cltq
 	leaq	0(,%rax,8), %rdx
-	movq	-24(%rbp), %rax
+	movq	-88(%rbp), %rax
 	addq	%rdx, %rax
 	movq	(%rax), %rdx
-	movq	-32(%rbp), %rax
-	movq	%rdx, %rsi
-	movq	%rax, %rdi
+	movq	-72(%rbp), %rax
+	movq	%rax, %rcx
 	call	PrependToList
-	movq	%rax, -32(%rbp)
-	addl	$1, -36(%rbp)
+	movq	%rax, -72(%rbp)
+	addl	$1, -76(%rbp)
 .L4:
-	cmpl	$9, -36(%rbp)
+	cmpl	$9, -76(%rbp)
 	jle	.L5
-	movq	-32(%rbp), %rax
-	movl	$free, %esi
-	movq	%rax, %rdi
+	movq	-72(%rbp), %rax
+	movq	.refptr.free(%rip), %rdx
+	movq	%rax, %rcx
 	call	FinalizeList
-	movl	$.LC1, %edi
+	leaq	.LC1(%rip), %rcx
 	call	puts
-	movq	-24(%rbp), %rax
-	movq	%rax, %rdi
+	movq	-88(%rbp), %rax
+	movq	%rax, %rcx
 	call	free
 	movl	$0, %eax
-	addq	$40, %rsp
+	addq	$72, %rsp
 	popq	%rbx
 	popq	%rbp
-	.cfi_def_cfa 7, 8
 	ret
-	.cfi_endproc
-.LFE2:
-	.size	main, .-main
-	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.2) 5.4.0 20160609"
-	.section	.note.GNU-stack,"",@progbits
+	.seh_endproc
+	.ident	"GCC: (GNU) 5.4.0"
+	.def	malloc;	.scl	2;	.type	32;	.endef
+	.def	puts;	.scl	2;	.type	32;	.endef
+	.def	CreateList;	.scl	2;	.type	32;	.endef
+	.def	PrependToList;	.scl	2;	.type	32;	.endef
+	.def	FinalizeList;	.scl	2;	.type	32;	.endef
+	.def	free;	.scl	2;	.type	32;	.endef
+	.section	.rdata$.refptr.free, "dr"
+	.globl	.refptr.free
+	.linkonce	discard
+.refptr.free:
+	.quad	free

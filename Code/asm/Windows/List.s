@@ -8,8 +8,19 @@
 	.def	CreateList;	.scl	2;	.type	32;	.endef
 	.seh_proc	CreateList
 CreateList:
+	pushq	%rbx
+	.seh_pushreg	%rbx
+	subq	$32, %rsp
+	.seh_stackalloc	32
 	.seh_endprologue
-	xorl	%eax, %eax
+	movq	%rdx, %rbx
+	movl	$24, %edx
+	call	realloc
+	movq	%rbx, (%rax)
+	movl	$1, 16(%rax)
+	movq	$0, 8(%rax)
+	addq	$32, %rsp
+	popq	%rbx
 	ret
 	.seh_endproc
 	.section	.text.unlikely,"x"
@@ -138,65 +149,71 @@ PrependToList:
 	.def	AppendToList;	.scl	2;	.type	32;	.endef
 	.seh_proc	AppendToList
 AppendToList:
+	pushq	%rdi
+	.seh_pushreg	%rdi
 	pushq	%rsi
 	.seh_pushreg	%rsi
 	pushq	%rbx
 	.seh_pushreg	%rbx
-	subq	$40, %rsp
-	.seh_stackalloc	40
+	subq	$48, %rsp
+	.seh_stackalloc	48
 	.seh_endprologue
-	movq	%rcx, %rbx
+	movq	%rcx, %rsi
 	movl	$24, %ecx
-	movq	%rdx, %rsi
+	movq	%rdx, %rdi
 	call	malloc
-	testq	%rbx, %rbx
+	testq	%rsi, %rsi
 	je	.L19
 	testq	%rax, %rax
-	movl	16(%rbx), %r8d
+	movl	16(%rsi), %ebx
 	je	.L25
-	testl	%r8d, %r8d
-	movq	%rsi, (%rax)
-	je	.L22
-	cmpl	$1, %r8d
-	movq	%rbx, %rcx
-	jle	.L23
+.L20:
+	testl	%ebx, %ebx
+	movq	%rdi, (%rax)
+	je	.L21
+	cmpl	$1, %ebx
+	movq	%rsi, %rcx
+	jle	.L22
 	movl	$1, %edx
 	.p2align 4,,10
-.L24:
+.L23:
 	addl	$1, %edx
 	movq	8(%rcx), %rcx
-	cmpl	%edx, %r8d
-	jne	.L24
-.L23:
-	addl	$1, %r8d
+	cmpl	%ebx, %edx
+	jne	.L23
+.L22:
 	movq	%rax, 8(%rcx)
+	addl	$1, 16(%rsi)
 	movq	$0, 8(%rax)
-	movl	%r8d, 16(%rbx)
-	movq	%rbx, %rax
-.L35:
-	addq	$40, %rsp
+	addq	$48, %rsp
 	popq	%rbx
 	popq	%rsi
+	popq	%rdi
 	ret
 	.p2align 4,,10
 .L19:
 	testq	%rax, %rax
-	je	.L25
-	movq	%rsi, (%rax)
-.L22:
-	movq	%rbx, 8(%rax)
+	je	.L35
+	movq	%rdi, (%rax)
+.L21:
+	movq	%rsi, 8(%rax)
 	movl	$1, 16(%rax)
-	addq	$40, %rsp
+	addq	$48, %rsp
 	popq	%rbx
 	popq	%rsi
+	popq	%rdi
 	ret
+.L35:
+	xorl	%ebx, %ebx
+	.p2align 4,,10
 .L25:
 	leaq	.LC2(%rip), %rcx
 	xorl	%r8d, %r8d
 	xorl	%edx, %edx
+	movq	%rax, 40(%rsp)
 	call	ReportError
-	movq	%rbx, %rax
-	jmp	.L35
+	movq	40(%rsp), %rax
+	jmp	.L20
 	.seh_endproc
 	.section	.text.unlikely,"x"
 .LCOLDE4:
@@ -215,89 +232,91 @@ AppendToList:
 	.def	AddToList;	.scl	2;	.type	32;	.endef
 	.seh_proc	AddToList
 AddToList:
+	pushq	%rbp
+	.seh_pushreg	%rbp
 	pushq	%rdi
 	.seh_pushreg	%rdi
 	pushq	%rsi
 	.seh_pushreg	%rsi
 	pushq	%rbx
 	.seh_pushreg	%rbx
-	subq	$32, %rsp
-	.seh_stackalloc	32
+	subq	$56, %rsp
+	.seh_stackalloc	56
 	.seh_endprologue
-	movq	%rcx, %rsi
+	movq	%rcx, %rbx
 	movl	$24, %ecx
-	movq	%rdx, %rdi
-	movl	%r8d, %ebx
+	movq	%rdx, %rbp
+	movl	%r8d, %esi
 	call	malloc
-	testq	%rsi, %rsi
-	je	.L47
-	movl	16(%rsi), %ecx
-.L38:
+	testq	%rbx, %rbx
+	je	.L46
+	movl	16(%rbx), %edi
+.L37:
 	testq	%rax, %rax
-	je	.L51
-	cmpl	%ecx, %ebx
-	jg	.L48
-	movl	%ebx, %edx
+	je	.L50
+.L38:
+	cmpl	%edi, %esi
+	jg	.L47
+	movl	%esi, %edx
 	shrl	$31, %edx
 	testb	%dl, %dl
-	jne	.L48
-	testl	%ebx, %ebx
-	movq	%rdi, (%rax)
-	je	.L43
-	cmpl	$1, %ebx
-	movq	%rsi, %rcx
+	jne	.L47
+.L39:
+	testl	%esi, %esi
+	movq	%rbp, (%rax)
+	je	.L41
+	cmpl	$1, %esi
 	movl	$1, %edx
-	je	.L45
-	.p2align 4,,10
-.L49:
-	addl	$1, %edx
-	movq	8(%rcx), %rcx
-	cmpl	%edx, %ebx
-	jne	.L49
-.L45:
-	movq	8(%rcx), %rdx
-	movq	%rdx, 8(%rax)
-	movq	%rax, 8(%rcx)
-	movq	%rsi, %rax
-.L40:
-	addq	$32, %rsp
-	popq	%rbx
-	popq	%rsi
-	popq	%rdi
-	ret
-	.p2align 4,,10
-.L43:
-	addl	$1, %ecx
-	movq	%rsi, 8(%rax)
-	movl	%ecx, 16(%rax)
-	addq	$32, %rsp
-	popq	%rbx
-	popq	%rsi
-	popq	%rdi
-	ret
+	jle	.L43
 	.p2align 4,,10
 .L48:
-	leaq	.LC5(%rip), %rcx
-	movl	$1, %r8d
-	xorl	%edx, %edx
-	call	ReportError
-	movq	%rsi, %rax
-	addq	$32, %rsp
+	addl	$1, %edx
+	movq	8(%rbx), %rbx
+	cmpl	%edx, %esi
+	jne	.L48
+.L43:
+	movq	8(%rbx), %rdx
+	movq	%rdx, 8(%rax)
+	movq	%rax, 8(%rbx)
+	addq	$56, %rsp
 	popq	%rbx
 	popq	%rsi
 	popq	%rdi
+	popq	%rbp
+	ret
+	.p2align 4,,10
+.L41:
+	addl	$1, %edi
+	movq	%rbx, 8(%rax)
+	movl	%edi, 16(%rax)
+	addq	$56, %rsp
+	popq	%rbx
+	popq	%rsi
+	popq	%rdi
+	popq	%rbp
 	ret
 	.p2align 4,,10
 .L47:
-	xorl	%ecx, %ecx
-	jmp	.L38
-.L51:
+	leaq	.LC5(%rip), %rcx
+	movl	$1, %r8d
+	xorl	%edx, %edx
+	movq	%rax, 40(%rsp)
+	call	ReportError
+	movq	40(%rsp), %rax
+	jmp	.L39
+	.p2align 4,,10
+.L46:
+	xorl	%edi, %edi
+	jmp	.L37
+	.p2align 4,,10
+.L50:
 	leaq	.LC2(%rip), %rcx
 	xorl	%r8d, %r8d
 	xorl	%edx, %edx
+	movq	%rax, 40(%rsp)
 	call	ReportError
-	movq	%rsi, %rax
-	jmp	.L40
+	movq	40(%rsp), %rax
+	jmp	.L38
 	.seh_endproc
 	.section	.text.unlikely,"x"
 .LCOLDE6:
@@ -327,7 +346,7 @@ RemoveFirstFromList:
 	.seh_endprologue
 	testq	%rcx, %rcx
 	movq	%rcx, %rbx
-	je	.L57
+	je	.L56
 	leaq	Nop(%rip), %rax
 	movq	8(%rcx), %rsi
 	testq	%rdx, %rdx
@@ -338,28 +357,28 @@ RemoveFirstFromList:
 	movq	%rbx, %rcx
 	call	free
 	testq	%rsi, %rsi
-	je	.L56
+	je	.L55
 	subl	$1, %edi
 	movq	%rsi, %rax
 	movl	%edi, 16(%rsi)
-.L54:
+.L53:
 	addq	$32, %rsp
 	popq	%rbx
 	popq	%rsi
 	popq	%rdi
 	ret
 	.p2align 4,,10
-.L56:
+.L55:
 	xorl	%eax, %eax
-	jmp	.L54
+	jmp	.L53
 	.p2align 4,,10
-.L57:
+.L56:
 	leaq	.LC7(%rip), %rcx
 	movl	$1, %r8d
 	movl	$1, %edx
 	call	ReportError
 	xorl	%eax, %eax
-	jmp	.L54
+	jmp	.L53
 	.seh_endproc
 	.section	.text.unlikely,"x"
 .LCOLDE8:
@@ -387,24 +406,24 @@ RemoveLastFromList:
 	.seh_endprologue
 	testq	%rcx, %rcx
 	movq	%rcx, %rsi
-	je	.L59
+	je	.L58
 	movl	16(%rcx), %r8d
 	leaq	Nop(%rip), %rax
 	testq	%rdx, %rdx
 	cmove	%rax, %rdx
 	cmpl	$1, %r8d
-	je	.L61
+	je	.L60
 	cmpl	$2, %r8d
 	movq	%rcx, %rbx
 	movl	$2, %ecx
-	jle	.L63
+	jle	.L62
 	.p2align 4,,10
-.L66:
+.L65:
 	addl	$1, %ecx
 	movq	8(%rbx), %rbx
 	cmpl	%ecx, %r8d
-	jne	.L66
-.L63:
+	jne	.L65
+.L62:
 	movq	8(%rbx), %rax
 	movq	(%rax), %rcx
 	call	*%rdx
@@ -413,13 +432,13 @@ RemoveLastFromList:
 	movq	$0, 8(%rbx)
 	subl	$1, 16(%rsi)
 	movq	%rsi, %rax
-.L68:
+.L67:
 	addq	$40, %rsp
 	popq	%rbx
 	popq	%rsi
 	ret
 	.p2align 4,,10
-.L59:
+.L58:
 	leaq	.LC9(%rip), %rcx
 	movl	$1, %r8d
 	movl	$1, %edx
@@ -429,13 +448,13 @@ RemoveLastFromList:
 	popq	%rbx
 	popq	%rsi
 	ret
-.L61:
+.L60:
 	movq	(%rcx), %rcx
 	call	*%rdx
 	movq	%rsi, %rcx
 	call	free
 	xorl	%eax, %eax
-	jmp	.L68
+	jmp	.L67
 	.seh_endproc
 	.section	.text.unlikely,"x"
 .LCOLDE10:
@@ -468,30 +487,30 @@ RemoveFromList:
 	.seh_endprologue
 	testq	%rcx, %rcx
 	movq	%rcx, %rdi
-	je	.L70
+	je	.L69
 	movl	16(%rcx), %esi
 	leaq	Nop(%rip), %rax
 	testq	%r8, %r8
 	cmove	%rax, %r8
 	cmpl	%edx, %esi
-	jle	.L80
+	jle	.L79
 	movl	%edx, %eax
 	shrl	$31, %eax
 	testb	%al, %al
-	jne	.L80
+	jne	.L79
 	testl	%edx, %edx
-	je	.L75
+	je	.L74
 	cmpl	$1, %esi
 	movq	%rcx, %rbx
 	movl	$1, %edx
-	jle	.L77
+	jle	.L76
 	.p2align 4,,10
-.L81:
+.L80:
 	addl	$1, %edx
 	movq	8(%rbx), %rbx
 	cmpl	%edx, %esi
-	jne	.L81
-.L77:
+	jne	.L80
+.L76:
 	movq	8(%rbx), %rcx
 	movq	8(%rcx), %rsi
 	call	*%r8
@@ -506,14 +525,14 @@ RemoveFromList:
 	popq	%rdi
 	ret
 	.p2align 4,,10
-.L75:
+.L74:
 	movq	8(%rcx), %rbx
 	movq	(%rcx), %rcx
 	call	*%r8
 	movq	%rdi, %rcx
 	call	free
 	testq	%rbx, %rbx
-	je	.L84
+	je	.L83
 	subl	$1, %esi
 	movq	%rbx, %rax
 	movl	%esi, 16(%rbx)
@@ -523,12 +542,12 @@ RemoveFromList:
 	popq	%rdi
 	ret
 	.p2align 4,,10
-.L70:
+.L69:
 	leaq	.LC12(%rip), %rcx
 	movl	$1, %r8d
 	movl	$1, %edx
 	call	ReportError
-.L84:
+.L83:
 	xorl	%eax, %eax
 	addq	$32, %rsp
 	popq	%rbx
@@ -536,7 +555,7 @@ RemoveFromList:
 	popq	%rdi
 	ret
 	.p2align 4,,10
-.L80:
+.L79:
 	leaq	.LC11(%rip), %rcx
 	movl	$1, %r8d
 	xorl	%edx, %edx
@@ -563,11 +582,11 @@ RemoveFromList:
 GetListLength:
 	.seh_endprologue
 	testq	%rcx, %rcx
-	je	.L87
+	je	.L86
 	movl	16(%rcx), %eax
 	ret
 	.p2align 4,,10
-.L87:
+.L86:
 	xorl	%eax, %eax
 	ret
 	.seh_endproc
@@ -594,6 +613,7 @@ ListHasElements:
 	.text
 .LHOTE15:
 	.ident	"GCC: (GNU) 5.4.0"
+	.def	realloc;	.scl	2;	.type	32;	.endef
 	.def	Nop;	.scl	2;	.type	32;	.endef
 	.def	free;	.scl	2;	.type	32;	.endef
 	.def	malloc;	.scl	2;	.type	32;	.endef
