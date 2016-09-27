@@ -1,585 +1,746 @@
 	.file	"List.c"
+	.section	.text.unlikely,"ax",@progbits
+.LCOLDB0:
 	.text
+.LHOTB0:
 	.p2align 4,,15
-.globl CreateList
+	.globl	CreateList
 	.type	CreateList, @function
 CreateList:
-.LFB7:
-	.cfi_startproc
-	xorl	%eax, %eax
-	ret
-	.cfi_endproc
-.LFE7:
-	.size	CreateList, .-CreateList
-	.p2align 4,,15
-.globl GetListLength
-	.type	GetListLength, @function
-GetListLength:
 .LFB15:
 	.cfi_startproc
-	xorl	%eax, %eax
-	testq	%rdi, %rdi
-	je	.L5
-	movl	16(%rdi), %eax
-.L5:
-	rep
+	pushq	%rbx
+	.cfi_def_cfa_offset 16
+	.cfi_offset 3, -16
+	movq	%rsi, %rbx
+	movl	$24, %esi
+	call	realloc
+	movq	%rbx, (%rax)
+	movl	$1, 16(%rax)
+	movq	$0, 8(%rax)
+	popq	%rbx
+	.cfi_def_cfa_offset 8
 	ret
 	.cfi_endproc
 .LFE15:
-	.size	GetListLength, .-GetListLength
+	.size	CreateList, .-CreateList
+	.section	.text.unlikely
+.LCOLDE0:
+	.text
+.LHOTE0:
+	.section	.text.unlikely
+.LCOLDB1:
+	.text
+.LHOTB1:
 	.p2align 4,,15
-.globl ListHasElements
+	.globl	FinalizeList
+	.type	FinalizeList, @function
+FinalizeList:
+.LFB16:
+	.cfi_startproc
+	testq	%rdi, %rdi
+	je	.L14
+	pushq	%r14
+	.cfi_def_cfa_offset 16
+	.cfi_offset 14, -16
+	pushq	%r13
+	.cfi_def_cfa_offset 24
+	.cfi_offset 13, -24
+	testq	%rsi, %rsi
+	pushq	%r12
+	.cfi_def_cfa_offset 32
+	.cfi_offset 12, -32
+	pushq	%rbp
+	.cfi_def_cfa_offset 40
+	.cfi_offset 6, -40
+	movq	%rsi, %r13
+	pushq	%rbx
+	.cfi_def_cfa_offset 48
+	.cfi_offset 3, -48
+	movl	16(%rdi), %r14d
+	movl	$Nop, %eax
+	cmove	%rax, %r13
+	movq	%rdi, %rbx
+	testl	%r14d, %r14d
+	jle	.L3
+	xorl	%ebp, %ebp
+	.p2align 4,,10
+	.p2align 3
+.L7:
+	movq	(%rbx), %rdi
+	xorl	%eax, %eax
+	addl	$1, %ebp
+	call	*%r13
+	movq	8(%rbx), %r12
+	movq	%rbx, %rdi
+	call	free
+	cmpl	%ebp, %r14d
+	movq	%r12, %rbx
+	jne	.L7
+.L3:
+	popq	%rbx
+	.cfi_restore 3
+	.cfi_def_cfa_offset 40
+	popq	%rbp
+	.cfi_restore 6
+	.cfi_def_cfa_offset 32
+	popq	%r12
+	.cfi_restore 12
+	.cfi_def_cfa_offset 24
+	popq	%r13
+	.cfi_restore 13
+	.cfi_def_cfa_offset 16
+	popq	%r14
+	.cfi_restore 14
+	.cfi_def_cfa_offset 8
+.L14:
+	rep ret
+	.cfi_endproc
+.LFE16:
+	.size	FinalizeList, .-FinalizeList
+	.section	.text.unlikely
+.LCOLDE1:
+	.text
+.LHOTE1:
+	.section	.rodata.str1.8,"aMS",@progbits,1
+	.align 8
+.LC2:
+	.string	"Could not allocate space for new list element, no element added"
+	.section	.text.unlikely
+.LCOLDB3:
+	.text
+.LHOTB3:
+	.p2align 4,,15
+	.globl	PrependToList
+	.type	PrependToList, @function
+PrependToList:
+.LFB17:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	pushq	%rbx
+	.cfi_def_cfa_offset 24
+	.cfi_offset 3, -24
+	movq	%rdi, %rbx
+	movl	$24, %edi
+	movq	%rsi, %rbp
+	subq	$8, %rsp
+	.cfi_def_cfa_offset 32
+	call	malloc
+	testq	%rax, %rax
+	je	.L22
+	testq	%rbx, %rbx
+	movq	%rbp, (%rax)
+	movq	%rbx, 8(%rax)
+	je	.L20
+	movl	16(%rbx), %edx
+	addl	$1, %edx
+.L19:
+	movl	%edx, 16(%rax)
+.L18:
+	addq	$8, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 24
+	popq	%rbx
+	.cfi_def_cfa_offset 16
+	popq	%rbp
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L20:
+	.cfi_restore_state
+	movl	$1, %edx
+	jmp	.L19
+	.p2align 4,,10
+	.p2align 3
+.L22:
+	xorl	%edx, %edx
+	xorl	%esi, %esi
+	movl	$.LC2, %edi
+	call	ReportError
+	movq	%rbx, %rax
+	jmp	.L18
+	.cfi_endproc
+.LFE17:
+	.size	PrependToList, .-PrependToList
+	.section	.text.unlikely
+.LCOLDE3:
+	.text
+.LHOTE3:
+	.section	.text.unlikely
+.LCOLDB4:
+	.text
+.LHOTB4:
+	.p2align 4,,15
+	.globl	AppendToList
+	.type	AppendToList, @function
+AppendToList:
+.LFB18:
+	.cfi_startproc
+	pushq	%r12
+	.cfi_def_cfa_offset 16
+	.cfi_offset 12, -16
+	pushq	%rbp
+	.cfi_def_cfa_offset 24
+	.cfi_offset 6, -24
+	movq	%rdi, %rbp
+	pushq	%rbx
+	.cfi_def_cfa_offset 32
+	.cfi_offset 3, -32
+	movl	$24, %edi
+	movq	%rsi, %r12
+	subq	$16, %rsp
+	.cfi_def_cfa_offset 48
+	call	malloc
+	testq	%rbp, %rbp
+	je	.L24
+	testq	%rax, %rax
+	movl	16(%rbp), %ebx
+	je	.L30
+.L25:
+	testl	%ebx, %ebx
+	movq	%r12, (%rax)
+	je	.L26
+	cmpl	$1, %ebx
+	movq	%rbp, %rcx
+	jle	.L27
+	movl	$1, %edx
+	.p2align 4,,10
+	.p2align 3
+.L28:
+	addl	$1, %edx
+	movq	8(%rcx), %rcx
+	cmpl	%ebx, %edx
+	jne	.L28
+.L27:
+	movq	%rax, 8(%rcx)
+	movq	$0, 8(%rax)
+	addl	$1, 16(%rbp)
+	addq	$16, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 32
+	popq	%rbx
+	.cfi_def_cfa_offset 24
+	popq	%rbp
+	.cfi_def_cfa_offset 16
+	popq	%r12
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L24:
+	.cfi_restore_state
+	testq	%rax, %rax
+	je	.L41
+	movq	%r12, (%rax)
+.L26:
+	movq	%rbp, 8(%rax)
+	movl	$1, 16(%rax)
+	addq	$16, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 32
+	popq	%rbx
+	.cfi_def_cfa_offset 24
+	popq	%rbp
+	.cfi_def_cfa_offset 16
+	popq	%r12
+	.cfi_def_cfa_offset 8
+	ret
+.L41:
+	.cfi_restore_state
+	xorl	%ebx, %ebx
+	.p2align 4,,10
+	.p2align 3
+.L30:
+	xorl	%edx, %edx
+	xorl	%esi, %esi
+	movl	$.LC2, %edi
+	movq	%rax, 8(%rsp)
+	call	ReportError
+	movq	8(%rsp), %rax
+	jmp	.L25
+	.cfi_endproc
+.LFE18:
+	.size	AppendToList, .-AppendToList
+	.section	.text.unlikely
+.LCOLDE4:
+	.text
+.LHOTE4:
+	.section	.rodata.str1.8
+	.align 8
+.LC5:
+	.string	"The specified position to add the new element is outside the bounds of the list, no element added"
+	.section	.text.unlikely
+.LCOLDB6:
+	.text
+.LHOTB6:
+	.p2align 4,,15
+	.globl	AddToList
+	.type	AddToList, @function
+AddToList:
+.LFB19:
+	.cfi_startproc
+	pushq	%r13
+	.cfi_def_cfa_offset 16
+	.cfi_offset 13, -16
+	pushq	%r12
+	.cfi_def_cfa_offset 24
+	.cfi_offset 12, -24
+	movq	%rsi, %r13
+	pushq	%rbp
+	.cfi_def_cfa_offset 32
+	.cfi_offset 6, -32
+	pushq	%rbx
+	.cfi_def_cfa_offset 40
+	.cfi_offset 3, -40
+	movq	%rdi, %rbx
+	movl	$24, %edi
+	movl	%edx, %ebp
+	subq	$24, %rsp
+	.cfi_def_cfa_offset 64
+	call	malloc
+	testq	%rbx, %rbx
+	je	.L52
+	movl	16(%rbx), %r12d
+.L43:
+	testq	%rax, %rax
+	je	.L57
+.L44:
+	cmpl	%r12d, %ebp
+	jg	.L53
+	movl	%ebp, %edx
+	shrl	$31, %edx
+	testb	%dl, %dl
+	jne	.L53
+.L45:
+	testl	%ebp, %ebp
+	movq	%r13, (%rax)
+	je	.L47
+	cmpl	$1, %ebp
+	movl	$1, %edx
+	jle	.L49
+	.p2align 4,,10
+	.p2align 3
+.L54:
+	addl	$1, %edx
+	movq	8(%rbx), %rbx
+	cmpl	%edx, %ebp
+	jne	.L54
+.L49:
+	movq	8(%rbx), %rdx
+	movq	%rdx, 8(%rax)
+	movq	%rax, 8(%rbx)
+	addq	$24, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 40
+	popq	%rbx
+	.cfi_def_cfa_offset 32
+	popq	%rbp
+	.cfi_def_cfa_offset 24
+	popq	%r12
+	.cfi_def_cfa_offset 16
+	popq	%r13
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L47:
+	.cfi_restore_state
+	addl	$1, %r12d
+	movq	%rbx, 8(%rax)
+	movl	%r12d, 16(%rax)
+	addq	$24, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 40
+	popq	%rbx
+	.cfi_def_cfa_offset 32
+	popq	%rbp
+	.cfi_def_cfa_offset 24
+	popq	%r12
+	.cfi_def_cfa_offset 16
+	popq	%r13
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L53:
+	.cfi_restore_state
+	movl	$1, %edx
+	xorl	%esi, %esi
+	movl	$.LC5, %edi
+	movq	%rax, 8(%rsp)
+	call	ReportError
+	movq	8(%rsp), %rax
+	jmp	.L45
+	.p2align 4,,10
+	.p2align 3
+.L52:
+	xorl	%r12d, %r12d
+	jmp	.L43
+	.p2align 4,,10
+	.p2align 3
+.L57:
+	xorl	%edx, %edx
+	xorl	%esi, %esi
+	movl	$.LC2, %edi
+	movq	%rax, 8(%rsp)
+	call	ReportError
+	movq	8(%rsp), %rax
+	jmp	.L44
+	.cfi_endproc
+.LFE19:
+	.size	AddToList, .-AddToList
+	.section	.text.unlikely
+.LCOLDE6:
+	.text
+.LHOTE6:
+	.section	.rodata.str1.8
+	.align 8
+.LC7:
+	.string	"Attempting to finalize first element in NULL list, nothing will happen"
+	.section	.text.unlikely
+.LCOLDB8:
+	.text
+.LHOTB8:
+	.p2align 4,,15
+	.globl	RemoveFirstFromList
+	.type	RemoveFirstFromList, @function
+RemoveFirstFromList:
+.LFB20:
+	.cfi_startproc
+	testq	%rdi, %rdi
+	pushq	%r12
+	.cfi_def_cfa_offset 16
+	.cfi_offset 12, -16
+	pushq	%rbp
+	.cfi_def_cfa_offset 24
+	.cfi_offset 6, -24
+	pushq	%rbx
+	.cfi_def_cfa_offset 32
+	.cfi_offset 3, -32
+	je	.L64
+	movq	8(%rdi), %rbp
+	testq	%rsi, %rsi
+	movq	%rdi, %rbx
+	movl	$Nop, %eax
+	movl	16(%rdi), %r12d
+	movq	(%rdi), %rdi
+	cmove	%rax, %rsi
+	xorl	%eax, %eax
+	call	*%rsi
+	movq	%rbx, %rdi
+	call	free
+	testq	%rbp, %rbp
+	je	.L62
+	subl	$1, %r12d
+	movq	%rbp, %rax
+	movl	%r12d, 16(%rbp)
+.L60:
+	popq	%rbx
+	.cfi_remember_state
+	.cfi_def_cfa_offset 24
+	popq	%rbp
+	.cfi_def_cfa_offset 16
+	popq	%r12
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L62:
+	.cfi_restore_state
+	xorl	%eax, %eax
+	jmp	.L60
+	.p2align 4,,10
+	.p2align 3
+.L64:
+	movl	$1, %edx
+	movl	$1, %esi
+	movl	$.LC7, %edi
+	call	ReportError
+	xorl	%eax, %eax
+	jmp	.L60
+	.cfi_endproc
+.LFE20:
+	.size	RemoveFirstFromList, .-RemoveFirstFromList
+	.section	.text.unlikely
+.LCOLDE8:
+	.text
+.LHOTE8:
+	.section	.rodata.str1.8
+	.align 8
+.LC9:
+	.string	"Attempting to finalize last element in NULL list, nothing will happen"
+	.section	.text.unlikely
+.LCOLDB10:
+	.text
+.LHOTB10:
+	.p2align 4,,15
+	.globl	RemoveLastFromList
+	.type	RemoveLastFromList, @function
+RemoveLastFromList:
+.LFB21:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	pushq	%rbx
+	.cfi_def_cfa_offset 24
+	.cfi_offset 3, -24
+	subq	$8, %rsp
+	.cfi_def_cfa_offset 32
+	testq	%rdi, %rdi
+	je	.L66
+	movl	16(%rdi), %ecx
+	testq	%rsi, %rsi
+	movl	$Nop, %eax
+	cmove	%rax, %rsi
+	movq	%rdi, %rbp
+	cmpl	$1, %ecx
+	je	.L68
+	cmpl	$2, %ecx
+	movq	%rdi, %rbx
+	movl	$2, %edx
+	jle	.L70
+	.p2align 4,,10
+	.p2align 3
+.L73:
+	addl	$1, %edx
+	movq	8(%rbx), %rbx
+	cmpl	%edx, %ecx
+	jne	.L73
+.L70:
+	movq	8(%rbx), %rax
+	movq	(%rax), %rdi
+	xorl	%eax, %eax
+	call	*%rsi
+	movq	8(%rbx), %rdi
+	call	free
+	movq	$0, 8(%rbx)
+	subl	$1, 16(%rbp)
+	movq	%rbp, %rax
+.L75:
+	addq	$8, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 24
+	popq	%rbx
+	.cfi_def_cfa_offset 16
+	popq	%rbp
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L66:
+	.cfi_restore_state
+	movl	$1, %edx
+	movl	$1, %esi
+	movl	$.LC9, %edi
+	call	ReportError
+	addq	$8, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 24
+	xorl	%eax, %eax
+	popq	%rbx
+	.cfi_def_cfa_offset 16
+	popq	%rbp
+	.cfi_def_cfa_offset 8
+	ret
+.L68:
+	.cfi_restore_state
+	xorl	%eax, %eax
+	movq	(%rdi), %rdi
+	call	*%rsi
+	movq	%rbp, %rdi
+	call	free
+	xorl	%eax, %eax
+	jmp	.L75
+	.cfi_endproc
+.LFE21:
+	.size	RemoveLastFromList, .-RemoveLastFromList
+	.section	.text.unlikely
+.LCOLDE10:
+	.text
+.LHOTE10:
+	.section	.rodata.str1.8
+	.align 8
+.LC11:
+	.string	"The specified position to remove the element is outside the bounds of the list, no element removed"
+	.align 8
+.LC12:
+	.string	"Attempting to finalize element in NULL list, nothing will happen"
+	.section	.text.unlikely
+.LCOLDB13:
+	.text
+.LHOTB13:
+	.p2align 4,,15
+	.globl	RemoveFromList
+	.type	RemoveFromList, @function
+RemoveFromList:
+.LFB22:
+	.cfi_startproc
+	testq	%rdi, %rdi
+	pushq	%r12
+	.cfi_def_cfa_offset 16
+	.cfi_offset 12, -16
+	pushq	%rbp
+	.cfi_def_cfa_offset 24
+	.cfi_offset 6, -24
+	pushq	%rbx
+	.cfi_def_cfa_offset 32
+	.cfi_offset 3, -32
+	je	.L78
+	movl	16(%rdi), %ebp
+	testq	%rdx, %rdx
+	movl	$Nop, %eax
+	cmove	%rax, %rdx
+	movq	%rdi, %r12
+	cmpl	%esi, %ebp
+	jle	.L88
+	movl	%esi, %eax
+	shrl	$31, %eax
+	testb	%al, %al
+	jne	.L88
+	testl	%esi, %esi
+	je	.L83
+	cmpl	$1, %ebp
+	movq	%rdi, %rbx
+	movl	$1, %ecx
+	jle	.L85
+	.p2align 4,,10
+	.p2align 3
+.L89:
+	addl	$1, %ecx
+	movq	8(%rbx), %rbx
+	cmpl	%ecx, %ebp
+	jne	.L89
+.L85:
+	movq	8(%rbx), %rdi
+	xorl	%eax, %eax
+	movq	8(%rdi), %rbp
+	call	*%rdx
+	movq	8(%rbx), %rdi
+	call	free
+	movq	%rbp, 8(%rbx)
+	subl	$1, 16(%r12)
+	movq	%r12, %rax
+	popq	%rbx
+	.cfi_remember_state
+	.cfi_def_cfa_offset 24
+	popq	%rbp
+	.cfi_def_cfa_offset 16
+	popq	%r12
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L83:
+	.cfi_restore_state
+	movq	8(%rdi), %rbx
+	xorl	%eax, %eax
+	movq	(%rdi), %rdi
+	call	*%rdx
+	movq	%r12, %rdi
+	call	free
+	testq	%rbx, %rbx
+	je	.L93
+	subl	$1, %ebp
+	movq	%rbx, %rax
+	movl	%ebp, 16(%rbx)
+	popq	%rbx
+	.cfi_remember_state
+	.cfi_def_cfa_offset 24
+	popq	%rbp
+	.cfi_def_cfa_offset 16
+	popq	%r12
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L78:
+	.cfi_restore_state
+	movl	$1, %edx
+	movl	$1, %esi
+	movl	$.LC12, %edi
+	call	ReportError
+.L93:
+	popq	%rbx
+	.cfi_remember_state
+	.cfi_def_cfa_offset 24
+	xorl	%eax, %eax
+	popq	%rbp
+	.cfi_def_cfa_offset 16
+	popq	%r12
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L88:
+	.cfi_restore_state
+	movl	$1, %edx
+	xorl	%esi, %esi
+	movl	$.LC11, %edi
+	call	ReportError
+	movq	%r12, %rax
+	popq	%rbx
+	.cfi_def_cfa_offset 24
+	popq	%rbp
+	.cfi_def_cfa_offset 16
+	popq	%r12
+	.cfi_def_cfa_offset 8
+	ret
+	.cfi_endproc
+.LFE22:
+	.size	RemoveFromList, .-RemoveFromList
+	.section	.text.unlikely
+.LCOLDE13:
+	.text
+.LHOTE13:
+	.section	.text.unlikely
+.LCOLDB14:
+	.text
+.LHOTB14:
+	.p2align 4,,15
+	.globl	GetListLength
+	.type	GetListLength, @function
+GetListLength:
+.LFB23:
+	.cfi_startproc
+	testq	%rdi, %rdi
+	je	.L96
+	movl	16(%rdi), %eax
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L96:
+	xorl	%eax, %eax
+	ret
+	.cfi_endproc
+.LFE23:
+	.size	GetListLength, .-GetListLength
+	.section	.text.unlikely
+.LCOLDE14:
+	.text
+.LHOTE14:
+	.section	.text.unlikely
+.LCOLDB15:
+	.text
+.LHOTB15:
+	.p2align 4,,15
+	.globl	ListHasElements
 	.type	ListHasElements, @function
 ListHasElements:
-.LFB16:
+.LFB24:
 	.cfi_startproc
 	testq	%rdi, %rdi
 	setne	%al
 	ret
 	.cfi_endproc
-.LFE16:
+.LFE24:
 	.size	ListHasElements, .-ListHasElements
-	.section	.rodata.str1.8,"aMS",@progbits,1
-	.align 8
-.LC0:
-	.string	"Attempting to finalize element in NULL list, nothing will happen"
-	.align 8
-.LC1:
-	.string	"Attempting to finalize list element with NULL finalizing function, please specify a Finalize function for the data in the list. The list element will not be freed"
-	.align 8
-.LC2:
-	.string	"The specified position to remove the element is outside the bounds of the list, no element removed"
+	.section	.text.unlikely
+.LCOLDE15:
 	.text
-	.p2align 4,,15
-.globl RemoveFromList
-	.type	RemoveFromList, @function
-RemoveFromList:
-.LFB14:
-	.cfi_startproc
-	pushq	%r12
-	.cfi_def_cfa_offset 16
-	testq	%rdi, %rdi
-	pushq	%rbp
-	.cfi_def_cfa_offset 24
-	pushq	%rbx
-	.cfi_def_cfa_offset 32
-	movq	%rdi, %rbx
-	.cfi_offset 3, -32
-	.cfi_offset 6, -24
-	.cfi_offset 12, -16
-	je	.L11
-	testq	%rdx, %rdx
-	movl	16(%rdi), %r12d
-	je	.L27
-	testl	%esi, %esi
-	js	.L23
-	cmpl	%r12d, %esi
-	.p2align 4,,3
-	jge	.L23
-	testl	%esi, %esi
-	.p2align 4,,5
-	je	.L17
-	cmpl	$1, %r12d
-	movq	%rdi, %rbp
-	movl	$1, %eax
-	jle	.L19
-	.p2align 4,,10
-	.p2align 3
-.L24:
-	addl	$1, %eax
-	movq	8(%rbp), %rbp
-	cmpl	%r12d, %eax
-	jne	.L24
-.L19:
-	movq	8(%rbp), %rdi
-	movq	8(%rdi), %r12
-	call	*%rdx
-	movq	8(%rbp), %rdi
-	call	free
-	subl	$1, 16(%rbx)
-	movq	%r12, 8(%rbp)
-.L14:
-	movq	%rbx, %rax
-	popq	%rbx
-	popq	%rbp
-	popq	%r12
-	ret
-	.p2align 4,,10
-	.p2align 3
-.L17:
-	movq	8(%rdi), %rbp
-	movq	(%rdi), %rdi
-	call	*%rdx
-	movq	%rbx, %rdi
-	xorl	%ebx, %ebx
-	call	free
-	testq	%rbp, %rbp
-	je	.L14
-	movq	%rbp, %rbx
-	subl	$1, %r12d
-	movl	%r12d, 16(%rbp)
-	movq	%rbx, %rax
-	popq	%rbx
-	popq	%rbp
-	popq	%r12
-	ret
-	.p2align 4,,10
-	.p2align 3
-.L23:
-	movl	$1, %edx
-	xorl	%esi, %esi
-	movl	$.LC2, %edi
-	call	ReportError
-	movq	%rbx, %rax
-	popq	%rbx
-	popq	%rbp
-	popq	%r12
-	ret
-	.p2align 4,,10
-	.p2align 3
-.L11:
-	movl	$1, %edx
-	movl	$1, %esi
-	movl	$.LC0, %edi
-	call	ReportError
-	movq	%rbx, %rax
-	popq	%rbx
-	popq	%rbp
-	popq	%r12
-	ret
-.L27:
-	movl	$1, %edx
-	movl	$1, %esi
-	movl	$.LC1, %edi
-	call	ReportError
-	jmp	.L14
-	.cfi_endproc
-.LFE14:
-	.size	RemoveFromList, .-RemoveFromList
-	.section	.rodata.str1.8
-	.align 8
-.LC3:
-	.string	"Attempting to finalize last element in NULL list, nothing will happen"
-	.text
-	.p2align 4,,15
-.globl RemoveLastFromList
-	.type	RemoveLastFromList, @function
-RemoveLastFromList:
-.LFB13:
-	.cfi_startproc
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	pushq	%rbx
-	.cfi_def_cfa_offset 24
-	movq	%rdi, %rbx
-	.cfi_offset 3, -24
-	.cfi_offset 6, -16
-	subq	$8, %rsp
-	.cfi_def_cfa_offset 32
-	testq	%rdi, %rdi
-	je	.L29
-	testq	%rsi, %rsi
-	movl	16(%rdi), %edx
-	je	.L41
-	cmpl	$1, %edx
-	je	.L33
-	cmpl	$2, %edx
-	movq	%rdi, %rbp
-	movl	$2, %eax
-	jle	.L35
-	.p2align 4,,10
-	.p2align 3
-.L38:
-	addl	$1, %eax
-	movq	8(%rbp), %rbp
-	cmpl	%edx, %eax
-	jne	.L38
-.L35:
-	movq	8(%rbp), %rax
-	movq	(%rax), %rdi
-	call	*%rsi
-	movq	8(%rbp), %rdi
-	call	free
-	subl	$1, 16(%rbx)
-	movq	$0, 8(%rbp)
-.L32:
-	movq	%rbx, %rax
-	addq	$8, %rsp
-	popq	%rbx
-	popq	%rbp
-	ret
-	.p2align 4,,10
-	.p2align 3
-.L29:
-	movl	$1, %edx
-	movl	$1, %esi
-	movl	$.LC3, %edi
-	call	ReportError
-	movq	%rbx, %rax
-	addq	$8, %rsp
-	popq	%rbx
-	popq	%rbp
-	ret
-.L41:
-	movl	$1, %edx
-	movl	$1, %esi
-	movl	$.LC1, %edi
-	call	ReportError
-	jmp	.L32
-.L33:
-	movq	(%rdi), %rdi
-	call	*%rsi
-	movq	%rbx, %rdi
-	xorl	%ebx, %ebx
-	.p2align 4,,5
-	call	free
-	.p2align 4,,2
-	jmp	.L32
-	.cfi_endproc
-.LFE13:
-	.size	RemoveLastFromList, .-RemoveLastFromList
-	.section	.rodata.str1.8
-	.align 8
-.LC4:
-	.string	"Attempting to finalize first element in NULL list, nothing will happen"
-	.text
-	.p2align 4,,15
-.globl RemoveFirstFromList
-	.type	RemoveFirstFromList, @function
-RemoveFirstFromList:
-.LFB12:
-	.cfi_startproc
-	movq	%rbx, -24(%rsp)
-	movq	%rbp, -16(%rsp)
-	movq	%rdi, %rbx
-	.cfi_offset 6, -24
-	.cfi_offset 3, -32
-	movq	%r12, -8(%rsp)
-	subq	$24, %rsp
-	.cfi_def_cfa_offset 32
-	testq	%rdi, %rdi
-	je	.L48
-	.cfi_offset 12, -16
-	testq	%rsi, %rsi
-	je	.L49
-	movq	8(%rdi), %rbp
-	movl	16(%rdi), %r12d
-	movq	(%rdi), %rdi
-	call	*%rsi
-	movq	%rbx, %rdi
-	xorl	%ebx, %ebx
-	call	free
-	testq	%rbp, %rbp
-	je	.L44
-	subl	$1, %r12d
-	movq	%rbp, %rbx
-	movl	%r12d, 16(%rbp)
-.L44:
-	movq	%rbx, %rax
-	movq	8(%rsp), %rbp
-	movq	(%rsp), %rbx
-	movq	16(%rsp), %r12
-	addq	$24, %rsp
-	ret
-	.p2align 4,,10
-	.p2align 3
-.L49:
-	movl	$1, %edx
-	movb	$1, %sil
-	movl	$.LC1, %edi
-	call	ReportError
-	jmp	.L44
-	.p2align 4,,10
-	.p2align 3
-.L48:
-	movl	$1, %edx
-	movl	$1, %esi
-	movl	$.LC4, %edi
-	call	ReportError
-	jmp	.L44
-	.cfi_endproc
-.LFE12:
-	.size	RemoveFirstFromList, .-RemoveFirstFromList
-	.section	.rodata.str1.8
-	.align 8
-.LC5:
-	.string	"Attempting to free list elements with NULL finalizing function, please specify a Finalize function for the data in the list. The list will not be freed"
-	.text
-	.p2align 4,,15
-.globl FinalizeList
-	.type	FinalizeList, @function
-FinalizeList:
-.LFB8:
-	.cfi_startproc
-	pushq	%r14
-	.cfi_def_cfa_offset 16
-	movq	%rsi, %r14
-	.cfi_offset 14, -16
-	pushq	%r13
-	.cfi_def_cfa_offset 24
-	xorl	%r13d, %r13d
-	.cfi_offset 13, -24
-	testq	%rdi, %rdi
-	pushq	%r12
-	.cfi_def_cfa_offset 32
-	pushq	%rbp
-	.cfi_def_cfa_offset 40
-	pushq	%rbx
-	.cfi_def_cfa_offset 48
-	je	.L52
-	.cfi_offset 3, -48
-	.cfi_offset 6, -40
-	.cfi_offset 12, -32
-	movl	16(%rdi), %r13d
-.L52:
-	testq	%r14, %r14
-	je	.L53
-	xorl	%ebp, %ebp
-	testl	%r13d, %r13d
-	movq	%rdi, %rbx
-	jle	.L57
-	.p2align 4,,10
-	.p2align 3
-.L58:
-	movq	(%rbx), %rdi
-	addl	$1, %ebp
-	call	*%r14
-	movq	8(%rbx), %r12
-	movq	%rbx, %rdi
-	call	free
-	cmpl	%r13d, %ebp
-	movq	%r12, %rbx
-	jl	.L58
-.L57:
-	popq	%rbx
-	popq	%rbp
-	popq	%r12
-	popq	%r13
-	popq	%r14
-	ret
-.L53:
-	popq	%rbx
-	popq	%rbp
-	popq	%r12
-	popq	%r13
-	popq	%r14
-	movl	$1, %edx
-	movl	$1, %esi
-	movl	$.LC5, %edi
-	jmp	ReportError
-	.cfi_endproc
-.LFE8:
-	.size	FinalizeList, .-FinalizeList
-	.section	.rodata.str1.8
-	.align 8
-.LC6:
-	.string	"Could not allocate space for new list element, no element added"
-	.align 8
-.LC7:
-	.string	"The specified position to add the new element is outside the bounds of the list, no element added"
-	.text
-	.p2align 4,,15
-.globl AddToList
-	.type	AddToList, @function
-AddToList:
-.LFB11:
-	.cfi_startproc
-	pushq	%r12
-	.cfi_def_cfa_offset 16
-	movl	%edx, %r12d
-	.cfi_offset 12, -16
-	pushq	%rbp
-	.cfi_def_cfa_offset 24
-	movq	%rsi, %rbp
-	.cfi_offset 6, -24
-	pushq	%rbx
-	.cfi_def_cfa_offset 32
-	movq	%rdi, %rbx
-	.cfi_offset 3, -32
-	movl	$24, %edi
-	call	malloc
-	xorl	%edx, %edx
-	testq	%rbx, %rbx
-	je	.L62
-	movl	16(%rbx), %edx
-.L62:
-	testq	%rax, %rax
-	je	.L75
-	cmpl	%edx, %r12d
-	jg	.L72
-	cmpl	$0, %r12d
-	.p2align 4,,3
-	jl	.L72
-	movq	%rbp, (%rax)
-	.p2align 4,,5
-	je	.L67
-	cmpl	$1, %r12d
-	movq	%rbx, %rcx
-	movl	$1, %edx
-	je	.L69
-	.p2align 4,,10
-	.p2align 3
-.L73:
-	addl	$1, %edx
-	movq	8(%rcx), %rcx
-	cmpl	%r12d, %edx
-	jne	.L73
-.L69:
-	movq	8(%rcx), %rdx
-	movq	%rdx, 8(%rax)
-	movq	%rax, 8(%rcx)
-.L64:
-	movq	%rbx, %rax
-	popq	%rbx
-	popq	%rbp
-	popq	%r12
-	ret
-	.p2align 4,,10
-	.p2align 3
-.L67:
-	movq	%rbx, 8(%rax)
-	addl	$1, %edx
-	movq	%rax, %rbx
-	movl	%edx, 16(%rax)
-	movq	%rbx, %rax
-	popq	%rbx
-	popq	%rbp
-	popq	%r12
-	ret
-	.p2align 4,,10
-	.p2align 3
-.L72:
-	movl	$1, %edx
-	xorl	%esi, %esi
-	movl	$.LC7, %edi
-	call	ReportError
-	movq	%rbx, %rax
-	popq	%rbx
-	popq	%rbp
-	popq	%r12
-	ret
-.L75:
-	xorl	%edx, %edx
-	xorl	%esi, %esi
-	movl	$.LC6, %edi
-	call	ReportError
-	jmp	.L64
-	.cfi_endproc
-.LFE11:
-	.size	AddToList, .-AddToList
-	.p2align 4,,15
-.globl AppendToList
-	.type	AppendToList, @function
-AppendToList:
-.LFB10:
-	.cfi_startproc
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	movq	%rsi, %rbp
-	.cfi_offset 6, -16
-	pushq	%rbx
-	.cfi_def_cfa_offset 24
-	movq	%rdi, %rbx
-	.cfi_offset 3, -24
-	movl	$24, %edi
-	subq	$8, %rsp
-	.cfi_def_cfa_offset 32
-	call	malloc
-	xorl	%esi, %esi
-	testq	%rbx, %rbx
-	je	.L78
-	movl	16(%rbx), %esi
-.L78:
-	testq	%rax, %rax
-	je	.L88
-	testl	%esi, %esi
-	movq	%rbp, (%rax)
-	je	.L81
-	cmpl	$1, %esi
-	movq	%rbx, %rcx
-	movl	$1, %edx
-	jle	.L83
-	.p2align 4,,10
-	.p2align 3
-.L86:
-	addl	$1, %edx
-	movq	8(%rcx), %rcx
-	cmpl	%esi, %edx
-	jne	.L86
-.L83:
-	addl	$1, 16(%rbx)
-	movq	%rax, 8(%rcx)
-	movq	$0, 8(%rax)
-	movq	%rbx, %rax
-	addq	$8, %rsp
-	popq	%rbx
-	popq	%rbp
-	ret
-	.p2align 4,,10
-	.p2align 3
-.L81:
-	movq	%rbx, 8(%rax)
-	movl	$1, 16(%rax)
-	movq	%rax, %rbx
-.L80:
-	movq	%rbx, %rax
-	addq	$8, %rsp
-	popq	%rbx
-	popq	%rbp
-	ret
-.L88:
-	xorl	%edx, %edx
-	xorl	%esi, %esi
-	movl	$.LC6, %edi
-	call	ReportError
-	jmp	.L80
-	.cfi_endproc
-.LFE10:
-	.size	AppendToList, .-AppendToList
-	.p2align 4,,15
-.globl PrependToList
-	.type	PrependToList, @function
-PrependToList:
-.LFB9:
-	.cfi_startproc
-	movq	%rbx, -16(%rsp)
-	movq	%rbp, -8(%rsp)
-	movq	%rdi, %rbx
-	.cfi_offset 6, -16
-	.cfi_offset 3, -24
-	subq	$24, %rsp
-	.cfi_def_cfa_offset 32
-	movl	$24, %edi
-	movq	%rsi, %rbp
-	call	malloc
-	testq	%rax, %rax
-	je	.L95
-	testq	%rbx, %rbx
-	movq	%rbp, (%rax)
-	movq	%rbx, 8(%rax)
-	movl	$1, %edx
-	je	.L93
-	movl	16(%rbx), %edx
-	addl	$1, %edx
-.L93:
-	movl	%edx, 16(%rax)
-	movq	%rax, %rbx
-.L91:
-	movq	%rbx, %rax
-	movq	16(%rsp), %rbp
-	movq	8(%rsp), %rbx
-	addq	$24, %rsp
-	ret
-	.p2align 4,,10
-	.p2align 3
-.L95:
-	xorl	%edx, %edx
-	xorl	%esi, %esi
-	movl	$.LC6, %edi
-	call	ReportError
-	jmp	.L91
-	.cfi_endproc
-.LFE9:
-	.size	PrependToList, .-PrependToList
-	.ident	"GCC: (Debian 4.4.5-8) 4.4.5"
+.LHOTE15:
+	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.2) 5.4.0 20160609"
 	.section	.note.GNU-stack,"",@progbits

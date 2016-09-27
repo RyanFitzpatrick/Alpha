@@ -1,25 +1,18 @@
-	.file	"Char.c"
+	.file	"System.c"
 	.section	.text.unlikely,"ax",@progbits
 .LCOLDB0:
 	.text
 .LHOTB0:
 	.p2align 4,,15
-	.globl	PrintChar
-	.type	PrintChar, @function
-PrintChar:
-.LFB23:
+	.globl	Nop
+	.type	Nop, @function
+Nop:
+.LFB0:
 	.cfi_startproc
-	cmpw	$127, %di
-	jle	.L4
 	rep ret
-	.p2align 4,,10
-	.p2align 3
-.L4:
-	movsbl	%dil, %edi
-	jmp	putchar
 	.cfi_endproc
-.LFE23:
-	.size	PrintChar, .-PrintChar
+.LFE0:
+	.size	Nop, .-Nop
 	.section	.text.unlikely
 .LCOLDE0:
 	.text
