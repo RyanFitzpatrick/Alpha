@@ -39,11 +39,9 @@ struct List
 /*Type define struct List as just List*/
 typedef struct List List;
 
-/*Creates a List from one item
-Param list: The list to be created, reallocs this pointer
-Param data: The data to be added to the list
-Returns: A newly allocated list containing the specified data*/
-List * CreateList(List * list, void * data);
+/*Creates a new empty List
+Returns: A newly allocated empty list*/
+List * CreateList();
 
 /*Frees all memory associated with a List
 Param head: A List pointer to the start of a List
@@ -60,14 +58,14 @@ List * PrependToList(List * head, void * data);
 Param head: A List pointer to the start of a List
 Param data: The data to add to the list
 Returns: A pointer to the start of the updated List*/
-void AppendToList(List * head, void * data);
+List * AppendToList(List * head, void * data);
 
 /*Adds an element to specific position of a list
 Param head: A List pointer to the start of a List
 Param data: The data to add to the list
 Param position: The 0-based index where the new data should be inserted
 Returns: A pointer to the start of the updated List*/
-void AddToList(List * head, void * data, Num position);
+List * AddToList(List * head, void * data, Num position);
 
 /*Frees the first element in the List
 Param head: A List pointer to the start of a List
@@ -93,7 +91,22 @@ Param head: A List pointer to the start of the List
 Returns: The number of elements in the List*/
 Num GetListLength(List * head);
 
-/*Returns a boolean reprsenting whether or not the list is empty or not
+/*Returns a boolean representing whether or not the list is empty or not
 Param head: A List pointer to the start of the List
 Returns: True if the list is not empty (NULL) false otherwise*/
 Bool ListHasElements(List * head);
+
+/*Returns a boolean representing whether or not there are more List elements after the current node
+Param list: The List node to check
+Returns: True if there are more elements in the List and False if there are not or if the List pointer is NULL*/
+Bool ListHasNext(List * list);
+
+/*Returns the List node succeeding the current node passed in
+Param list: The List used to retrieve the next element in the List
+Returns: The element following the node passed in*/
+List * GetListNext(List * list);
+
+/*Returns the data being stored in a List node
+Param list: The List node used to retrieve the data
+Returns: The data being stored by a given List node*/
+void * GetListData(List * list);

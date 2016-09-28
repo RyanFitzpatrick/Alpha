@@ -13,18 +13,11 @@ Ltmp1:
 	movq	%rsp, %rbp
 Ltmp2:
 	.cfi_def_cfa_register %rbp
-	pushq	%rbx
-	pushq	%rax
-Ltmp3:
-	.cfi_offset %rbx, -24
-	movq	%rsi, %rbx
-	movl	$24, %esi
-	callq	_realloc
-	movq	%rbx, (%rax)
-	movl	$1, 16(%rax)
+	movl	$24, %edi
+	callq	_malloc
+	movl	$0, 16(%rax)
 	movq	$0, 8(%rax)
-	addq	$8, %rsp
-	popq	%rbx
+	movq	$0, (%rax)
 	popq	%rbp
 	retq
 	.cfi_endproc
@@ -35,29 +28,29 @@ _FinalizeList:                          ## @FinalizeList
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp4:
+Ltmp3:
 	.cfi_def_cfa_offset 16
-Ltmp5:
+Ltmp4:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp6:
+Ltmp5:
 	.cfi_def_cfa_register %rbp
 	pushq	%r15
 	pushq	%r14
 	pushq	%r12
 	pushq	%rbx
-Ltmp7:
+Ltmp6:
 	.cfi_offset %rbx, -48
-Ltmp8:
+Ltmp7:
 	.cfi_offset %r12, -40
-Ltmp9:
+Ltmp8:
 	.cfi_offset %r14, -32
-Ltmp10:
+Ltmp9:
 	.cfi_offset %r15, -24
 	movq	%rsi, %r14
 	movq	%rdi, %rbx
 	testq	%rbx, %rbx
-	je	LBB1_4
+	je	LBB1_5
 ## BB#1:                                ## %GetListLength.exit
 	movl	16(%rbx), %r15d
 	testl	%r15d, %r15d
@@ -76,13 +69,23 @@ LBB1_3:                                 ## =>This Inner Loop Header: Depth=1
 	decl	%r15d
 	movq	%r12, %rbx
 	jne	LBB1_3
-LBB1_4:                                 ## %._crit_edge
+LBB1_4:                                 ## %.loopexit
 	popq	%rbx
 	popq	%r12
 	popq	%r14
 	popq	%r15
 	popq	%rbp
 	retq
+LBB1_5:
+	leaq	L_.str(%rip), %rdi
+	xorl	%esi, %esi
+	movl	$1, %edx
+	popq	%rbx
+	popq	%r12
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	jmp	_ReportError            ## TAILCALL
 	.cfi_endproc
 
 	.globl	_GetListLength
@@ -91,12 +94,12 @@ _GetListLength:                         ## @GetListLength
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp11:
+Ltmp10:
 	.cfi_def_cfa_offset 16
-Ltmp12:
+Ltmp11:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp13:
+Ltmp12:
 	.cfi_def_cfa_register %rbp
 	xorl	%eax, %eax
 	testq	%rdi, %rdi
@@ -114,47 +117,66 @@ _PrependToList:                         ## @PrependToList
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp14:
+Ltmp13:
 	.cfi_def_cfa_offset 16
-Ltmp15:
+Ltmp14:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp16:
+Ltmp15:
 	.cfi_def_cfa_register %rbp
+	pushq	%r15
 	pushq	%r14
 	pushq	%rbx
+	pushq	%rax
+Ltmp16:
+	.cfi_offset %rbx, -40
 Ltmp17:
-	.cfi_offset %rbx, -32
+	.cfi_offset %r14, -32
 Ltmp18:
-	.cfi_offset %r14, -24
+	.cfi_offset %r15, -24
 	movq	%rsi, %r14
 	movq	%rdi, %rbx
+	testq	%rbx, %rbx
+	je	LBB3_1
+## BB#2:                                ## %GetListLength.exit
+	movl	16(%rbx), %r15d
+	testl	%r15d, %r15d
+	jle	LBB3_6
+## BB#3:
 	movl	$24, %edi
 	callq	_malloc
 	testq	%rax, %rax
-	je	LBB3_1
-## BB#2:
+	je	LBB3_4
+## BB#5:
 	movq	%r14, (%rax)
 	movq	%rbx, 8(%rax)
-	movl	$1, %ecx
-	testq	%rbx, %rbx
-	je	LBB3_4
-## BB#3:
-	movl	16(%rbx), %ecx
-	incl	%ecx
-LBB3_4:                                 ## %GetListLength.exit
-	movl	%ecx, 16(%rax)
+	incl	%r15d
+	movl	%r15d, 16(%rax)
 	movq	%rax, %rbx
-	jmp	LBB3_5
+	jmp	LBB3_7
 LBB3_1:
-	leaq	L_.str(%rip), %rdi
+	leaq	L_.str1(%rip), %rdi
+	xorl	%ebx, %ebx
+	xorl	%esi, %esi
+	movl	$1, %edx
+	callq	_ReportError
+	jmp	LBB3_7
+LBB3_6:
+	movq	%r14, (%rbx)
+	movl	$1, 16(%rbx)
+	movq	$0, 8(%rbx)
+	jmp	LBB3_7
+LBB3_4:
+	leaq	L_.str2(%rip), %rdi
 	xorl	%esi, %esi
 	xorl	%edx, %edx
 	callq	_ReportError
-LBB3_5:
+LBB3_7:
 	movq	%rbx, %rax
+	addq	$8, %rsp
 	popq	%rbx
 	popq	%r14
+	popq	%r15
 	popq	%rbp
 	retq
 	.cfi_endproc
@@ -174,104 +196,111 @@ Ltmp21:
 	.cfi_def_cfa_register %rbp
 	pushq	%r15
 	pushq	%r14
-	pushq	%r12
 	pushq	%rbx
+	pushq	%rax
 Ltmp22:
-	.cfi_offset %rbx, -48
+	.cfi_offset %rbx, -40
 Ltmp23:
-	.cfi_offset %r12, -40
-Ltmp24:
 	.cfi_offset %r14, -32
-Ltmp25:
+Ltmp24:
 	.cfi_offset %r15, -24
-	movq	%rsi, %r12
-	movq	%rdi, %r14
+	movq	%rsi, %r14
+	movq	%rdi, %rbx
+	testq	%rbx, %rbx
+	je	LBB4_1
+## BB#2:                                ## %GetListLength.exit
+	movl	16(%rbx), %r15d
+	testl	%r15d, %r15d
+	je	LBB4_17
+## BB#3:
 	movl	$24, %edi
 	callq	_malloc
-	movq	%rax, %r15
+	testq	%rax, %rax
+	je	LBB4_19
+## BB#4:                                ## %.preheader
+	leaq	8(%rbx), %rcx
+	cmpl	$2, %r15d
+	jl	LBB4_5
+## BB#6:                                ## %.lr.ph.preheader
+	leal	-1(%r15), %esi
+	movl	%esi, %edx
+	andl	$3, %edx
+	xorl	%edi, %edi
+	testl	%esi, %esi
+	je	LBB4_8
+## BB#7:                                ## %.lr.ph.preheader
+	movl	$1, %r8d
+	testl	%edx, %edx
+	je	LBB4_13
+LBB4_8:                                 ## %unr.cmp10
+	movl	$1, %r8d
+	cmpl	$1, %edx
+	je	LBB4_12
+## BB#9:                                ## %unr.cmp
+	movl	$1, %r8d
+	cmpl	$2, %edx
+	je	LBB4_11
+## BB#10:                               ## %.lr.ph.unr
+	movq	(%rcx), %rcx
+	movl	$2, %r8d
+	addq	$8, %rcx
+LBB4_11:                                ## %.lr.ph.unr5
+	movq	(%rcx), %rcx
+	incl	%r8d
+	addq	$8, %rcx
+LBB4_12:                                ## %.lr.ph.unr7
+	movq	(%rcx), %rdi
+	incl	%r8d
+	addq	$8, %rdi
+	movq	%rdi, %rcx
+LBB4_13:                                ## %.lr.ph.preheader.split
+	cmpl	$4, %esi
+	jb	LBB4_16
+## BB#14:                               ## %.lr.ph.preheader.split.split
+	movl	%r15d, %edx
+	subl	%r8d, %edx
+	movq	%rcx, %rdi
+	.align	4, 0x90
+LBB4_15:                                ## %.lr.ph
+                                        ## =>This Inner Loop Header: Depth=1
+	movq	(%rdi), %rcx
+	movq	8(%rcx), %rcx
+	movq	8(%rcx), %rcx
+	movq	8(%rcx), %rdi
+	addq	$8, %rdi
+	addl	$-4, %edx
+	jne	LBB4_15
+	jmp	LBB4_16
+LBB4_1:
+	leaq	L_.str1(%rip), %rdi
 	xorl	%ebx, %ebx
-	testq	%r14, %r14
-	je	LBB4_2
-## BB#1:
-	movl	16(%r14), %ebx
-LBB4_2:                                 ## %GetListLength.exit
-	testq	%r15, %r15
-	jne	LBB4_4
-## BB#3:
-	leaq	L_.str(%rip), %rdi
+	xorl	%esi, %esi
+	movl	$1, %edx
+	callq	_ReportError
+	jmp	LBB4_18
+LBB4_17:
+	movq	%r14, (%rbx)
+	movq	$0, 8(%rbx)
+	movl	$1, 16(%rbx)
+	jmp	LBB4_18
+LBB4_19:
+	leaq	L_.str2(%rip), %rdi
 	xorl	%esi, %esi
 	xorl	%edx, %edx
 	callq	_ReportError
-LBB4_4:
-	movq	%r12, (%r15)
-	testl	%ebx, %ebx
-	je	LBB4_18
-## BB#5:                                ## %.preheader
-	leaq	8(%r14), %rax
-	cmpl	$2, %ebx
-	jl	LBB4_6
-## BB#7:                                ## %.lr.ph.preheader
-	leal	-1(%rbx), %ecx
-	movl	%ecx, %edi
-	andl	$3, %edi
-	xorl	%esi, %esi
-	testl	%ecx, %ecx
-	je	LBB4_9
-## BB#8:                                ## %.lr.ph.preheader
-	movl	$1, %edx
-	testl	%edi, %edi
-	je	LBB4_14
-LBB4_9:                                 ## %unr.cmp10
-	movl	$1, %edx
-	cmpl	$1, %edi
-	je	LBB4_13
-## BB#10:                               ## %unr.cmp
-	movl	$1, %edx
-	cmpl	$2, %edi
-	je	LBB4_12
-## BB#11:                               ## %.lr.ph.unr
-	movq	(%rax), %rax
-	movl	$2, %edx
-	addq	$8, %rax
-LBB4_12:                                ## %.lr.ph.unr5
-	movq	(%rax), %rax
-	incl	%edx
-	addq	$8, %rax
-LBB4_13:                                ## %.lr.ph.unr7
-	movq	(%rax), %rsi
-	incl	%edx
-	addq	$8, %rsi
-	movq	%rsi, %rax
-LBB4_14:                                ## %.lr.ph.preheader.split
-	cmpl	$4, %ecx
-	jb	LBB4_17
-## BB#15:                               ## %.lr.ph.preheader.split.split
-	subl	%edx, %ebx
-	movq	%rax, %rsi
-	.align	4, 0x90
-LBB4_16:                                ## %.lr.ph
-                                        ## =>This Inner Loop Header: Depth=1
-	movq	(%rsi), %rax
-	movq	8(%rax), %rax
-	movq	8(%rax), %rax
-	movq	8(%rax), %rsi
-	addq	$8, %rsi
-	addl	$-4, %ebx
-	jne	LBB4_16
-	jmp	LBB4_17
+	jmp	LBB4_18
+LBB4_5:
+	movq	%rcx, %rdi
+LBB4_16:                                ## %._crit_edge
+	movq	%rax, (%rdi)
+	movq	%r14, (%rax)
+	movq	$0, 8(%rax)
+	incl	%r15d
+	movl	%r15d, 16(%rbx)
 LBB4_18:
-	movq	%r14, 8(%r15)
-	movl	$1, 16(%r15)
-	jmp	LBB4_19
-LBB4_6:
-	movq	%rax, %rsi
-LBB4_17:                                ## %._crit_edge
-	movq	%r15, (%rsi)
-	movq	$0, 8(%r15)
-	incl	16(%r14)
-LBB4_19:
+	movq	%rbx, %rax
+	addq	$8, %rsp
 	popq	%rbx
-	popq	%r12
 	popq	%r14
 	popq	%r15
 	popq	%rbp
@@ -284,133 +313,143 @@ _AddToList:                             ## @AddToList
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp26:
+Ltmp25:
 	.cfi_def_cfa_offset 16
-Ltmp27:
+Ltmp26:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp28:
+Ltmp27:
 	.cfi_def_cfa_register %rbp
 	pushq	%r15
 	pushq	%r14
-	pushq	%r13
 	pushq	%r12
 	pushq	%rbx
-	pushq	%rax
+Ltmp28:
+	.cfi_offset %rbx, -48
 Ltmp29:
-	.cfi_offset %rbx, -56
+	.cfi_offset %r12, -40
 Ltmp30:
-	.cfi_offset %r12, -48
-Ltmp31:
-	.cfi_offset %r13, -40
-Ltmp32:
 	.cfi_offset %r14, -32
-Ltmp33:
+Ltmp31:
 	.cfi_offset %r15, -24
-	movl	%edx, %r15d
-	movq	%rsi, %r12
+	movl	%edx, %r14d
+	movq	%rsi, %r15
 	movq	%rdi, %rbx
+	testq	%rbx, %rbx
+	je	LBB5_1
+## BB#2:                                ## %GetListLength.exit
+	movl	16(%rbx), %r12d
+	cmpl	%r14d, %r12d
+	jl	LBB5_4
+## BB#3:                                ## %GetListLength.exit
+	testl	%r14d, %r14d
+	js	LBB5_4
+## BB#6:
+	testl	%r12d, %r12d
+	je	LBB5_24
+## BB#7:
 	movl	$24, %edi
 	callq	_malloc
-	movq	%rax, %r14
-	xorl	%r13d, %r13d
-	testq	%rbx, %rbx
-	je	LBB5_2
-## BB#1:
-	movl	16(%rbx), %r13d
-LBB5_2:                                 ## %GetListLength.exit
-	testq	%r14, %r14
-	jne	LBB5_4
-## BB#3:
-	leaq	L_.str(%rip), %rdi
+	movq	%r15, (%rax)
+	testq	%rax, %rax
+	je	LBB5_8
+## BB#9:
+	testl	%r14d, %r14d
+	je	LBB5_23
+## BB#10:                               ## %.preheader.preheader
+	movl	$1, %ecx
+	movl	$1, %edx
+	cmovgl	%r14d, %edx
+	movl	%edx, %esi
+	andl	$3, %esi
+	xorl	%edi, %edi
+	testl	%edx, %edx
+	je	LBB5_13
+## BB#11:                               ## %.preheader.preheader
+	testl	%esi, %esi
+	jne	LBB5_13
+## BB#12:
+	xorl	%r8d, %r8d
 	xorl	%esi, %esi
-	xorl	%edx, %edx
-	callq	_ReportError
-LBB5_4:
-	cmpl	%r15d, %r13d
-	jl	LBB5_6
-## BB#5:
-	testl	%r15d, %r15d
-	jns	LBB5_7
-LBB5_6:
+	jmp	LBB5_18
+LBB5_1:
 	leaq	L_.str1(%rip), %rdi
+	xorl	%ebx, %ebx
+	jmp	LBB5_5
+LBB5_4:
+	leaq	L_.str3(%rip), %rdi
+LBB5_5:
 	xorl	%esi, %esi
 	movl	$1, %edx
 	callq	_ReportError
-LBB5_7:
-	movq	%r12, (%r14)
-	testl	%r15d, %r15d
-	je	LBB5_22
-## BB#8:                                ## %.preheader.preheader
-	movl	$1, %eax
-	movl	$1, %ecx
-	cmovgl	%r15d, %ecx
-	movl	%ecx, %esi
-	andl	$3, %esi
-	xorl	%edx, %edx
-	testl	%ecx, %ecx
-	je	LBB5_11
-## BB#9:                                ## %.preheader.preheader
-	testl	%esi, %esi
-	jne	LBB5_11
-## BB#10:
-	xorl	%esi, %esi
-	jmp	LBB5_16
-LBB5_22:
-	movq	%rbx, 8(%r14)
-	incl	%r13d
-	movl	%r13d, 16(%r14)
-	jmp	LBB5_21
-LBB5_11:                                ## %unr.cmp10
-	movl	$1, %eax
-	cmpl	$1, %esi
-	je	LBB5_15
-## BB#12:                               ## %unr.cmp
-	movl	$1, %eax
-	cmpl	$2, %esi
-	je	LBB5_14
-## BB#13:                               ## %.preheader.unr
-	movq	8(%rbx), %rbx
-	movl	$2, %eax
-LBB5_14:                                ## %.preheader.unr6
-	movq	8(%rbx), %rbx
-	incl	%eax
-LBB5_15:                                ## %.preheader.unr7
-	movq	8(%rbx), %rdx
-	movq	%rbx, %rsi
-	addq	$8, %rsi
-	incl	%eax
-	movq	%rdx, %rbx
-LBB5_16:                                ## %.preheader.preheader.split
-	cmpl	$4, %ecx
-	jb	LBB5_20
-## BB#17:                               ## %.preheader.preheader.split.split
-	decl	%eax
-	.align	4, 0x90
-LBB5_18:                                ## %.preheader
-                                        ## =>This Inner Loop Header: Depth=1
-	movq	8(%rbx), %rcx
-	movq	8(%rcx), %rcx
-	movq	8(%rcx), %rsi
-	movq	8(%rsi), %rbx
-	addl	$4, %eax
-	cmpl	%r15d, %eax
-	jl	LBB5_18
-## BB#19:
-	addq	$8, %rsi
-	movq	%rbx, %rdx
-LBB5_20:
-	movq	%rdx, 8(%r14)
-	movq	%r14, (%rsi)
-LBB5_21:
-	addq	$8, %rsp
+LBB5_25:
+	movq	%rbx, %rax
 	popq	%rbx
 	popq	%r12
-	popq	%r13
 	popq	%r14
 	popq	%r15
 	popq	%rbp
 	retq
+LBB5_24:
+	movq	%r15, (%rbx)
+	movq	$0, 8(%rbx)
+	movl	$1, 16(%rbx)
+	jmp	LBB5_25
+LBB5_8:
+	leaq	L_.str2(%rip), %rdi
+	xorl	%esi, %esi
+	xorl	%edx, %edx
+	callq	_ReportError
+	jmp	LBB5_25
+LBB5_23:
+	movq	%rbx, 8(%rax)
+	incl	%r12d
+	movl	%r12d, 16(%rax)
+	movq	%rax, %rbx
+	jmp	LBB5_25
+LBB5_13:                                ## %unr.cmp10
+	movl	$1, %ecx
+	cmpl	$1, %esi
+	je	LBB5_17
+## BB#14:                               ## %unr.cmp
+	movl	$1, %ecx
+	cmpl	$2, %esi
+	je	LBB5_16
+## BB#15:                               ## %.preheader.unr
+	movq	8(%rbx), %rbx
+	movl	$2, %ecx
+LBB5_16:                                ## %.preheader.unr6
+	movq	8(%rbx), %rbx
+	incl	%ecx
+LBB5_17:                                ## %.preheader.unr7
+	movq	%rbx, %rsi
+	leaq	8(%rsi), %r8
+	movq	8(%rsi), %rbx
+	incl	%ecx
+	movq	%rbx, %rdi
+LBB5_18:                                ## %.preheader.preheader.split
+	cmpl	$4, %edx
+	jb	LBB5_22
+## BB#19:                               ## %.preheader.preheader.split.split
+	decl	%ecx
+	.align	4, 0x90
+LBB5_20:                                ## %.preheader
+                                        ## =>This Inner Loop Header: Depth=1
+	movq	8(%rbx), %rdx
+	movq	8(%rdx), %rdx
+	movq	8(%rdx), %rsi
+	movq	8(%rsi), %rbx
+	addl	$4, %ecx
+	cmpl	%r14d, %ecx
+	jl	LBB5_20
+## BB#21:
+	leaq	8(%rsi), %r8
+	movq	%rbx, %rdi
+LBB5_22:
+	movq	%rdi, 8(%rax)
+	movq	%rax, (%r8)
+	movq	%rsi, %rbx
+	jmp	LBB5_25
 	.cfi_endproc
 
 	.globl	_RemoveFirstFromList
@@ -419,24 +458,24 @@ _RemoveFirstFromList:                   ## @RemoveFirstFromList
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp34:
+Ltmp32:
 	.cfi_def_cfa_offset 16
-Ltmp35:
+Ltmp33:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp36:
+Ltmp34:
 	.cfi_def_cfa_register %rbp
 	pushq	%r15
 	pushq	%r14
 	pushq	%r12
 	pushq	%rbx
-Ltmp37:
+Ltmp35:
 	.cfi_offset %rbx, -48
-Ltmp38:
+Ltmp36:
 	.cfi_offset %r12, -40
-Ltmp39:
+Ltmp37:
 	.cfi_offset %r14, -32
-Ltmp40:
+Ltmp38:
 	.cfi_offset %r15, -24
 	movq	%rdi, %rbx
 	testq	%rbx, %rbx
@@ -460,7 +499,7 @@ Ltmp40:
 	movq	%r15, %r14
 	jmp	LBB6_4
 LBB6_1:
-	leaq	L_.str2(%rip), %rdi
+	leaq	L_.str4(%rip), %rdi
 	movl	$1, %esi
 	movl	$1, %edx
 	callq	_ReportError
@@ -481,18 +520,18 @@ _RemoveLastFromList:                    ## @RemoveLastFromList
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp41:
+Ltmp39:
 	.cfi_def_cfa_offset 16
-Ltmp42:
+Ltmp40:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp43:
+Ltmp41:
 	.cfi_def_cfa_register %rbp
 	pushq	%r14
 	pushq	%rbx
-Ltmp44:
+Ltmp42:
 	.cfi_offset %rbx, -32
-Ltmp45:
+Ltmp43:
 	.cfi_offset %r14, -24
 	movq	%rdi, %r14
 	testq	%r14, %r14
@@ -512,7 +551,7 @@ Ltmp45:
 	xorl	%r14d, %r14d
 	jmp	LBB7_15
 LBB7_1:
-	leaq	L_.str3(%rip), %rdi
+	leaq	L_.str5(%rip), %rdi
 	movl	$1, %esi
 	movl	$1, %edx
 	callq	_ReportError
@@ -594,22 +633,22 @@ _RemoveFromList:                        ## @RemoveFromList
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp46:
+Ltmp44:
 	.cfi_def_cfa_offset 16
-Ltmp47:
+Ltmp45:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp48:
+Ltmp46:
 	.cfi_def_cfa_register %rbp
 	pushq	%r15
 	pushq	%r14
 	pushq	%rbx
 	pushq	%rax
-Ltmp49:
+Ltmp47:
 	.cfi_offset %rbx, -40
-Ltmp50:
+Ltmp48:
 	.cfi_offset %r14, -32
-Ltmp51:
+Ltmp49:
 	.cfi_offset %r15, -24
 	movq	%rdi, %r14
 	testq	%r14, %r14
@@ -689,14 +728,14 @@ LBB8_17:
 	decl	16(%r14)
 	jmp	LBB8_20
 LBB8_1:
-	leaq	L_.str4(%rip), %rdi
+	leaq	L_.str6(%rip), %rdi
 	movl	$1, %esi
 	movl	$1, %edx
 	callq	_ReportError
 	xorl	%r14d, %r14d
 	jmp	LBB8_20
 LBB8_4:
-	leaq	L_.str5(%rip), %rdi
+	leaq	L_.str7(%rip), %rdi
 	xorl	%esi, %esi
 	movl	$1, %edx
 	callq	_ReportError
@@ -731,12 +770,12 @@ _ListHasElements:                       ## @ListHasElements
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp52:
+Ltmp50:
 	.cfi_def_cfa_offset 16
-Ltmp53:
+Ltmp51:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp54:
+Ltmp52:
 	.cfi_def_cfa_register %rbp
 	testq	%rdi, %rdi
 	setne	%al
@@ -745,24 +784,135 @@ Ltmp54:
 	retq
 	.cfi_endproc
 
+	.globl	_ListHasNext
+	.align	4, 0x90
+_ListHasNext:                           ## @ListHasNext
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp53:
+	.cfi_def_cfa_offset 16
+Ltmp54:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp55:
+	.cfi_def_cfa_register %rbp
+	testq	%rdi, %rdi
+	je	LBB10_2
+## BB#1:
+	movb	$1, %al
+	cmpq	$0, 8(%rdi)
+	jne	LBB10_3
+LBB10_2:
+	xorl	%eax, %eax
+LBB10_3:
+	movzbl	%al, %eax
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+	.globl	_GetListNext
+	.align	4, 0x90
+_GetListNext:                           ## @GetListNext
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp56:
+	.cfi_def_cfa_offset 16
+Ltmp57:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp58:
+	.cfi_def_cfa_register %rbp
+	pushq	%rbx
+	pushq	%rax
+Ltmp59:
+	.cfi_offset %rbx, -24
+	testq	%rdi, %rdi
+	je	LBB11_1
+## BB#2:
+	movq	8(%rdi), %rbx
+	jmp	LBB11_3
+LBB11_1:
+	leaq	L_.str8(%rip), %rdi
+	xorl	%ebx, %ebx
+	xorl	%esi, %esi
+	movl	$1, %edx
+	callq	_ReportError
+LBB11_3:
+	movq	%rbx, %rax
+	addq	$8, %rsp
+	popq	%rbx
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+	.globl	_GetListData
+	.align	4, 0x90
+_GetListData:                           ## @GetListData
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp60:
+	.cfi_def_cfa_offset 16
+Ltmp61:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp62:
+	.cfi_def_cfa_register %rbp
+	pushq	%rbx
+	pushq	%rax
+Ltmp63:
+	.cfi_offset %rbx, -24
+	testq	%rdi, %rdi
+	je	LBB12_1
+## BB#2:
+	movq	(%rdi), %rbx
+	jmp	LBB12_3
+LBB12_1:
+	leaq	L_.str9(%rip), %rdi
+	xorl	%ebx, %ebx
+	xorl	%esi, %esi
+	movl	$1, %edx
+	callq	_ReportError
+LBB12_3:
+	movq	%rbx, %rax
+	addq	$8, %rsp
+	popq	%rbx
+	popq	%rbp
+	retq
+	.cfi_endproc
+
 	.section	__TEXT,__cstring,cstring_literals
 L_.str:                                 ## @.str
-	.asciz	"Could not allocate space for new list element, no element added"
+	.asciz	"Attempting to finalize NULL List, nothing will happen"
 
 L_.str1:                                ## @.str1
-	.asciz	"The specified position to add the new element is outside the bounds of the list, no element added"
+	.asciz	"Atempting to add to NULL List, please use CreateList() before adding data to a list"
 
 L_.str2:                                ## @.str2
-	.asciz	"Attempting to finalize first element in NULL list, nothing will happen"
+	.asciz	"Could not allocate space for new list element, no element added"
 
 L_.str3:                                ## @.str3
-	.asciz	"Attempting to finalize last element in NULL list, nothing will happen"
+	.asciz	"The specified position to add the new element is outside the bounds of the list, no element added"
 
 L_.str4:                                ## @.str4
-	.asciz	"Attempting to finalize element in NULL list, nothing will happen"
+	.asciz	"Attempting to finalize first element in NULL list, nothing will happen"
 
 L_.str5:                                ## @.str5
+	.asciz	"Attempting to finalize last element in NULL list, nothing will happen"
+
+L_.str6:                                ## @.str6
+	.asciz	"Attempting to finalize element in NULL list, nothing will happen"
+
+L_.str7:                                ## @.str7
 	.asciz	"The specified position to remove the element is outside the bounds of the list, no element removed"
+
+L_.str8:                                ## @.str8
+	.asciz	"Attempting to get next element from NULL List Pointer, NULL returned"
+
+L_.str9:                                ## @.str9
+	.asciz	"Attempting to get data from NULL List Pointer, NULL returned"
 
 
 .subsections_via_symbols
