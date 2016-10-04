@@ -33,7 +33,6 @@ struct List
 {
     void * data;
     struct List * next;
-    Num size;
 };
 
 /*Type define struct List as just List*/

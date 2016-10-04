@@ -26,7 +26,6 @@ List * CreateList()
     List * list = malloc(sizeof(List));
 
     list->data = NULL;
-    list->size = 0;
     list->next = NULL;
 
     return list;
@@ -39,9 +38,6 @@ void FinalizeList(List * head, VoidFunction Finalize)
 {
     List * list = head;
     List * next;
-
-    Num size;
-    Num i;
 
     /*Report an error and return in the event an unallocated List was finalized*/
     if(head == NULL)
@@ -56,11 +52,8 @@ void FinalizeList(List * head, VoidFunction Finalize)
         Finalize = &Nop;
     }
 
-    /*Get the number of elements in the List*/
-    size = GetListLength(head);
-
     /*For each element in the list, free the data, and free the element itself*/
-    for(i = 0; i < size; i++)
+    while(list != NULL)
     {
         Finalize(list->data);
         next = list->next;
@@ -76,7 +69,6 @@ Returns: A pointer to the start of the updated List*/
 List * PrependToList(List * head, void * data)
 {
     List * node = NULL;
-    Num size;
 
     /*Report an error and return NULL if the list to be added to is NULL*/
     if(head == NULL)
@@ -85,10 +77,7 @@ List * PrependToList(List * head, void * data)
         return NULL;
     }
 
-    /*Get the number of elements in the List*/
-    size = GetListLength(head);
-
-    if(size > 0)
+    if(node->data != NULL)
     {
         node = malloc(sizeof(List));
 
@@ -102,7 +91,6 @@ List * PrependToList(List * head, void * data)
         /*Add the element and increment the List size if the List is not empty*/
         node->data = data;
         node->next = head;
-        node->size = size + 1;
 
         return node;
     }
@@ -110,7 +98,6 @@ List * PrependToList(List * head, void * data)
     {
         /*Add the data to the empty List and set the size to be 1*/
         head->data = data;
-        head->size = 1;
         head->next = NULL;
 
         return head;
@@ -126,9 +113,6 @@ List * AppendToList(List * head, void * data)
     List * list = head;
     List * node = NULL;
 
-    Num size;
-    Num i;
-
     /*Report an error and return NULL if the list to be added to is NULL*/
     if(head == NULL)
     {
@@ -136,10 +120,7 @@ List * AppendToList(List * head, void * data)
         return NULL;
     }
 
-    /*Get the number of elements in the List*/
-    size = GetListLength(head);
-
-    if(size != 0)
+    if(list->data != NULL)
     {
         node = malloc(sizeof(List));
 
@@ -151,7 +132,7 @@ List * AppendToList(List * head, void * data)
         }
 
         /*If the list is not empty find the end*/
-        for(i = 1; i < size; i++)
+        while(list->next != NULL)
         {
             list = list->next;
         }
@@ -160,7 +141,6 @@ List * AppendToList(List * head, void * data)
         list->next = node;
         node->data = data;
         node->next = NULL;
-        head->size++;
 
         return head;
     }
@@ -168,8 +148,7 @@ List * AppendToList(List * head, void * data)
     {
         /*If the list is empty simply add the element and return*/
         head->data = data;
-        head->next = NULL;;
-        head->size = 1;
+        head->next = NULL;
 
         return head;;
     }
@@ -184,8 +163,6 @@ List * AddToList(List * head, void * data, Num position)
 {
     List * list = head;
     List * node = NULL;
-
-    Num size;
     Num i;
 
     /*Report an error and return NULL if the list to be added to is NULL*/
@@ -195,21 +172,17 @@ List * AddToList(List * head, void * data, Num position)
         return NULL;
     }
 
-    /*Get the number of elements in the List*/
-    size = GetListLength(head);
-
-    /*Report an error and return without adding if the specified add position is less than zero or greather than the size of the list*/
-    if(position > size || position < 0)
+    /*Report an error and return without adding if the specified add position is less than zero*/
+    if(position < 0)
     {
         ReportError("The specified position to add the new element is outside the bounds of the list, no element added", 0, SEG_FAULT);
         return head;
     }
 
-    if(size != 0)
+    if(list->data != NULL)
     {
-        /*Allocate the List node and add the data to it*/
+        /*Allocate the List node*/
         node = malloc(sizeof(List));
-        node->data = data;
 
         /*Report an error and return without adding the element if memory couldn't be allocated for it*/
         if(node == NULL)
@@ -218,11 +191,21 @@ List * AddToList(List * head, void * data, Num position)
             return head;
         }
 
+        /*Add data to the list node*/
+        node->data = data;
+
         if(position != 0)
         {
             /*Find the index in the List*/
             for(i = 1; i < position; i++)
             {
+                /*Report an error and return without adding if the specified add position is outside the bounds of the List*/
+                if(list == NULL)
+                {
+                    ReportError("The specified position to add the new element is outside the bounds of the list, no element added", 0, SEG_FAULT);
+                    return head;
+                }
+
                 list = list->next;
             }
 
@@ -236,8 +219,6 @@ List * AddToList(List * head, void * data, Num position)
         {
             /*Add the node to the front of the List*/
             node->next = head;
-            node->size = size + 1;
-
             return node;
         }
     }
@@ -246,7 +227,6 @@ List * AddToList(List * head, void * data, Num position)
         /*If the List is empty add the data to the List and set the size to 1*/
         head->data = data;
         head->next = NULL;
-        head->size = 1;
 
         return head;
     }
@@ -259,7 +239,6 @@ Returns: A pointer to the start of the updated List*/
 List * RemoveFirstFromList(List * head, VoidFunction Finalize)
 {
     List * list;
-    Num size;
 
     /*Report an error and return without freeng if the List is empty (NULL)*/
     if(head == NULL)
@@ -276,15 +255,8 @@ List * RemoveFirstFromList(List * head, VoidFunction Finalize)
 
     /*Remove the first element*/
     list = head->next;
-    size = head->size;
     Finalize(head->data);
     free(head);
-
-    /*Decrement the size of the list if it is not empty (NULL)*/
-    if(list != NULL)
-    {
-        list->size = size - 1;
-    }
 
     return list;
 }
@@ -296,8 +268,6 @@ Returns: A pointer to the start of the updated List*/
 List * RemoveLastFromList(List * head, VoidFunction Finalize)
 {
     List * list;
-    Num size = GetListLength(head);
-    Num i;
 
     /*Report an error and return without freeng if the List is empty (NULL)*/
     if(head == NULL)
@@ -312,7 +282,9 @@ List * RemoveLastFromList(List * head, VoidFunction Finalize)
         Finalize = &Nop;
     }
 
-    if(size == 1)
+    list = head;
+
+    if(list->next == NULL)
     {
         /*If the list only has one element remove it and return an empty List (NULL)*/
         Finalize(head->data);
@@ -321,10 +293,8 @@ List * RemoveLastFromList(List * head, VoidFunction Finalize)
     }
     else
     {
-        list = head;
-
         /*Find the end of the List*/
-        for(i = 2; i < size; i++)
+        while(list->next->next != NULL)
         {
             list = list->next;
         }
@@ -333,7 +303,6 @@ List * RemoveLastFromList(List * head, VoidFunction Finalize)
         Finalize(list->next->data);
         free(list->next);
         list->next = NULL;
-        head->size--;
 
         return head;
     }
@@ -348,7 +317,6 @@ List * RemoveFromList(List * head, Num position, VoidFunction Finalize)
 {
     List * list;
     List * next;
-    Num size = GetListLength(head);
     Num i;
 
     /*Report an error and return without freeng if the List is empty (NULL)*/
@@ -364,8 +332,8 @@ List * RemoveFromList(List * head, Num position, VoidFunction Finalize)
         Finalize = &Nop;
     }
 
-    /*Report an error and return without freeing if the specified remove position is less than zero or greather than the size of the list*/
-    if(position >= size || position < 0)
+    /*Report an error and return without freeing if the specified remove position is less than zero*/
+    if(position < 0)
     {
         ReportError("The specified position to remove the element is outside the bounds of the list, no element removed", 0, SEG_FAULT);
         return head;
@@ -373,36 +341,42 @@ List * RemoveFromList(List * head, Num position, VoidFunction Finalize)
 
     if(position == 0)
     {
-        /*If the start of the list is specified remove the first element*/
-        list = head->next;
-        size = head->size;
+        /*Finalize the data in the node*/
         Finalize(head->data);
-        free(head);
 
-        /*If the list is not empty (NULL) decrement the size*/
-        if(list != NULL)
+        if(head->next != NULL)
         {
-            list->size = size - 1;
+            /*If the list has more than one node then remove the node*/
+            list = head->next;
+            free(head);
+            return list;
         }
-
-        return list;
+        else
+        {
+            /*If the list only has one node return the empty list*/
+            return head;
+        }
     }
     else
     {
-        list = head;
-
-        /*Find the specified index in the List*/
-        for(i = 1; i < size; i++)
+        /*Find the index in the List*/
+        for(i = 0; i < position; i++)
         {
+            /*Report an error and return without removing if the specified add position is outside the bounds of the List*/
+            if(list->next == NULL)
+            {
+                ReportError("The specified position to remove the element is outside the bounds of the list, no element added", 0, SEG_FAULT);
+                return head;
+            }
+
             list = list->next;
         }
 
-        /*Remove the element at the specified position and decrement the size of the List*/
-        next = list->next->next;
-        Finalize(list->next);
-        free(list->next);
-        list->next = next;
-        head->size--;
+        /*Add the element at the required index*/
+        next = list->next;
+        list->next = next->next;
+        Finalize(next->data);
+        free(next);
 
         return head;
     }
@@ -413,10 +387,22 @@ Param head: A List pointer to the start of the List
 Returns: The number of elements in the List*/
 Num GetListLength(List * head)
 {
-    if(head != NULL)
+    List * list;
+    Num size = 0;
+
+    if(head != NULL && head->data != NULL)
     {
-        /*If the List is not empty return it's size value*/
-        return head->size;
+        list = head;
+
+        /*If the List is not empty then count all the nodes*/
+        while(list != NULL)
+        {
+            list = list->next;
+            size++;
+        }
+
+        /*Return the count*/
+        return size;
     }
     else
     {
@@ -430,7 +416,7 @@ Param head: A List pointer to the start of the List
 Returns: True if the list is not empty (NULL) false otherwise*/
 Bool ListHasElements(List * head)
 {
-    if(head != NULL)
+    if(head != NULL && head->data != NULL)
     {
         /*If the List is not NULL then it is not empty and has elements*/
         return TRUE;
