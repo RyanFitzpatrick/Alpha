@@ -27,8 +27,7 @@ This file type defines the List structure type, and defines several functions th
 
 /*This is the definition of the List type structure
 void * data represents the data stored in the List element
-struct List * next represents the next element in the List
-Num size is the number of elements in the list, it is only valid on the head of the list*/
+struct List * next represents the next element in the List*/
 struct List
 {
     void * data;

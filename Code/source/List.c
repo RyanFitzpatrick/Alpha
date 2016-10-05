@@ -77,7 +77,7 @@ List * PrependToList(List * head, void * data)
         return NULL;
     }
 
-    if(node->data != NULL)
+    if(head->data != NULL)
     {
         node = malloc(sizeof(List));
 
@@ -138,9 +138,9 @@ List * AppendToList(List * head, void * data)
         }
 
         /*Add the element and increment the list size*/
-        list->next = node;
         node->data = data;
         node->next = NULL;
+        list->next = node;
 
         return head;
     }
@@ -150,7 +150,7 @@ List * AppendToList(List * head, void * data)
         head->data = data;
         head->next = NULL;
 
-        return head;;
+        return head;
     }
 }
 
@@ -224,9 +224,17 @@ List * AddToList(List * head, void * data, Num position)
     }
     else
     {
-        /*If the List is empty add the data to the List and set the size to 1*/
-        head->data = data;
-        head->next = NULL;
+        if(position == 0)
+        {
+            /*If the List is empty and position is 0 add the data to the List*/
+            head->data = data;
+            head->next = NULL;
+        }
+        else
+        {
+            /*If the position specified is not zero report an error and return*/
+            ReportError("The data in the Lis head is NULL meaning its size is zero, however the specified add position is not zero, nothing will happen", 0, SEG_FAULT);
+        }
 
         return head;
     }
@@ -254,11 +262,23 @@ List * RemoveFirstFromList(List * head, VoidFunction Finalize)
     }
 
     /*Remove the first element*/
-    list = head->next;
-    Finalize(head->data);
-    free(head);
+    if(head->next != NULL)
+    {
+        /*If the list has more than one element remove the first node and return the next*/
+        list = head->next;
+        Finalize(head->data);
+        free(head);
 
-    return list;
+        return list;
+    }
+    else
+    {
+        /*If the list has one element finalize it and return an empty list*/
+        Finalize(head->data);
+        head->data = NULL;
+
+        return head;
+    }
 }
 
 /*Frees the last element in the List
@@ -282,17 +302,18 @@ List * RemoveLastFromList(List * head, VoidFunction Finalize)
         Finalize = &Nop;
     }
 
-    list = head;
-
-    if(list->next == NULL)
+    if(head->next == NULL)
     {
-        /*If the list only has one element remove it and return an empty List (NULL)*/
+        /*If the list only has one element remove it and return an empty List*/
         Finalize(head->data);
-        free(head);
+        head->data = NULL;
+
         return NULL;
     }
     else
     {
+        list = head;
+
         /*Find the end of the List*/
         while(list->next->next != NULL)
         {
