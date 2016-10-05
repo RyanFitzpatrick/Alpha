@@ -96,7 +96,7 @@ List * PrependToList(List * head, void * data)
     }
     else
     {
-        /*Add the data to the empty List and set the size to be 1*/
+        /*Add the data to the empty List*/
         head->data = data;
         head->next = NULL;
 
@@ -233,7 +233,7 @@ List * AddToList(List * head, void * data, Num position)
         else
         {
             /*If the position specified is not zero report an error and return*/
-            ReportError("The data in the Lis head is NULL meaning its size is zero, however the specified add position is not zero, nothing will happen", 0, SEG_FAULT);
+            ReportError("The data in the List head is NULL meaning its size is zero, however the specified add position is not zero, nothing will happen", 0, SEG_FAULT);
         }
 
         return head;
