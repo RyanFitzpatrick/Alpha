@@ -13,10 +13,29 @@ Ltmp1:
 	movq	%rsp, %rbp
 Ltmp2:
 	.cfi_def_cfa_register %rbp
+	pushq	%rbx
+	pushq	%rax
+Ltmp3:
+	.cfi_offset %rbx, -24
 	movl	$16, %edi
 	callq	_malloc
-	movq	$0, 8(%rax)
-	movq	$0, (%rax)
+	movq	%rax, %rbx
+	testq	%rbx, %rbx
+	je	LBB0_1
+## BB#2:
+	movq	$0, 8(%rbx)
+	movq	$0, (%rbx)
+	jmp	LBB0_3
+LBB0_1:
+	leaq	L_.str(%rip), %rdi
+	xorl	%ebx, %ebx
+	xorl	%esi, %esi
+	xorl	%edx, %edx
+	callq	_ReportError
+LBB0_3:
+	movq	%rbx, %rax
+	addq	$8, %rsp
+	popq	%rbx
 	popq	%rbp
 	retq
 	.cfi_endproc
@@ -27,22 +46,22 @@ _FinalizeList:                          ## @FinalizeList
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp3:
-	.cfi_def_cfa_offset 16
 Ltmp4:
+	.cfi_def_cfa_offset 16
+Ltmp5:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp5:
+Ltmp6:
 	.cfi_def_cfa_register %rbp
 	pushq	%r15
 	pushq	%r14
 	pushq	%rbx
 	pushq	%rax
-Ltmp6:
-	.cfi_offset %rbx, -40
 Ltmp7:
-	.cfi_offset %r14, -32
+	.cfi_offset %rbx, -40
 Ltmp8:
+	.cfi_offset %r14, -32
+Ltmp9:
 	.cfi_offset %r15, -24
 	movq	%rsi, %r14
 	movq	%rdi, %rbx
@@ -70,7 +89,7 @@ LBB1_2:                                 ## =>This Inner Loop Header: Depth=1
 	popq	%rbp
 	retq
 LBB1_4:
-	leaq	L_.str(%rip), %rdi
+	leaq	L_.str1(%rip), %rdi
 	xorl	%esi, %esi
 	movl	$1, %edx
 	addq	$8, %rsp
@@ -87,18 +106,18 @@ _AddListNode:                           ## @AddListNode
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp9:
-	.cfi_def_cfa_offset 16
 Ltmp10:
+	.cfi_def_cfa_offset 16
+Ltmp11:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp11:
+Ltmp12:
 	.cfi_def_cfa_register %rbp
 	pushq	%r14
 	pushq	%rbx
-Ltmp12:
-	.cfi_offset %rbx, -32
 Ltmp13:
+	.cfi_offset %rbx, -32
+Ltmp14:
 	.cfi_offset %r14, -24
 	movq	%rsi, %r14
 	movq	%rdi, %rbx
@@ -118,7 +137,7 @@ Ltmp13:
 	movq	%rax, %rbx
 	jmp	LBB2_7
 LBB2_1:
-	leaq	L_.str1(%rip), %rdi
+	leaq	L_.str2(%rip), %rdi
 	xorl	%ebx, %ebx
 	xorl	%esi, %esi
 	movl	$1, %edx
@@ -129,7 +148,7 @@ LBB2_6:
 	movq	$0, 8(%rbx)
 	jmp	LBB2_7
 LBB2_4:
-	leaq	L_.str2(%rip), %rdi
+	leaq	L_.str3(%rip), %rdi
 	xorl	%esi, %esi
 	xorl	%edx, %edx
 	callq	_ReportError
@@ -147,16 +166,16 @@ _DestroyListNode:                       ## @DestroyListNode
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp14:
-	.cfi_def_cfa_offset 16
 Ltmp15:
+	.cfi_def_cfa_offset 16
+Ltmp16:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp16:
+Ltmp17:
 	.cfi_def_cfa_register %rbp
 	pushq	%rbx
 	pushq	%rax
-Ltmp17:
+Ltmp18:
 	.cfi_offset %rbx, -24
 	movq	%rdi, %rbx
 	testq	%rbx, %rbx
@@ -173,7 +192,7 @@ Ltmp17:
 	popq	%rbp
 	jmp	_free                   ## TAILCALL
 LBB3_1:
-	leaq	L_.str3(%rip), %rdi
+	leaq	L_.str4(%rip), %rdi
 	xorl	%esi, %esi
 	movl	$1, %edx
 	addq	$8, %rsp
@@ -188,16 +207,16 @@ _GetListNode:                           ## @GetListNode
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp18:
-	.cfi_def_cfa_offset 16
 Ltmp19:
+	.cfi_def_cfa_offset 16
+Ltmp20:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp20:
+Ltmp21:
 	.cfi_def_cfa_register %rbp
 	pushq	%rbx
 	pushq	%rax
-Ltmp21:
+Ltmp22:
 	.cfi_offset %rbx, -24
 	testq	%rdi, %rdi
 	je	LBB4_1
@@ -236,13 +255,13 @@ LBB4_8:                                 ## %GetListLength.exit
 	xorl	%eax, %eax
 	jmp	LBB4_19
 LBB4_1:
-	leaq	L_.str4(%rip), %rdi
-	jmp	LBB4_2
-LBB4_4:
 	leaq	L_.str5(%rip), %rdi
 	jmp	LBB4_2
-LBB4_23:
+LBB4_4:
 	leaq	L_.str6(%rip), %rdi
+	jmp	LBB4_2
+LBB4_23:
+	leaq	L_.str7(%rip), %rdi
 LBB4_2:                                 ## %.loopexit
 	xorl	%ebx, %ebx
 	xorl	%esi, %esi
@@ -299,12 +318,12 @@ _GetListLength:                         ## @GetListLength
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp22:
-	.cfi_def_cfa_offset 16
 Ltmp23:
+	.cfi_def_cfa_offset 16
+Ltmp24:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp24:
+Ltmp25:
 	.cfi_def_cfa_register %rbp
 	xorl	%eax, %eax
 	testq	%rdi, %rdi
@@ -331,12 +350,12 @@ _ListHasElements:                       ## @ListHasElements
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp25:
-	.cfi_def_cfa_offset 16
 Ltmp26:
+	.cfi_def_cfa_offset 16
+Ltmp27:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp27:
+Ltmp28:
 	.cfi_def_cfa_register %rbp
 	testq	%rdi, %rdi
 	je	LBB6_2
@@ -358,22 +377,15 @@ _ListHasNext:                           ## @ListHasNext
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp28:
-	.cfi_def_cfa_offset 16
 Ltmp29:
+	.cfi_def_cfa_offset 16
+Ltmp30:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp30:
+Ltmp31:
 	.cfi_def_cfa_register %rbp
 	testq	%rdi, %rdi
-	je	LBB7_2
-## BB#1:
-	movb	$1, %al
-	cmpq	$0, 8(%rdi)
-	jne	LBB7_3
-LBB7_2:
-	xorl	%eax, %eax
-LBB7_3:
+	setne	%al
 	movzbl	%al, %eax
 	popq	%rbp
 	retq
@@ -385,16 +397,16 @@ _GetListNext:                           ## @GetListNext
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp31:
-	.cfi_def_cfa_offset 16
 Ltmp32:
+	.cfi_def_cfa_offset 16
+Ltmp33:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp33:
+Ltmp34:
 	.cfi_def_cfa_register %rbp
 	pushq	%rbx
 	pushq	%rax
-Ltmp34:
+Ltmp35:
 	.cfi_offset %rbx, -24
 	testq	%rdi, %rdi
 	je	LBB8_1
@@ -402,7 +414,7 @@ Ltmp34:
 	movq	8(%rdi), %rbx
 	jmp	LBB8_3
 LBB8_1:
-	leaq	L_.str7(%rip), %rdi
+	leaq	L_.str8(%rip), %rdi
 	xorl	%ebx, %ebx
 	xorl	%esi, %esi
 	movl	$1, %edx
@@ -421,16 +433,16 @@ _SetListNext:                           ## @SetListNext
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp35:
-	.cfi_def_cfa_offset 16
 Ltmp36:
+	.cfi_def_cfa_offset 16
+Ltmp37:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp37:
+Ltmp38:
 	.cfi_def_cfa_register %rbp
 	pushq	%rbx
 	pushq	%rax
-Ltmp38:
+Ltmp39:
 	.cfi_offset %rbx, -24
 	movq	%rdi, %rbx
 	testq	%rbx, %rbx
@@ -439,7 +451,7 @@ Ltmp38:
 	movq	%rsi, 8(%rbx)
 	jmp	LBB9_3
 LBB9_1:
-	leaq	L_.str8(%rip), %rdi
+	leaq	L_.str9(%rip), %rdi
 	xorl	%ebx, %ebx
 	xorl	%esi, %esi
 	movl	$1, %edx
@@ -458,16 +470,16 @@ _GetListData:                           ## @GetListData
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp39:
-	.cfi_def_cfa_offset 16
 Ltmp40:
+	.cfi_def_cfa_offset 16
+Ltmp41:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp41:
+Ltmp42:
 	.cfi_def_cfa_register %rbp
 	pushq	%rbx
 	pushq	%rax
-Ltmp42:
+Ltmp43:
 	.cfi_offset %rbx, -24
 	testq	%rdi, %rdi
 	je	LBB10_1
@@ -475,7 +487,7 @@ Ltmp42:
 	movq	(%rdi), %rbx
 	jmp	LBB10_3
 LBB10_1:
-	leaq	L_.str9(%rip), %rdi
+	leaq	L_.str10(%rip), %rdi
 	xorl	%ebx, %ebx
 	xorl	%esi, %esi
 	movl	$1, %edx
@@ -494,16 +506,16 @@ _SetListData:                           ## @SetListData
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp43:
-	.cfi_def_cfa_offset 16
 Ltmp44:
+	.cfi_def_cfa_offset 16
+Ltmp45:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp45:
+Ltmp46:
 	.cfi_def_cfa_register %rbp
 	pushq	%rbx
 	pushq	%rax
-Ltmp46:
+Ltmp47:
 	.cfi_offset %rbx, -24
 	movq	%rdi, %rbx
 	testq	%rbx, %rbx
@@ -512,7 +524,7 @@ Ltmp46:
 	movq	%rsi, (%rbx)
 	jmp	LBB11_3
 LBB11_1:
-	leaq	L_.str10(%rip), %rdi
+	leaq	L_.str11(%rip), %rdi
 	xorl	%ebx, %ebx
 	xorl	%esi, %esi
 	movl	$1, %edx
@@ -527,36 +539,39 @@ LBB11_3:
 
 	.section	__TEXT,__cstring,cstring_literals
 L_.str:                                 ## @.str
-	.asciz	"Attempting to finalize NULL List, nothing will happen"
+	.asciz	"Could not allocate space for new List"
 
 L_.str1:                                ## @.str1
-	.asciz	"Attempting to add to NULL List, please use CreateList() before adding data to a list"
+	.asciz	"Attempting to finalize NULL List, nothing will happen"
 
 L_.str2:                                ## @.str2
-	.asciz	"Could not allocate space for new list element, no element added"
+	.asciz	"Attempting to add to NULL List, please use CreateList() before adding data to a list"
 
 L_.str3:                                ## @.str3
-	.asciz	"Attempting to finalize NULL List node, nothing will happen"
+	.asciz	"Could not allocate space for new List element, no element added"
 
 L_.str4:                                ## @.str4
-	.asciz	"Attempting to get node from NULL List"
+	.asciz	"Attempting to finalize NULL List node, nothing will happen"
 
 L_.str5:                                ## @.str5
-	.asciz	"Position cannot be less than zero when getting List node, position must be greater than zero and less than the size of the List"
+	.asciz	"Attempting to get node from NULL List"
 
 L_.str6:                                ## @.str6
-	.asciz	"Position cannot be greater than or equal to List length when getting List node, position must be greater than zero and less than the size of the List"
+	.asciz	"Position cannot be less than zero when getting List node, position must be greater than zero and less than the size of the List"
 
 L_.str7:                                ## @.str7
-	.asciz	"Attempting to get next element from NULL List Pointer, NULL returned"
+	.asciz	"Position cannot be greater than or equal to List length when getting List node, position must be greater than zero and less than the size of the List"
 
 L_.str8:                                ## @.str8
-	.asciz	"Attempting to set next element of a NULL List Pointer, NULL returned"
+	.asciz	"Attempting to get next element from NULL List Pointer, NULL returned"
 
 L_.str9:                                ## @.str9
-	.asciz	"Attempting to get data from NULL List Pointer, NULL returned"
+	.asciz	"Attempting to set next element of a NULL List Pointer, NULL returned"
 
 L_.str10:                               ## @.str10
+	.asciz	"Attempting to get data from NULL List Pointer, NULL returned"
+
+L_.str11:                               ## @.str11
 	.asciz	"Attempting to set data of a NULL List Pointer, NULL returned"
 
 

@@ -25,6 +25,13 @@ List * CreateList()
 {
     List * list = malloc(sizeof(List));
 
+    /*Report an error and return NULL if memory couldn't be allocated for the new List*/
+    if(list == NULL)
+    {
+        ReportError("Could not allocate space for new List", 0, ALLOCATION_FAIL);
+        return NULL;
+    }
+
     list->data = NULL;
     list->next = NULL;
 
@@ -84,7 +91,7 @@ List * AddListNode(List * head, void * data)
         /*Report an error and return without adding the element if memory couldn't be allocated for it*/
         if(node == NULL)
         {
-            ReportError("Could not allocate space for new list element, no element added", 0, ALLOCATION_FAIL);
+            ReportError("Could not allocate space for new List element, no element added", 0, ALLOCATION_FAIL);
             return head;
         }
 
@@ -222,9 +229,9 @@ Param list: The List node to check
 Returns: True if there are more elements in the List and False if there are not or if the List pointer is NULL*/
 Bool ListHasNext(List * list)
 {
-    if(list != NULL && list->next != NULL)
+    if(list != NULL)
     {
-        /*Return True if the List is not NULL and has data*/
+        /*Return True if the List is not NULL*/
         return TRUE;
     }
     else
