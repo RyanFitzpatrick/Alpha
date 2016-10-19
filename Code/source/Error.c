@@ -28,5 +28,5 @@ void ReportError(const char * message, Num code, ErrorType type)
     error->code = code;
     error->type = type;
 
-    Errors = PrependToList(Errors, error);
+    Errors = AddListNode(Errors, error);
 }

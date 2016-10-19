@@ -1,4 +1,4 @@
-/*This is the source file for the List type in alpha. List represents a singlely-linked list data structure
+/*This is the source file for the List type in alpha. List represents a singlely-linked List data structure
 This file creates several functions that can be used with List variables*/
 
 /*This file includes List.h for the prototypes and definitions*/
@@ -62,18 +62,18 @@ void FinalizeList(List * head, VoidFunction Finalize)
     } 
 }
 
-/*Adds an element to the start of a list
+/*Adds an element to the start of a List
 Param head: A List pointer to the start of a List
-Param data: The data to add to the list
+Param data: The data to add to the List
 Returns: A pointer to the start of the updated List*/
-List * PrependToList(List * head, void * data)
+List * AddListNode(List * head, void * data)
 {
     List * node = NULL;
 
     /*Report an error and return NULL if the list to be added to is NULL*/
     if(head == NULL)
     {
-        ReportError("Atempting to add to NULL List, please use CreateList() before adding data to a list", 0, SEG_FAULT);
+        ReportError("Attempting to add to NULL List, please use CreateList() before adding data to a list", 0, SEG_FAULT);
         return NULL;
     }
 
@@ -88,7 +88,7 @@ List * PrependToList(List * head, void * data)
             return head;
         }
 
-        /*Add the element and increment the List size if the List is not empty*/
+        /*Add the element if the List is not empty*/
         node->data = data;
         node->next = head;
 
@@ -104,306 +104,74 @@ List * PrependToList(List * head, void * data)
     }
 }
 
-/*Adds an element to the end of a list
-Param head: A List pointer to the start of a List
-Param data: The data to add to the list
-Returns: A pointer to the start of the updated List*/
-List * AppendToList(List * head, void * data)
+/*Frees a List node and its associated data
+Param list: A pointer to the List node to be deleted
+Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced by a nop*/
+void DestroyListNode(List * node, VoidFunction Finalize)
+{
+    /*Report an error and return without freeing if the List is empty (NULL)*/
+    if(node == NULL)
+    {
+        ReportError("Attempting to finalize NULL List node, nothing will happen", 0, SEG_FAULT);
+        return;
+    }
+
+    if(Finalize == NULL)
+    {
+        /*Replace NULL finalize functions with a nop*/
+        Finalize = &Nop;
+    }
+
+    /*Free all memory associated with the List node*/
+    Finalize(node->data);
+    free(node);
+    node = NULL;
+}
+
+/*Gets a List node at a specific position in the List
+Param head: A pointer to the start of a List
+Param Position: The index of the node to be retrieved
+Returns: A pointer to the List node at index position in the List*/
+List * GetListNode(List * head, Num position)
 {
     List * list = head;
-    List * node = NULL;
-
-    /*Report an error and return NULL if the list to be added to is NULL*/
-    if(head == NULL)
-    {
-        ReportError("Atempting to add to NULL List, please use CreateList() before adding data to a list", 0, SEG_FAULT);
-        return NULL;
-    }
-
-    if(list->data != NULL)
-    {
-        node = malloc(sizeof(List));
-
-        /*Report an error and return without adding the element if memory couldn't be allocated for it*/
-        if(node == NULL)
-        {
-            ReportError("Could not allocate space for new list element, no element added", 0, ALLOCATION_FAIL);
-            return head;
-        }
-
-        /*If the list is not empty find the end*/
-        while(list->next != NULL)
-        {
-            list = list->next;
-        }
-
-        /*Add the element and increment the list size*/
-        node->data = data;
-        node->next = NULL;
-        list->next = node;
-
-        return head;
-    }
-    else
-    {
-        /*If the list is empty simply add the element and return*/
-        head->data = data;
-        head->next = NULL;
-
-        return head;
-    }
-}
-
-/*Adds an element to specific position of a list
-Param head: A List pointer to the start of a List
-Param data: The data to add to the list
-Param position: The 0-based index where the new data should be inserted
-Returns: A pointer to the start of the updated List*/
-List * AddToList(List * head, void * data, Num position)
-{
-    List * list = head;
-    List * node = NULL;
+    Num size;
     Num i;
 
-    /*Report an error and return NULL if the list to be added to is NULL*/
+    /*Report an error and return if the List is empty (NULL)*/
     if(head == NULL)
     {
-        ReportError("Atempting to add to NULL List, please use CreateList() before adding data to a list", 0, SEG_FAULT);
+        ReportError("Attempting to get node from NULL List", 0, SEG_FAULT);
+        return head;
+    }
+
+    /*Report an error and return NULL if position is less than zero*/
+    if(position < 0)
+    {
+        ReportError("Position cannot be less than zero when getting List node, position must be greater than zero and less than the size of the List", 0, SEG_FAULT);
         return NULL;
     }
 
-    /*Report an error and return without adding if the specified add position is less than zero*/
-    if(position < 0)
+    /*Get the number of elements in the list*/
+    size = GetListLength(list);
+
+    /*Report an error and reurn NULL if position is greater than or equal to the size of the List*/
+    if(position >= size)
     {
-        ReportError("The specified position to add the new element is outside the bounds of the list, no element added", 0, SEG_FAULT);
-        return head;
-    }
-
-    if(list->data != NULL)
-    {
-        /*Allocate the List node*/
-        node = malloc(sizeof(List));
-
-        /*Report an error and return without adding the element if memory couldn't be allocated for it*/
-        if(node == NULL)
-        {
-            ReportError("Could not allocate space for new list element, no element added", 0, ALLOCATION_FAIL);
-            return head;
-        }
-
-        /*Add data to the list node*/
-        node->data = data;
-
-        if(position != 0)
-        {
-            /*Find the index in the List*/
-            for(i = 1; i < position; i++)
-            {
-                /*Report an error and return without adding if the specified add position is outside the bounds of the List*/
-                if(list == NULL)
-                {
-                    ReportError("The specified position to add the new element is outside the bounds of the list, no element added", 0, SEG_FAULT);
-                    return head;
-                }
-
-                list = list->next;
-            }
-
-            /*Add the element at the required index*/
-            node->next = list->next;
-            list->next = node;
-
-            return list;
-        }
-        else
-        {
-            /*Add the node to the front of the List*/
-            node->next = head;
-            return node;
-        }
-    }
-    else
-    {
-        if(position == 0)
-        {
-            /*If the List is empty and position is 0 add the data to the List*/
-            head->data = data;
-            head->next = NULL;
-        }
-        else
-        {
-            /*If the position specified is not zero report an error and return*/
-            ReportError("The data in the List head is NULL meaning its size is zero, however the specified add position is not zero, nothing will happen", 0, SEG_FAULT);
-        }
-
-        return head;
-    }
-}
-
-/*Frees the first element in the List
-Param head: A List pointer to the start of a List
-Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced by a nop
-Returns: A pointer to the start of the updated List*/
-List * RemoveFirstFromList(List * head, VoidFunction Finalize)
-{
-    List * list;
-
-    /*Report an error and return without freeng if the List is empty (NULL)*/
-    if(head == NULL)
-    {
-        ReportError("Attempting to finalize first element in NULL list, nothing will happen", 1, SEG_FAULT);
-        return head;
-    }
-
-    if(Finalize == NULL)
-    {
-        /*Replace NULL finalize functions with a nop*/
-        Finalize = &Nop;
-    }
-
-    /*Remove the first element*/
-    if(head->next != NULL)
-    {
-        /*If the list has more than one element remove the first node and return the next*/
-        list = head->next;
-        Finalize(head->data);
-        free(head);
-
-        return list;
-    }
-    else
-    {
-        /*If the list has one element finalize it and return an empty list*/
-        Finalize(head->data);
-        head->data = NULL;
-
-        return head;
-    }
-}
-
-/*Frees the last element in the List
-Param head: A List pointer to the start of a List
-Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced by a nop
-Returns: A pointer to the start of the updated List*/
-List * RemoveLastFromList(List * head, VoidFunction Finalize)
-{
-    List * list;
-
-    /*Report an error and return without freeng if the List is empty (NULL)*/
-    if(head == NULL)
-    {
-        ReportError("Attempting to finalize last element in NULL list, nothing will happen", 1, SEG_FAULT);
-        return head;
-    }
-
-    if(Finalize == NULL)
-    {
-        /*Replace NULL finalize functions with a nop*/
-        Finalize = &Nop;
-    }
-
-    if(head->next == NULL)
-    {
-        /*If the list only has one element remove it and return an empty List*/
-        Finalize(head->data);
-        head->data = NULL;
-
+        ReportError("Position cannot be greater than or equal to List length when getting List node, position must be greater than zero and less than the size of the List", 0, SEG_FAULT);
         return NULL;
     }
-    else
+
+    for(i = 0; i < position; i++)
     {
-        list = head;
-
-        /*Find the end of the List*/
-        while(list->next->next != NULL)
-        {
-            list = list->next;
-        }
-
-        /*Remove the last element and decrement the size of the List*/
-        Finalize(list->next->data);
-        free(list->next);
-        list->next = NULL;
-
-        return head;
+        /*Find the node at the specified index*/
+        list = list->next;
     }
+
+    return list;
 }
 
-/*Frees an element in the List at a specific index
-Param head: A List pointer to the start of a List
-Param position: The 0-based index of the data to be removed
-Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced by a nop
-Returns: A pointer to the start of the updated List*/
-List * RemoveFromList(List * head, Num position, VoidFunction Finalize)
-{
-    List * list;
-    List * next;
-    Num i;
-
-    /*Report an error and return without freeng if the List is empty (NULL)*/
-    if(head == NULL)
-    {
-        ReportError("Attempting to finalize element in NULL list, nothing will happen", 1, SEG_FAULT);
-        return head;
-    }
-
-    if(Finalize == NULL)
-    {
-        /*Replace NULL finalize functions with a nop*/
-        Finalize = &Nop;
-    }
-
-    /*Report an error and return without freeing if the specified remove position is less than zero*/
-    if(position < 0)
-    {
-        ReportError("The specified position to remove the element is outside the bounds of the list, no element removed", 0, SEG_FAULT);
-        return head;
-    }
-
-    if(position == 0)
-    {
-        /*Finalize the data in the node*/
-        Finalize(head->data);
-
-        if(head->next != NULL)
-        {
-            /*If the list has more than one node then remove the node*/
-            list = head->next;
-            free(head);
-            return list;
-        }
-        else
-        {
-            /*If the list only has one node return the empty list*/
-            return head;
-        }
-    }
-    else
-    {
-        /*Find the index in the List*/
-        for(i = 0; i < position; i++)
-        {
-            /*Report an error and return without removing if the specified add position is outside the bounds of the List*/
-            if(list->next == NULL)
-            {
-                ReportError("The specified position to remove the element is outside the bounds of the list, no element added", 0, SEG_FAULT);
-                return head;
-            }
-
-            list = list->next;
-        }
-
-        /*Add the element at the required index*/
-        next = list->next;
-        list->next = next->next;
-        Finalize(next->data);
-        free(next);
-
-        return head;
-    }
-}
-
-/*Returns The number of elements in the list
+/*Returns The number of elements in the List
 Param head: A List pointer to the start of the List
 Returns: The number of elements in the List*/
 Num GetListLength(List * head)
@@ -432,7 +200,7 @@ Num GetListLength(List * head)
     }
 }
 
-/*Returns a boolean reprsenting whether or not the list is empty or not
+/*Returns a boolean representing whether or not the List is empty
 Param head: A List pointer to the start of the List
 Returns: True if the list is not empty (NULL) false otherwise*/
 Bool ListHasElements(List * head)
@@ -456,10 +224,12 @@ Bool ListHasNext(List * list)
 {
     if(list != NULL && list->next != NULL)
     {
+        /*Return True if the List is not NULL and has data*/
         return TRUE;
     }
     else
     {
+        /*Return False if the List is NULL or empty*/
         return FALSE;
     }
 }
@@ -467,31 +237,74 @@ Bool ListHasNext(List * list)
 /*Returns the List node succeeding the current node passed in
 Param list: The List used to retrieve the next element in the List
 Returns: The element following the node passed in*/
-List * GetListNext(List * list)
+List * GetListNext(List * node)
 {
-    if(list == NULL)
+    if(node == NULL)
     {
+        /*Report an error and return NULL if the List node is NULL*/
         ReportError("Attempting to get next element from NULL List Pointer, NULL returned", 0, SEG_FAULT);
         return NULL;
     }
     else
     {
-        return list->next;
+        /*Return the proceeding List node*/
+        return node->next;
+    }
+}
+
+/*Sets the element proceeding the current List node passed in
+Param node: The List node whose proceeding node will be set
+Param next: The new proceeding node
+Returns: A pointer to the updated List node*/
+List * SetListNext(List * node, List * next)
+{
+    if(node == NULL)
+    {
+        /*Report an error and return NULL if the List node is NULL*/
+        ReportError("Attempting to set next element of a NULL List Pointer, NULL returned", 0, SEG_FAULT);
+        return NULL;
+    }
+    else
+    {
+        /*Update the proceeding List node*/
+        node->next = next;
+        return node;
     }
 }
 
 /*Returns the data being stored in a List node
 Param list: The List node used to retrieve the data
 Returns: The data being stored by a given List node*/
-void * GetListData(List * list)
+void * GetListData(List * node)
 {
-    if(list == NULL)
+    if(node == NULL)
     {
+        /*Report an error and return NULL if the List node is NULL*/
         ReportError("Attempting to get data from NULL List Pointer, NULL returned", 0, SEG_FAULT);
         return NULL;
     }
     else
     {
-        return list->data;
+        /*Return the List node data*/
+        return node->data;
+    }
+}
+
+/*Sets the data contained in the current List node passed in
+Param node: The List node whose data will be updated
+Param data: The new data for the List node*/
+List * SetListData(List * node, void * data)
+{
+    if(node == NULL)
+    {
+        /*Report an error and return NULL if the List node is NULL*/
+        ReportError("Attempting to set data of a NULL List Pointer, NULL returned", 0, SEG_FAULT);
+        return NULL;
+    }
+    else
+    {
+        /*Update the List Node*/
+        node->data = data;
+        return node;
     }
 }

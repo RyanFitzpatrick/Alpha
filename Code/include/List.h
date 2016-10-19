@@ -43,53 +43,32 @@ List * CreateList();
 
 /*Frees all memory associated with a List
 Param head: A List pointer to the start of a List
-Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL*/
+Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced with a nop*/
 void FinalizeList(List * head, VoidFunction Finalize);
 
-/*Adds an element to the start of a list
+/*Adds an element to the start of a List
 Param head: A List pointer to the start of a List
-Param data: The data to add to the list
+Param data: The data to add to the List
 Returns: A pointer to the start of the updated List*/
-List * PrependToList(List * head, void * data);
+List * AddListNode(List * head, void * data);
 
-/*Adds an element to the end of a list
-Param head: A List pointer to the start of a List
-Param data: The data to add to the list
-Returns: A pointer to the start of the updated List*/
-List * AppendToList(List * head, void * data);
+/*Frees a List node and its associated data
+Param list: A pointer to the List node to be deleted
+Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, a NULL function will be replaced by a nop*/
+void DestroyListNode(List * list, VoidFunction Finalize);
 
-/*Adds an element to specific position of a list
-Param head: A List pointer to the start of a List
-Param data: The data to add to the list
-Param position: The 0-based index where the new data should be inserted
-Returns: A pointer to the start of the updated List*/
-List * AddToList(List * head, void * data, Num position);
+/*Gets a List node at a specific position in the List
+Param head: A pointer to the start of a List
+Param Position: The index of the node to be retrieved
+Returns: A pointer to the List node at index position in the List*/
+List * GetListNode(List * head, Num position);
 
-/*Frees the first element in the List
-Param head: A List pointer to the start of a List
-Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL
-Returns: A pointer to the start of the updated List*/
-List * RemoveFirstFromList(List * head, VoidFunction Finalize);
-
-/*Frees the last element in the List
-Param head: A List pointer to the start of a List
-Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL
-Returns: A pointer to the start of the updated List*/
-List * RemoveLastFromList(List * head, VoidFunction Finalize);
-
-/*Frees an element in the List at a specific index
-Param head: A List pointer to the start of a List
-Param position: The 0-based index of the data to be removed
-Param Finalize: A pointer to a function that returns nothing (void) and takes a void pointer as a parameter, this function is responsible for freeing the data in the List, it can not be NULL
-Returns: A pointer to the start of the updated List*/
-List * RemoveFromList(List * head, Num position, VoidFunction Finalize);
-
-/*Returns The number of elements in the list
+/*Returns The number of elements in the List
 Param head: A List pointer to the start of the List
 Returns: The number of elements in the List*/
 Num GetListLength(List * head);
 
-/*Returns a boolean representing whether or not the list is empty or not
+/*Returns a boolean representing whether or not the List is empty
 Param head: A List pointer to the start of the List
 Returns: True if the list is not empty (NULL) false otherwise*/
 Bool ListHasElements(List * head);
@@ -102,9 +81,20 @@ Bool ListHasNext(List * list);
 /*Returns the List node succeeding the current node passed in
 Param list: The List used to retrieve the next element in the List
 Returns: The element following the node passed in*/
-List * GetListNext(List * list);
+List * GetListNext(List * node);
+
+/*Sets the element proceeding the current List node passed in
+Param node: The List node whose proceeding node will be set
+Param next: The new proceeding node
+Returns: A pointer to the updated List node*/
+List * SetListNext(List * node, List * next);
 
 /*Returns the data being stored in a List node
 Param list: The List node used to retrieve the data
 Returns: The data being stored by a given List node*/
-void * GetListData(List * list);
+void * GetListData(List * node);
+
+/*Sets the data contained in the current List node passed in
+Param node: The List node whose data will be updated
+Param data: The new data for the List node*/
+List * SetListData(List * node, void * data);

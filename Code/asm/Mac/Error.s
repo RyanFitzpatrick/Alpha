@@ -33,7 +33,7 @@ Ltmp5:
 	movl	%r14d, 12(%rax)
 	movq	_Errors(%rip), %rdi
 	movq	%rax, %rsi
-	callq	_PrependToList
+	callq	_AddListNode
 	movq	%rax, _Errors(%rip)
 	addq	$8, %rsp
 	popq	%rbx
