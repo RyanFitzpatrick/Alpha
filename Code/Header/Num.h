@@ -50,6 +50,12 @@ Param divisor: the number being divided from the dividend
 Returns: the quotient of the dividend and divisor*/
 Num DivideNum(Num dividend, Num divisor);
 
+/*Returns the remainder after dividing the divdend by the divisor
+Param dividend: The number to be divided
+Param divisor: The number being divided from the dividend
+Returns: The remainder after dividing dividend and divisor (dividend mod divisor)*/
+Num ModNum(Num dividend, Num divisor);
+
 /*Bitwise AND of 1 Num and another
 Param x: the first number in the AND
 Param y: the second number in the AND
@@ -114,37 +120,37 @@ Returns: the result of rotating x to the right by y bits*/
 Num RightRotateNum(Num x, Num y);
 
 /*Checks to see if 2 numbers are equivalent
-Param x: the number being comapred to y
+Param x: the number being compared to y
 Param y: the number being compared to x
 Returns: 1 if x and y are equal, 0 otherwise*/
-Bool IsEqual(Num x, Num y);
+Bool IsNumEqual(Num x, Num y);
 
 /*Checks to see if 2 numbers are not equivalent
-Param x: the number being comapred to y
+Param x: the number being compared to y
 Param y: the number being compared to x
 Returns: 1 if x and y are not equal, 0 otherwise*/
-Bool IsNotEqual(Num x, Num y);
+Bool IsNumNotEqual(Num x, Num y);
 
 /*Checks to see if 1 number is greater than another
-Param x: the number being comapred to y
+Param x: the number being compared to y
 Param y: the number being compared to x
 Returns: 1 if x is greater than y, 0 otherwise*/
-Bool IsGreater(Num x, Num y);
+Bool IsNumGreater(Num x, Num y);
 
 /*Checks to see if 1 number is less than or equal to another
-Param x: the number being comapred to y
+Param x: the number being compared to y
 Param y: the number being compared to x
 Returns: 1 if x is less than or equal to y, 0 otherwise*/
-Bool IsNotGreater(Num x, Num y);
+Bool IsNumNotGreater(Num x, Num y);
 
 /*Checks to see if 1 number is less than another
-Param x: the number being comapred to y
+Param x: the number being compared to y
 Param y: the number being compared to x
 Returns: 1 if x is less than y, 0 otherwise*/
-Bool IsLess(Num x, Num y);
+Bool IsNumLess(Num x, Num y);
 
 /*Checks to see if 1 number is greater than or equal to another
-Param x: the number being comapred to y
+Param x: the number being compared to y
 Param y: the number being compared to x
 Returns: 1 if x is greater than or equal to y, 0 otherwise*/
-Bool IsNotLess(Num x, Num y);
+Bool IsNumNotLess(Num x, Num y);

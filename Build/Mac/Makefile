@@ -2,7 +2,7 @@ Optimizations = -O3
 
 All: Code Test
 
-Code: Num Char List System Error Libs
+Code: Num Real Char List System Error Libs
 
 Libs:
 	gcc -dynamiclib ../../Code/Out/Mac/*.o  -o ../../Code/Library/Mac/libAlpha.dylib
@@ -11,6 +11,10 @@ Libs:
 Num:
 	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/Source/Num.c -I../../Code/Header -o ../../Code/Out/Mac/Num.o $(Optimizations)
 	gcc -S ../../Code/Source/Num.c -I../../Code/Header -o ../../Code/Asm/Mac/Num.s $(Optimizations)
+
+Real:
+	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/Source/Real.c -I../../Code/Header -o ../../Code/Out/Mac/Real.o $(Optimizations)
+	gcc -S ../../Code/Source/Real.c -I../../Code/Header -o ../../Code/Asm/Mac/Real.s $(Optimizations)
 
 Char:
 	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/Source/Char.c -I../../Code/Header -o ../../Code/Out/Mac/Char.o $(Optimizations)

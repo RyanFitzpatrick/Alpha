@@ -115,9 +115,9 @@ Ltmp17:
 	retq
 	.cfi_endproc
 
-	.globl	_AndNum
+	.globl	_ModNum
 	.align	4, 0x90
-_AndNum:                                ## @AndNum
+_ModNum:                                ## @ModNum
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
@@ -127,6 +127,27 @@ Ltmp19:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
 Ltmp20:
+	.cfi_def_cfa_register %rbp
+	movl	%edi, %eax
+	cltd
+	idivl	%esi
+	movl	%edx, %eax
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+	.globl	_AndNum
+	.align	4, 0x90
+_AndNum:                                ## @AndNum
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp21:
+	.cfi_def_cfa_offset 16
+Ltmp22:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp23:
 	.cfi_def_cfa_register %rbp
 	andl	%esi, %edi
 	movl	%edi, %eax
@@ -140,12 +161,12 @@ _OrNum:                                 ## @OrNum
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp21:
+Ltmp24:
 	.cfi_def_cfa_offset 16
-Ltmp22:
+Ltmp25:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp23:
+Ltmp26:
 	.cfi_def_cfa_register %rbp
 	orl	%esi, %edi
 	movl	%edi, %eax
@@ -159,12 +180,12 @@ _XorNum:                                ## @XorNum
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp24:
+Ltmp27:
 	.cfi_def_cfa_offset 16
-Ltmp25:
+Ltmp28:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp26:
+Ltmp29:
 	.cfi_def_cfa_register %rbp
 	xorl	%esi, %edi
 	movl	%edi, %eax
@@ -178,12 +199,12 @@ _NegativeNum:                           ## @NegativeNum
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp27:
+Ltmp30:
 	.cfi_def_cfa_offset 16
-Ltmp28:
+Ltmp31:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp29:
+Ltmp32:
 	.cfi_def_cfa_register %rbp
 	negl	%edi
 	movl	%edi, %eax
@@ -197,12 +218,12 @@ _NotNum:                                ## @NotNum
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp30:
+Ltmp33:
 	.cfi_def_cfa_offset 16
-Ltmp31:
+Ltmp34:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp32:
+Ltmp35:
 	.cfi_def_cfa_register %rbp
 	notl	%edi
 	movl	%edi, %eax
@@ -216,12 +237,12 @@ _LogicalNotNum:                         ## @LogicalNotNum
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp33:
+Ltmp36:
 	.cfi_def_cfa_offset 16
-Ltmp34:
+Ltmp37:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp35:
+Ltmp38:
 	.cfi_def_cfa_register %rbp
 	testl	%edi, %edi
 	sete	%al
@@ -236,12 +257,12 @@ _LeftShiftNum:                          ## @LeftShiftNum
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp36:
+Ltmp39:
 	.cfi_def_cfa_offset 16
-Ltmp37:
+Ltmp40:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp38:
+Ltmp41:
 	.cfi_def_cfa_register %rbp
 	movb	%sil, %cl
 	shll	%cl, %edi
@@ -256,12 +277,12 @@ _RightShiftNum:                         ## @RightShiftNum
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp39:
+Ltmp42:
 	.cfi_def_cfa_offset 16
-Ltmp40:
+Ltmp43:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp41:
+Ltmp44:
 	.cfi_def_cfa_register %rbp
 	movb	%sil, %cl
 	sarl	%cl, %edi
@@ -276,12 +297,12 @@ _LogicalRightShiftNum:                  ## @LogicalRightShiftNum
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp42:
+Ltmp45:
 	.cfi_def_cfa_offset 16
-Ltmp43:
+Ltmp46:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp44:
+Ltmp47:
 	.cfi_def_cfa_register %rbp
 	movl	%esi, %ecx
 	sarl	%cl, %edi
@@ -301,12 +322,12 @@ _LeftRotateNum:                         ## @LeftRotateNum
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp45:
+Ltmp48:
 	.cfi_def_cfa_offset 16
-Ltmp46:
+Ltmp49:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp47:
+Ltmp50:
 	.cfi_def_cfa_register %rbp
 	movl	%esi, %ecx
 	movl	%edi, %eax
@@ -326,12 +347,12 @@ _RightRotateNum:                        ## @RightRotateNum
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
-Ltmp48:
+Ltmp51:
 	.cfi_def_cfa_offset 16
-Ltmp49:
+Ltmp52:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
-Ltmp50:
+Ltmp53:
 	.cfi_def_cfa_register %rbp
 	movl	%esi, %ecx
 	movl	%edi, %eax
@@ -345,29 +366,9 @@ Ltmp50:
 	retq
 	.cfi_endproc
 
-	.globl	_IsEqual
+	.globl	_IsNumEqual
 	.align	4, 0x90
-_IsEqual:                               ## @IsEqual
-	.cfi_startproc
-## BB#0:
-	pushq	%rbp
-Ltmp51:
-	.cfi_def_cfa_offset 16
-Ltmp52:
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-Ltmp53:
-	.cfi_def_cfa_register %rbp
-	cmpl	%esi, %edi
-	sete	%al
-	movzbl	%al, %eax
-	popq	%rbp
-	retq
-	.cfi_endproc
-
-	.globl	_IsNotEqual
-	.align	4, 0x90
-_IsNotEqual:                            ## @IsNotEqual
+_IsNumEqual:                            ## @IsNumEqual
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
@@ -379,15 +380,15 @@ Ltmp55:
 Ltmp56:
 	.cfi_def_cfa_register %rbp
 	cmpl	%esi, %edi
-	setne	%al
+	sete	%al
 	movzbl	%al, %eax
 	popq	%rbp
 	retq
 	.cfi_endproc
 
-	.globl	_IsGreater
+	.globl	_IsNumNotEqual
 	.align	4, 0x90
-_IsGreater:                             ## @IsGreater
+_IsNumNotEqual:                         ## @IsNumNotEqual
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
@@ -399,15 +400,15 @@ Ltmp58:
 Ltmp59:
 	.cfi_def_cfa_register %rbp
 	cmpl	%esi, %edi
-	setg	%al
+	setne	%al
 	movzbl	%al, %eax
 	popq	%rbp
 	retq
 	.cfi_endproc
 
-	.globl	_IsNotGreater
+	.globl	_IsNumGreater
 	.align	4, 0x90
-_IsNotGreater:                          ## @IsNotGreater
+_IsNumGreater:                          ## @IsNumGreater
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
@@ -419,15 +420,15 @@ Ltmp61:
 Ltmp62:
 	.cfi_def_cfa_register %rbp
 	cmpl	%esi, %edi
-	setle	%al
+	setg	%al
 	movzbl	%al, %eax
 	popq	%rbp
 	retq
 	.cfi_endproc
 
-	.globl	_IsLess
+	.globl	_IsNumNotGreater
 	.align	4, 0x90
-_IsLess:                                ## @IsLess
+_IsNumNotGreater:                       ## @IsNumNotGreater
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
@@ -439,15 +440,15 @@ Ltmp64:
 Ltmp65:
 	.cfi_def_cfa_register %rbp
 	cmpl	%esi, %edi
-	setl	%al
+	setle	%al
 	movzbl	%al, %eax
 	popq	%rbp
 	retq
 	.cfi_endproc
 
-	.globl	_IsNotLess
+	.globl	_IsNumLess
 	.align	4, 0x90
-_IsNotLess:                             ## @IsNotLess
+_IsNumLess:                             ## @IsNumLess
 	.cfi_startproc
 ## BB#0:
 	pushq	%rbp
@@ -457,6 +458,26 @@ Ltmp67:
 	.cfi_offset %rbp, -16
 	movq	%rsp, %rbp
 Ltmp68:
+	.cfi_def_cfa_register %rbp
+	cmpl	%esi, %edi
+	setl	%al
+	movzbl	%al, %eax
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+	.globl	_IsNumNotLess
+	.align	4, 0x90
+_IsNumNotLess:                          ## @IsNumNotLess
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp69:
+	.cfi_def_cfa_offset 16
+Ltmp70:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp71:
 	.cfi_def_cfa_register %rbp
 	cmpl	%esi, %edi
 	setge	%al

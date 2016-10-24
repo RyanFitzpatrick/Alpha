@@ -1,6 +1,6 @@
 All: Code Test
 
-Code: Num Char List System Error Libs
+Code: Num Real Char List System Error Libs
 
 Libs:
 	gcc -shared ../../Code/Out/Linux/*.o  -o ../../Code/Library/Linux/libAlpha.so
@@ -9,6 +9,10 @@ Libs:
 Num:
 	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/Source/Num.c -I../../Code/Header -o ../../Code/Out/Linux/Num.o -O3
 	gcc -S ../../Code/Source/Num.c -I../../Code/Header -o ../../Code/Asm/Linux/Num.s -O3
+
+Real:
+	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/Source/Real.c -I../../Code/Header -o ../../Code/Out/Linux/Real.o -O3
+	gcc -S ../../Code/Source/Real.c -I../../Code/Header -o ../../Code/Asm/Linux/Real.s -O3
 
 Char:
 	gcc -Wall -Werror -ansi -pedantic -fPIC -c ../../Code/Source/Char.c -I../../Code/Header -o ../../Code/Out/Linux/Char.o -O3

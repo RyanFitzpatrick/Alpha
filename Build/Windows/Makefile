@@ -1,6 +1,6 @@
 All: Code Test
 
-Code: Num Char List System Error Libs
+Code: Num Real Char List System Error Libs
 
 Libs:
 	gcc -shared ../../Code/Out/Windows/*.o  -o ../../Code/Library/Windows/libAlpha.dll
@@ -9,6 +9,10 @@ Libs:
 Num:
 	gcc -Wall -Werror -ansi -pedantic -c ../../Code/Source/Num.c -I../../Code/Header -o ../../Code/Out/Windows/Num.o -O3
 	gcc -S ../../Code/Source/Num.c -I../../Code/Header -o ../../Code/Asm/Windows/Num.s -O3
+
+Real:
+	gcc -Wall -Werror -ansi -pedantic -c ../../Code/Source/Real.c -I../../Code/Header -o ../../Code/Out/Windows/Real.o -O3
+	gcc -S ../../Code/Source/Real.c -I../../Code/Header -o ../../Code/Asm/Windows/Real.s -O3
 
 Char:
 	gcc -Wall -Werror -ansi -pedantic -c ../../Code/Source/Char.c -I../../Code/Header -o ../../Code/Out/WindowsChar.o -O3
