@@ -3,38 +3,38 @@ All: Code Test
 Code: Num Char List System Error Libs
 
 Libs:
-	gcc -shared ../../Code/out/Windows/*.o  -o ../../Code/lib/Windows/libAlpha.dll
-	ar crv ../../Code/lib/Windows/libAlpha.lib ../../Code/out/Windows/*.o
+	gcc -shared ../../Code/Out/Windows/*.o  -o ../../Code/Library/Windows/libAlpha.dll
+	ar crv ../../Code/Library/Windows/libAlpha.lib ../../Code/Out/Windows/*.o
 
 Num:
-	gcc -Wall -Werror -ansi -pedantic -c ../../Code/source/Num.c -I../../Code/include -o ../../Code/out/Windows/Num.o -O3
-	gcc -S ../../Code/source/Num.c -I../../Code/include -o ../../Code/asm/Windows/Num.s -O3
+	gcc -Wall -Werror -ansi -pedantic -c ../../Code/Source/Num.c -I../../Code/Header -o ../../Code/Out/Windows/Num.o -O3
+	gcc -S ../../Code/Source/Num.c -I../../Code/Header -o ../../Code/Asm/Windows/Num.s -O3
 
 Char:
-	gcc -Wall -Werror -ansi -pedantic -c ../../Code/source/Char.c -I../../Code/include -o ../../Code/out/WindowsChar.o -O3
-	gcc -S ../../Code/source/Char.c -I../../Code/include -o ../../Code/asm/Windows/Char.s -O3
+	gcc -Wall -Werror -ansi -pedantic -c ../../Code/Source/Char.c -I../../Code/Header -o ../../Code/Out/WindowsChar.o -O3
+	gcc -S ../../Code/Source/Char.c -I../../Code/Header -o ../../Code/Asm/Windows/Char.s -O3
 
 List:
-	gcc -Wall -Werror -ansi -pedantic -c ../../Code/source/List.c -I../../Code/include -o ../../Code/out/Windows/List.o -O3
-	gcc -S ../../Code/source/List.c -I../../Code/include -o ../../Code/asm/Windows/List.s -O3
+	gcc -Wall -Werror -ansi -pedantic -c ../../Code/Source/List.c -I../../Code/Header -o ../../Code/Out/Windows/List.o -O3
+	gcc -S ../../Code/Source/List.c -I../../Code/Header -o ../../Code/Asm/Windows/List.s -O3
 
 System:
-	gcc -Wall -Werror -ansi -pedantic -c ../../Code/source/System.c -I../../Code/include -o ../../Code/out/Windows/System.o -O3
-	gcc -S ../../Code/source/System.c -I../../Code/include -o ../../Code/asm/Windows/System.s -O3
+	gcc -Wall -Werror -ansi -pedantic -c ../../Code/Source/System.c -I../../Code/Header -o ../../Code/Out/Windows/System.o -O3
+	gcc -S ../../Code/Source/System.c -I../../Code/Header -o ../../Code/Asm/Windows/System.s -O3
 
 Error:
-	gcc -Wall -Werror -ansi -pedantic -c ../../Code/source/Error.c -I../../Code/include -o ../../Code/out/Windows/Error.o -O3
-	gcc -S ../../Code/source/Error.c -I../../Code/include -o ../../Code/asm/Windows/Error.s -O3
+	gcc -Wall -Werror -ansi -pedantic -c ../../Code/Source/Error.c -I../../Code/Header -o ../../Code/Out/Windows/Error.o -O3
+	gcc -S ../../Code/Source/Error.c -I../../Code/Header -o ../../Code/Asm/Windows/Error.s -O3
 
 Test:
-	gcc -Wall -Werror -ansi -pedantic -c ../../Test/source/Test.c -I../../Test/include -I../../Code/include -o ../../Test/out/Windows/Test.o
-	gcc -S ../../Test/source/Test.c -I../../Test/include -I../../Code/include -o ../../Test/asm/Mac/Test.s
-	gcc ../../Test/out/Windows/*.o -L../../Code/lib/Windows -lAlpha -o ../../Test/run/Windows/Test
+	gcc -Wall -Werror -ansi -pedantic -c ../../Test/Source/Test.c -I../../Test/Header -I../../Code/Header -o ../../Test/Out/Windows/Test.o
+	gcc -S ../../Test/Source/Test.c -I../../Test/Header -I../../Code/Header -o ../../Test/Asm/Mac/Test.s
+	gcc ../../Test/Out/Windows/*.o -L../../Code/Library/Windows -lAlpha -o ../../Test/Run/Windows/Test
 
 Clean:
-	rm -f ../../Code/asm/Windows/*
-	rm -f ../../Code/lib/Windows/*
-	rm -f ../../Code/out/Windows/*
-	rm -f ../../Test/asm/Windows/*
-	rm -f ../../Test/out/Windows/*
-	rm -f ../../Test/run/Windows/*
+	rm -f ../../Code/Asm/Windows/*
+	rm -f ../../Code/Library/Windows/*
+	rm -f ../../Code/Out/Windows/*
+	rm -f ../../Test/Asm/Windows/*
+	rm -f ../../Test/Out/Windows/*
+	rm -f ../../Test/Run/Windows/*
